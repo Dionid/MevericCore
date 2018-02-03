@@ -9,8 +9,6 @@ import (
 	"mevericcore/mcecho"
 )
 
-
-
 type DeviceHTTPManagerSt struct {
 	reqHandler mccommon.DeviceToServerReqHandler
 }
@@ -77,7 +75,7 @@ func (this *DeviceHTTPManagerSt) ReqPostHandler(c echo.Context) error {
 }
 
 
-func main() {
-	// Init echo server
-	// Make .post
-}
+//func main() {
+//	// Init echo server
+//	// Make .post
+//}
