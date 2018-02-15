@@ -1,10 +1,10 @@
-package tztusers
+package main
 
 import (
-	"net/http"
-
-	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
+	"github.com/dgrijalva/jwt-go"
+	"net/http"
+	"mevericcore/mccommon"
 )
 
 func GetUserMiddleWare(next echo.HandlerFunc) echo.HandlerFunc {
@@ -13,7 +13,7 @@ func GetUserMiddleWare(next echo.HandlerFunc) echo.HandlerFunc {
 		claims := userJwt.Claims.(jwt.MapClaims)
 		userId := claims["id"].(string)
 
-		userM := new(UserModel)
+		userM := new(mccommon.UserModel)
 		if err := UsersCollectionManager.FindModelByStringId(userId, userM); err != nil {
 			return echo.NewHTTPError(http.StatusNotFound, "User not found")
 		}

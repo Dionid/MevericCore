@@ -1,31 +1,45 @@
 package tztusers
 
 import (
-	"gopkg.in/mgo.v2/bson"
-	"tztatom/tztcoremgo"
+	"gopkg.in/mgo.v2"
+	"mevericcore/mcmongo"
+	"mevericcore/mccommon"
 )
 
-import "gopkg.in/mgo.v2"
+var UsersCollectionManager = &mccommon.UsersCollectionManager
 
-type UsersCollectionManagerSt struct {
-	tztcoremgo.CollectionManagerBaseSt
+type CompaniesCollectionManagerSt struct {
+	mcmongo.CollectionManagerBaseSt
 }
 
-var UsersCollectionManager = UsersCollectionManagerSt{}
+var CompaniesCollectionManager = CompaniesCollectionManagerSt{}
 
-func InitCollectionsManagers(dbsession *mgo.Session, dbName string) {
-	admin := &UserModel{
-		Email:    "diodos@yandex.ru",
+func createUserAdmin() {
+	email := "diodos@yandex.ru"
+	admin := &mccommon.UserModel{
+		Login: "dionid",
+		Email:    &email,
 		Password: "qweqweqwe",
 		IsAdmin:  true,
 	}
-	UsersCollectionManager.AddModel(admin)
-	UsersCollectionManager.InitManager(dbsession, dbName, "users")
-	if err := UsersCollectionManager.FindByEmail(admin.Email, admin); err != nil {
-		UsersCollectionManager.Insert(admin)
+	if err := UsersCollectionManager.FindModelByLogin(admin.Login, admin); err != nil {
+		UsersCollectionManager.InsertModel(admin)
 	}
 }
 
-func (this *UsersCollectionManagerSt) FindByEmail(email string, model tztcoremgo.ModelBaseInterface) error {
-	return this.Find(&bson.M{"email": email}, model)
+func initUserColManager(dbsession *mgo.Session, dbName string) {
+	UsersCollectionManager.AddModel(&mccommon.UserModel{})
+	UsersCollectionManager.InitManager(dbsession, dbName, "users")
+	createUserAdmin()
+}
+
+func initCompanyColManager(dbsession *mgo.Session, dbName string) {
+	company := &mccommon.CompanyModel{}
+	CompaniesCollectionManager.AddModel(company)
+	CompaniesCollectionManager.InitManager(dbsession, dbName, "companies")
+}
+
+func InitCollectionsManagers(dbsession *mgo.Session, dbName string) {
+	initUserColManager(dbsession, dbName)
+	initCompanyColManager(dbsession, dbName)
 }

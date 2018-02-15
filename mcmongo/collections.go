@@ -17,10 +17,10 @@ type CollectionManagerBaseSt struct {
 
 type CollectionManagerBaseInterface interface {
 	// Collections and Sessions
-	GetColBySes(session *mgo.Session) *mgo.Collection
 	GetFullCustomSesAndCol(DBName string, collectionName string) (*mgo.Session, *mgo.Collection)
 	GetCustomSesAndCol(collectionName string) (*mgo.Session, *mgo.Collection)
 	GetSesAndCol() (*mgo.Session, *mgo.Collection)
+	GetColBySes(session *mgo.Session) *mgo.Collection
 	// API
 	Destroy(query *bson.M) error
 	DestroyByStringId(id string) error
@@ -31,7 +31,7 @@ type CollectionManagerBaseInterface interface {
 	FindModel(targetQuery *bson.M, model ModelBaseInterface) error
 	FindModelById(id bson.ObjectId, model ModelBaseInterface) error
 	FindModelByStringId(id string, model ModelBaseInterface) error
-	FindAll(targetQuery *bson.M, modelsList ModelsListBaseInterface) error
+	FindAllModels(targetQuery *bson.M, modelsList ModelsListBaseInterface) error
 	InsertModelFullCustom(dbName string, colName string, model ModelBaseInterface) error
 	InsertModelCustomCol(colName string, model ModelBaseInterface) error
 	UpdateModelFullCustom(dbName string, colName string, model ModelBaseInterface, colQuerier *bson.M, data *bson.M) error
@@ -142,7 +142,7 @@ func (this *CollectionManagerBaseSt) FindModelByStringId(id string, model ModelB
 	return this.FindModelById(bson.ObjectIdHex(id), model)
 }
 
-func (this *CollectionManagerBaseSt) FindAll(targetQuery *bson.M, modelsList ModelsListBaseInterface) error {
+func (this *CollectionManagerBaseSt) FindAllModels(targetQuery *bson.M, modelsList ModelsListBaseInterface) error {
 	session, col := this.GetSesAndCol()
 	defer session.Close()
 

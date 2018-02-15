@@ -2,44 +2,45 @@ package tztusers
 
 import (
 	"net/http"
-	"tztatom/tztcore"
 
 	"github.com/labstack/echo"
 	"github.com/dgrijalva/jwt-go"
 	"time"
+	"mevericcore/mcecho"
+	"mevericcore/mccommon"
 )
 
 type UserController struct {
-	tztcore.ModelControllerBase
+	mcecho.ModelControllerBase
 }
 
 func (this *UserController) Create(c echo.Context) error {
-	userData := UserModel{}
+	userData := mccommon.UserModel{}
 	if err := this.GetReqModelsData(&userData, &c); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Bad parameters")
 	}
 
-	if userData.Email == "" || userData.Password == "" {
+	if userData.Login == "" || userData.Password == "" {
 		return echo.NewHTTPError(http.StatusNotAcceptable, "Email and password are required")
 	}
 
-	findUser := new(UserModel)
+	findUser := new(mccommon.UserModel)
 
 	var err error
 
-	if err = UsersCollectionManager.FindByEmail(userData.Email, findUser); err == nil {
+	if err = UsersCollectionManager.FindModelByLogin(userData.Login, findUser); err == nil {
 		return echo.NewHTTPError(http.StatusNotAcceptable, "This email is already in use")
 	} else if err != UsersCollectionManager.ErrNotFound {
 		return echo.NewHTTPError(http.StatusNotAcceptable, "Try later")
 	}
 
-	user := &UserModel{
+	user := &mccommon.UserModel{
 		Email: userData.Email,
 		Password: userData.Password,
 		IsAdmin: false,
 	}
 
-	if err := UsersCollectionManager.Save(user); err != nil {
+	if err := UsersCollectionManager.SaveModel(user); err != nil {
 		return echo.NewHTTPError(http.StatusNotAcceptable, err.Error())
 	}
 
@@ -47,17 +48,17 @@ func (this *UserController) Create(c echo.Context) error {
 }
 
 func (this *UserController) Auth(c echo.Context) error {
-	userData := UserModel{}
+	userData := mccommon.UserModel{}
 	if err := this.GetReqModelsData(&userData, &c); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, "Bad parameters")
 	}
-	if userData.Email == "" || userData.Password == "" {
+	if userData.Login == "" || userData.Password == "" {
 		return echo.NewHTTPError(http.StatusNotAcceptable, "Email and password are required")
 	}
 
-	user := new(UserModel)
+	user := new(mccommon.UserModel)
 
-	if err := UsersCollectionManager.FindByEmail(userData.Email, user); err != nil {
+	if err := UsersCollectionManager.FindModelByLogin(userData.Login, user); err != nil {
 		if err == UsersCollectionManager.ErrNotFound {
 			return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid email or password")
 		} else {
@@ -86,3 +87,22 @@ func (this *UserController) Auth(c echo.Context) error {
 		"token": t,
 	})
 }
+
+type CompanyControllerSt struct {
+	mcecho.ModelControllerBase
+}
+
+//func (this *CompanyControllerSt) List(c echo.Context) error {
+//	userId, err := mcecho.GetContextClientId(&c)
+//	if err != nil {
+//		return echo.NewHTTPError(http.StatusUnauthorized, "Haven't got user id")
+//	}
+//
+//	companies := new(CompanyListModel)
+//
+//	if err := CompaniesCollectionManager.FindModelByStringId(userId, companies); err != nil {
+//		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+//	}
+//
+//	return tztcore.SendJSON(companies, &c)
+//}

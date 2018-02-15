@@ -27,8 +27,6 @@ func (this *DeviceHTTPManagerSt) HandleReq(msg *mccommon.DeviceToServerReqSt) (r
 	return nil, false, nil
 }
 
-
-
 func (this *DeviceHTTPManagerSt) ReqPostHandler(c echo.Context) error {
 	publisherDeviceId, cErr := mcecho.GetContextClientId(&c)
 
@@ -74,6 +72,13 @@ func (this *DeviceHTTPManagerSt) ReqPostHandler(c echo.Context) error {
 	return echo.NewHTTPError(http.StatusInternalServerError, "")
 }
 
+var (
+	DeviceHTTPManager = &DeviceHTTPManagerSt{}
+)
+
+func Init(handler mccommon.DeviceToServerReqHandler) {
+	DeviceHTTPManager.SetReqHandler(handler)
+}
 
 //func main() {
 //	// Init echo server

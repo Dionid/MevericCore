@@ -58,7 +58,7 @@ func (this *DeviceMQTTManagerSt) DeviceToServerSub() {
 		// Get PublisherId
 		// MUST: deviceId == publisherId
 
-		// ToDo: Check Access on other module
+		// ToDo: Replace this code to other module
 		//device := new(DeviceBaseModelSt)
 		//if err := DevicesCollectionManager.FindByStringId(deviceId, device); err != nil {
 		//	return
