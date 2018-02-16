@@ -24,14 +24,14 @@ func (this *UserController) createAllWSRooms(userId string, userWS *mcws.WSocket
 	WSManager.GetOrAddWSocketRoomWithWSocket(userWS.Id, userWS)
 
 	// Find all devices
-	devices := mccommon.DevicesListBaseModel{}
+	devices := &mccommon.DevicesListBaseModel{}
 
 	if err := DevicesCollectionManager.FindByOwnerId(userId, devices); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	// Create rooms for them
-	for _, dev := range devices {
+	for _, dev := range *devices {
 		WSManager.GetOrAddWSocketRoomWithWSocket(dev.Shadow.Id, userWS)
 	}
 
@@ -66,21 +66,21 @@ func (this *UserController) WSHandler(c echo.Context) error {
 	})
 
 	for {
-		_, msg, err := ws.ReadMessage()
+		_, byteMsg, err := ws.ReadMessage()
 		if err != nil {
 			c.Logger().Error(err)
 			break
 		}
-		fmt.Println("Receieved: " + string(msg))
+		fmt.Println("Receieved: " + string(byteMsg))
 
 		if !userWS.Authorized {
 			msg := &mcws.WsActionMsgBaseSt{}
-			if err := msg.UnMarshalJSON(msg); err != nil {
+			if err := msg.UnmarshalJSON(byteMsg); err != nil {
 				continue
 			}
 			if msg.Action == "token" {
 				tokenMsg := &WsTokenActionReqSt{}
-				if err := tokenMsg.UnMarshalJSON(msg); err != nil {
+				if err := tokenMsg.UnmarshalJSON(byteMsg); err != nil {
 					continue
 				}
 				if tokenMsg.Login == "" || tokenMsg.Password == "" {
@@ -122,7 +122,7 @@ func (this *UserController) WSHandler(c echo.Context) error {
 			}
 			if msg.Action == "authenticate" {
 				tokenMsg := &WsAuthenticateActionReqSt{}
-				if err := tokenMsg.UnMarshalJSON(msg); err != nil {
+				if err := tokenMsg.UnmarshalJSON(byteMsg); err != nil {
 					continue
 				}
 				if tokenMsg.Token == "" {
@@ -158,7 +158,7 @@ func (this *UserController) WSHandler(c echo.Context) error {
 
 		//if !appWS.Auth {
 		//	//msg := &WsMsgBase{}
-		//	//if err := msg.UnMarshalJSON(msg); err != nil {
+		//	//if err := msg.UnmarshalJSON(byteMsg); err != nil {
 		//	//	return err
 		//	//}
 		//	//if msg.Action === "token" {

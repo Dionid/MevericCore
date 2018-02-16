@@ -22,7 +22,7 @@ func (ws *WSocket) Close() error {
 
 func (ws *WSocket) SendErrorMsg(err string, action string, errorCode int, reqId *string) error {
 	errMsg := CreateWsResActionSingleErrorMsg("Token is required", action, 503, reqId)
-	msg := errMsg.MarshalJSON()
+	msg, _ := errMsg.MarshalJSON()
 	return ws.SendMsg(msg)
 }
 

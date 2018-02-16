@@ -32,7 +32,6 @@ type DeviceBaseModel struct {
 
 type DeviceBaseModelInterface interface {
 	mcmongo.ModelBaseInterface
-	ShadowModelInterface
 	MarshalJSON() ([]byte, error)
 	UpdateCustomData(data *map[string]interface{}) bool
 	UpdateCustomAdminData(data *map[string]interface{}) bool
@@ -72,6 +71,46 @@ func (this *DeviceBaseModel) IsOwner(ownerId bson.ObjectId) (bool, error) {
 	}
 
 	return false, nil
+}
+
+func (this *DeviceBaseModel) updateCustomData(currentState *map[string]interface{}, newState *map[string]interface{}) bool {
+	for key, val := range *newState {
+		if (*currentState)[key] != nil {
+			switch newStateV := val.(type) {
+			// TODO: Test nil type
+			case nil:
+				delete(*currentState, key)
+				continue
+			case map[string]interface{}:
+				switch currentStateV := (*currentState)[key].(type) {
+				case map[string]interface{}:
+					this.updateCustomData(&currentStateV, &newStateV)
+				default:
+					(*currentState)[key] = newStateV
+					continue
+				}
+			default:
+				(*currentState)[key] = newStateV
+			}
+			// TODO: This can be dangerous if system needs new values, maybe `addNew` must be always `true`
+		} else {
+			switch val.(type) {
+			case nil:
+				continue
+			default:
+				(*currentState)[key] = val
+			}
+		}
+	}
+	return true
+}
+
+func (this *DeviceBaseModel) UpdateCustomAdminData(data *map[string]interface{}) bool {
+	return this.updateCustomData(&this.CustomAdminData, data)
+}
+
+func (this *DeviceBaseModel) UpdateCustomData(data *map[string]interface{}) bool {
+	return this.updateCustomData(&this.CustomData, data)
 }
 
 //easyjson:json
