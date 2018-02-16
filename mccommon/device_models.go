@@ -4,7 +4,6 @@ import (
 	"time"
 	"gopkg.in/mgo.v2/bson"
 	"mevericcore/mcmongo"
-	"tztatom/tztcoremgo"
 	"errors"
 )
 
@@ -32,7 +31,7 @@ type DeviceBaseModel struct {
 }
 
 type DeviceBaseModelInterface interface {
-	tztcoremgo.ModelBaseInterface
+	mcmongo.ModelBaseInterface
 	ShadowModelInterface
 	MarshalJSON() ([]byte, error)
 	UpdateCustomData(data *map[string]interface{}) bool
@@ -79,7 +78,7 @@ func (this *DeviceBaseModel) IsOwner(ownerId bson.ObjectId) (bool, error) {
 type DevicesListBaseModel []DeviceBaseModel
 
 type DevicesListBaseModelInterface interface {
-	tztcoremgo.ModelsListBaseInterface
+	mcmongo.ModelsListBaseInterface
 	GetTypeName() string
 }
 
