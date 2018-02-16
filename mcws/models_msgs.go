@@ -18,9 +18,14 @@ type WsActionMsgBaseSt struct {
 	Action    string
 }
 
-var WsResActionStatuses = map[string]string{
-	"success": "success",
-	"error": "error",
+type WsResActionStatusesSt struct {
+	Success string
+	Error string
+}
+
+var WsResActionStatuses = WsResActionStatusesSt{
+	"success",
+	"error",
 }
 
 //easyjson:json
@@ -43,7 +48,7 @@ func CreateWsResActionSingleErrorMsg(err string, action string, errorCode int, r
 				RequestId: reqId,
 				Action: action,
 			},
-			Status: WsResActionStatuses["error"],
+			Status: WsResActionStatuses.Error,
 		},
 		Error: err,
 		ErrorCode: errorCode,

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"mevericcore/mccommon"
 	"github.com/dgrijalva/jwt-go"
-	"gopkg.in/mgo.v2/bson"
+	"time"
 )
 
 var (
@@ -79,7 +79,7 @@ func (this *UserController) WSHandler(c echo.Context) error {
 				continue
 			}
 			if msg.Action == "token" {
-				tokenMsg := &WsTokenActionMsgSt{}
+				tokenMsg := &WsTokenActionReqSt{}
 				if err := tokenMsg.UnMarshalJSON(msg); err != nil {
 					continue
 				}
@@ -88,10 +88,40 @@ func (this *UserController) WSHandler(c echo.Context) error {
 					continue
 				}
 				// Create token
+				user := new(mccommon.UserModel)
+
+				if err := UsersCollectionManager.FindModelByLogin(tokenMsg.Login, user); err != nil {
+					if err == UsersCollectionManager.ErrNotFound {
+						return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid email or password")
+					} else {
+						return echo.NewHTTPError(http.StatusNotAcceptable, "Try again")
+					}
+				}
+
+				if !user.CheckPasswordHash(tokenMsg.Password) {
+					return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid email or password")
+				}
+
+				token := jwt.New(jwt.SigningMethodHS256)
+
+				claims := token.Claims.(jwt.MapClaims)
+				claims["id"] = user.ID
+				claims["email"] = user.Email
+				claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+
+				t, err := token.SignedString([]byte("secret"))
+
+				if err != nil {
+					userWS.SendErrorMsg("Token creation problem", msg.Action, 503, msg.RequestId)
+					continue
+				}
+
+				// Send success
+				CreateAndSendWsTokenActionRes(userWS, t, msg.Action, msg.RequestId)
 				continue
 			}
 			if msg.Action == "authenticate" {
-				tokenMsg := &WsAuthenticateActionMsgSt{}
+				tokenMsg := &WsAuthenticateActionReqSt{}
 				if err := tokenMsg.UnMarshalJSON(msg); err != nil {
 					continue
 				}
@@ -116,7 +146,10 @@ func (this *UserController) WSHandler(c echo.Context) error {
 					continue
 				}
 
-				 userWS.Authorized = true
+				userWS.Authorized = true
+
+				// Send success
+				CreateAndSendWsAuthenticateActionRes(userWS, msg.Action, msg.RequestId)
 				continue
 			}
 
