@@ -10,15 +10,23 @@ type WSocketRoom struct {
 	WSocketsById map[string]*WSocket
 }
 
-func CreateWSocketRoom (name string, uWsMap *WSocket) *WSocketRoom {
+func CreateWSocketRoom (name string) *WSocketRoom {
 	return &WSocketRoom{
 		Name:       name,
 		WSocketsById: map[string]*WSocket{},
 	}
 }
 
-func (r *WSocketRoom) AddWSocketById(id string, ws *WSocket) {
-	r.WSocketsById[id] = ws
+func (r *WSocketRoom) GetOrAddWSocket(ws *WSocket) *WSocket {
+	if w, ok := r.WSocketsById[ws.Id]; ok {
+		return w
+	}
+	r.WSocketsById[ws.Id] = ws
+	return ws
+}
+
+func (r *WSocketRoom) addWSocket(ws *WSocket) {
+	r.WSocketsById[ws.Id] = ws
 }
 
 func (r *WSocketRoom) RemoveWSocketById(id string) {
@@ -72,19 +80,36 @@ func NewWSocketsManager() *WSocketsManagerSt {
 	}
 }
 
-func (this *WSocketsManagerSt) AddWSocketById(id string, ws *WSocket) {
-	this.WSocketsListById[id] = ws
+func (this *WSocketsManagerSt) AddWSocketById(ws *WSocket) error {
+	this.WSocketsListById[ws.Id] = ws
+	return nil
 }
 
-func (this *WSocketsManagerSt) RemoveWSocketById(id string) {
+func (this *WSocketsManagerSt) RemoveWSocketById(id string) error {
 	delete(this.WSocketsListById, id)
+	return nil
 }
 
 func (this *WSocketsManagerSt) SendWSocketMsgById(id string, msg []byte) error {
 	return this.WSocketsListById[id].SendMsg(msg)
 }
 
-func (this *WSocketsManagerSt) AddWSocketRoom(roomName string, wsr *WSocketRoom) {
+// MANAGE ROOMS
+
+func (this *WSocketsManagerSt) GetOrAddWSocketRoomWithWSocket(roomName string, ws *WSocket) *WSocketRoom {
+	if r, ok := this.WSocketRoomsList[roomName]; ok {
+		r.GetOrAddWSocket(ws)
+		return r
+	}
+
+	r := CreateWSocketRoom(roomName)
+	r.GetOrAddWSocket(ws)
+	this.addWSocketRoom(roomName, r)
+
+	return r
+}
+
+func (this *WSocketsManagerSt) addWSocketRoom(roomName string, wsr *WSocketRoom) {
 	this.WSocketRoomsList[roomName] = wsr
 }
 
@@ -93,7 +118,7 @@ func (this *WSocketsManagerSt) RemoveWSocketRoom(roomName string) {
 }
 
 func (this *WSocketsManagerSt) AddWSocketToRoom(roomName string, id string, ws *WSocket) {
-	this.WSocketRoomsList[roomName].AddWSocketById(id, ws)
+	this.WSocketRoomsList[roomName].addWSocket(ws)
 }
 
 func (this *WSocketsManagerSt) RemoveWSocketFromRoom(roomName string, id string) {
