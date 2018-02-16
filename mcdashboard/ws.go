@@ -7,6 +7,8 @@ import (
 	"mevericcore/mcws"
 	"fmt"
 	"mevericcore/mccommon"
+	"github.com/dgrijalva/jwt-go"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var (
@@ -70,6 +72,57 @@ func (this *UserController) WSHandler(c echo.Context) error {
 			break
 		}
 		fmt.Println("Receieved: " + string(msg))
+
+		if !userWS.Authorized {
+			msg := &mcws.WsActionMsgBaseSt{}
+			if err := msg.UnMarshalJSON(msg); err != nil {
+				continue
+			}
+			if msg.Action == "token" {
+				tokenMsg := &WsTokenActionMsgSt{}
+				if err := tokenMsg.UnMarshalJSON(msg); err != nil {
+					continue
+				}
+				if tokenMsg.Login == "" || tokenMsg.Password == "" {
+					userWS.SendErrorMsg("Login and password are required", msg.Action, 503, msg.RequestId)
+					continue
+				}
+				// Create token
+				continue
+			}
+			if msg.Action == "authenticate" {
+				tokenMsg := &WsAuthenticateActionMsgSt{}
+				if err := tokenMsg.UnMarshalJSON(msg); err != nil {
+					continue
+				}
+				if tokenMsg.Token == "" {
+					userWS.SendErrorMsg("Token is required", msg.Action, 503, msg.RequestId)
+					continue
+				}
+				// Auth user
+				t, err := jwt.Parse(tokenMsg.Token, func(t *jwt.Token) (interface{}, error) {
+					return []byte("secret"), nil
+				})
+
+				if err != nil {
+					userWS.SendErrorMsg("Problem with token", msg.Action, 503, msg.RequestId)
+				}
+
+				userTokenId := t.Claims.(jwt.MapClaims)["id"].(string)
+				user := new(mccommon.UserModel)
+
+				if err := UsersCollectionManager.FindModelByStringId(userTokenId, user); err != nil {
+					userWS.SendErrorMsg("Incorrect token", msg.Action, 503, msg.RequestId)
+					continue
+				}
+
+				 userWS.Authorized = true
+				continue
+			}
+
+			userWS.SendErrorMsg("Forbidden", msg.Action, 503, msg.RequestId)
+		}
+
 		//if !appWS.Auth {
 		//	//msg := &WsMsgBase{}
 		//	//if err := msg.UnMarshalJSON(msg); err != nil {
@@ -82,7 +135,7 @@ func (this *UserController) WSHandler(c echo.Context) error {
 		//}
 		// QueueManager.Pub("ws.msg.receive", msg)
 		// if (resourceName) QueueManager.Pub(ws + ".ws.msg.receive", msg)
-		c.Logger().Error(err)
+		//c.Logger().Error(err)
 	}
 
 	return c.NoContent(200)

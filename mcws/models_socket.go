@@ -16,10 +16,16 @@ func CreateWSocket(id string, ws *websocket.Conn) *WSocket {
 	}
 }
 
-func (uWs *WSocket) Close() error {
-	return uWs.Ws.Close()
+func (ws *WSocket) Close() error {
+	return ws.Ws.Close()
 }
 
-func (uWs *WSocket) SendMsg(msg []byte) error {
-	return uWs.Ws.WriteMessage(websocket.TextMessage, msg)
+func (ws *WSocket) SendErrorMsg(err string, action string, errorCode int, reqId *string) error {
+	errMsg := CreateWsResActionSingleErrorMsg("Token is required", action, 503, reqId)
+	msg := errMsg.MarshalJSON()
+	return ws.SendMsg(msg)
+}
+
+func (ws *WSocket) SendMsg(msg []byte) error {
+	return ws.Ws.WriteMessage(websocket.TextMessage, msg)
 }
