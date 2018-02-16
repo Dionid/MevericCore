@@ -19,21 +19,21 @@ func (this *UserController) Auth(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "Bad parameters")
 	}
 	if userData.Login == "" || userData.Password == "" {
-		return echo.NewHTTPError(http.StatusNotAcceptable, "Email and password are required")
+		return echo.NewHTTPError(http.StatusNotAcceptable, "Login and password are required")
 	}
 
 	user := new(mccommon.UserModel)
 
 	if err := UsersCollectionManager.FindModelByLogin(userData.Login, user); err != nil {
 		if err == UsersCollectionManager.ErrNotFound {
-			return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid email or password")
+			return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid login or password")
 		} else {
 			return echo.NewHTTPError(http.StatusNotAcceptable, "Try again")
 		}
 	}
 
 	if !user.CheckPasswordHash(userData.Password) {
-		return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid email or password")
+		return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid login or password")
 	}
 
 	token := jwt.New(jwt.SigningMethodHS256)

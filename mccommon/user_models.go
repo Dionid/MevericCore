@@ -18,7 +18,7 @@ type UserModel struct {
 	Password             string  `json:",omitempty"`
 	IsAdmin              bool    `json:",omitempty" bson:"isAdmin"`
 	Phone                *string `json:",omitempty"`
-	CompanyId  bson.ObjectId `json:",omitempty" bson:"companyId"`
+	CompanyId  *bson.ObjectId `json:",omitempty" bson:"companyId"`
 }
 
 func (this *UserModel) EnsureIndex(collection *mgo.Collection) error {

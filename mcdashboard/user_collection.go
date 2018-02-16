@@ -22,7 +22,9 @@ func createUserAdmin() {
 		IsAdmin:  true,
 	}
 	if err := UsersCollectionManager.FindModelByLogin(admin.Login, admin); err != nil {
-		UsersCollectionManager.InsertModel(admin)
+		if err := UsersCollectionManager.InsertModel(admin); err != nil {
+			panic(err.Error())
+		}
 	}
 }
 

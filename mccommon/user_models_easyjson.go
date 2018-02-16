@@ -131,8 +131,16 @@ func easyjson5371cc0DecodeMevericcoreMccommon1(in *jlexer.Lexer, out *UserModel)
 				*out.Phone = string(in.String())
 			}
 		case "companyId":
-			if data := in.Raw(); in.Ok() {
-				in.AddError((out.CompanyId).UnmarshalJSON(data))
+			if in.IsNull() {
+				in.Skip()
+				out.CompanyId = nil
+			} else {
+				if out.CompanyId == nil {
+					out.CompanyId = new(bson.ObjectId)
+				}
+				if data := in.Raw(); in.Ok() {
+					in.AddError((*out.CompanyId).UnmarshalJSON(data))
+				}
 			}
 		case "id":
 			if data := in.Raw(); in.Ok() {
@@ -216,13 +224,17 @@ func easyjson5371cc0EncodeMevericcoreMccommon1(out *jwriter.Writer, in UserModel
 			out.String(string(*in.Phone))
 		}
 	}
-	if in.CompanyId != "" {
+	if in.CompanyId != nil {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"companyId\":")
-		out.Raw((in.CompanyId).MarshalJSON())
+		if in.CompanyId == nil {
+			out.RawString("null")
+		} else {
+			out.Raw((*in.CompanyId).MarshalJSON())
+		}
 	}
 	if in.ID != "" {
 		if !first {
