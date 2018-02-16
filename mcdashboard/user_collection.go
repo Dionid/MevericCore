@@ -1,4 +1,4 @@
-package main
+package mcdashboard
 
 import (
 	"mevericcore/mccommon"

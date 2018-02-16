@@ -5,6 +5,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"mevericcore/mcmongo"
 	"tztatom/tztcoremgo"
+	"errors"
 )
 
 //easyjson:json
@@ -57,6 +58,21 @@ func (this *DeviceBaseModel) GetSrc() string {
 
 func (this *DeviceBaseModel) NotifyOwners(msg string, handler func(userId string, msg string) (success bool)) {
 	return
+}
+
+func (this *DeviceBaseModel) IsOwner(ownerId bson.ObjectId) (bool, error) {
+
+	if this.OwnersIds == nil {
+		return false, errors.New("owners must be fulfilled")
+	}
+
+	for _, id := range this.OwnersIds {
+		if ownerId == id {
+			return true, nil
+		}
+	}
+
+	return false, nil
 }
 
 //easyjson:json
