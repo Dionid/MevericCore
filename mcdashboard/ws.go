@@ -7,8 +7,6 @@ import (
 	"mevericcore/mcws"
 	"fmt"
 	"mevericcore/mccommon"
-	"github.com/dgrijalva/jwt-go"
-	"time"
 )
 
 var (
@@ -17,6 +15,7 @@ var (
 			return true
 		},
 	}
+	WSocketsResources = mcws.CreateNewResourcesManager()
 )
 
 func (this *UserController) createAllWSRooms(userId string, userWS *mcws.WSocket) error {
@@ -73,87 +72,20 @@ func (this *UserController) WSHandler(c echo.Context) error {
 		}
 		fmt.Println("Receieved: " + string(byteMsg))
 
+		msg := &mcws.WsActionMsgBaseSt{}
+		if err := msg.UnmarshalJSON(byteMsg); err != nil {
+			continue
+		}
+
 		if !userWS.Authorized {
-			msg := &mcws.WsActionMsgBaseSt{}
-			if err := msg.UnmarshalJSON(byteMsg); err != nil {
+			if msg.Action != "token" || msg.Action != "authenticate" {
+				userWS.SendErrorMsg("Forbidden", msg.Action, 503, msg.RequestId)
 				continue
 			}
-			if msg.Action == "token" {
-				tokenMsg := &WsTokenActionReqSt{}
-				if err := tokenMsg.UnmarshalJSON(byteMsg); err != nil {
-					continue
-				}
-				if tokenMsg.Login == "" || tokenMsg.Password == "" {
-					userWS.SendErrorMsg("Login and password are required", msg.Action, 503, msg.RequestId)
-					continue
-				}
-				// Create token
-				user := new(mccommon.UserModel)
+		}
 
-				if err := UsersCollectionManager.FindModelByLogin(tokenMsg.Login, user); err != nil {
-					if err == UsersCollectionManager.ErrNotFound {
-						return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid email or password")
-					} else {
-						return echo.NewHTTPError(http.StatusNotAcceptable, "Try again")
-					}
-				}
-
-				if !user.CheckPasswordHash(tokenMsg.Password) {
-					return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid email or password")
-				}
-
-				token := jwt.New(jwt.SigningMethodHS256)
-
-				claims := token.Claims.(jwt.MapClaims)
-				claims["id"] = user.ID
-				claims["email"] = user.Email
-				claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-
-				t, err := token.SignedString([]byte("secret"))
-
-				if err != nil {
-					userWS.SendErrorMsg("Token creation problem", msg.Action, 503, msg.RequestId)
-					continue
-				}
-
-				// Send success
-				CreateAndSendWsTokenActionRes(userWS, t, msg.Action, msg.RequestId)
-				continue
-			}
-			if msg.Action == "authenticate" {
-				tokenMsg := &WsAuthenticateActionReqSt{}
-				if err := tokenMsg.UnmarshalJSON(byteMsg); err != nil {
-					continue
-				}
-				if tokenMsg.Token == "" {
-					userWS.SendErrorMsg("Token is required", msg.Action, 503, msg.RequestId)
-					continue
-				}
-				// Auth user
-				t, err := jwt.Parse(tokenMsg.Token, func(t *jwt.Token) (interface{}, error) {
-					return []byte("secret"), nil
-				})
-
-				if err != nil {
-					userWS.SendErrorMsg("Problem with token", msg.Action, 503, msg.RequestId)
-				}
-
-				userTokenId := t.Claims.(jwt.MapClaims)["id"].(string)
-				user := new(mccommon.UserModel)
-
-				if err := UsersCollectionManager.FindModelByStringId(userTokenId, user); err != nil {
-					userWS.SendErrorMsg("Incorrect token", msg.Action, 503, msg.RequestId)
-					continue
-				}
-
-				userWS.Authorized = true
-
-				// Send success
-				CreateAndSendWsAuthenticateActionRes(userWS, msg.Action, msg.RequestId)
-				continue
-			}
-
-			userWS.SendErrorMsg("Forbidden", msg.Action, 503, msg.RequestId)
+		if err := WSocketsResources.Handle(msg.Action, userWS, byteMsg); err != nil {
+			continue
 		}
 
 		//if !appWS.Auth {

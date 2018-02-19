@@ -39,6 +39,9 @@ func Init(dbsession *mgo.Session, dbName string, e *echo.Echo) {
 	appG := e.Group("/app")
 	appG.Use(jwtMdlw)
 
+	//deviceG := mcecho.CreateModelControllerRoutes(appG, "/device", )
+
 	InitUserModule(adminUserG, authG, dbsession, dbName)
 	initWsRoute(appG)
+	InitWsManager()
 }
