@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/middleware"
+	"mevericcore/mcecho"
 )
 
 var (
@@ -21,7 +22,7 @@ var (
 	jwtMdlw = middleware.JWTWithConfig(middleware.JWTConfig{
 		Skipper:     WSSkipperFn,
 		SigningKey:  []byte("secret"),
-		ContextKey:  "user",
+		ContextKey:  "client",
 		TokenLookup: "header:" + echo.HeaderAuthorization,
 		AuthScheme:  "JWT",
 		Claims:      jwt.MapClaims{},
@@ -39,9 +40,12 @@ func Init(dbsession *mgo.Session, dbName string, e *echo.Echo) {
 	appG := e.Group("/app")
 	appG.Use(jwtMdlw)
 
-	//deviceG := mcecho.CreateModelControllerRoutes(appG, "/device", )
+	mcecho.CreateModelControllerRoutes(appG, "/devices", DeviceCtrl)
 
 	InitUserModule(adminUserG, authG, dbsession, dbName)
+	InitDeviceModule(dbsession, dbName)
+
 	initWsRoute(appG)
+
 	InitWsManager()
 }

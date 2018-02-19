@@ -5,6 +5,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"mevericcore/mcmongo"
 	"errors"
+	"gopkg.in/mgo.v2"
 )
 
 //easyjson:json
@@ -36,6 +37,10 @@ type DeviceBaseModelInterface interface {
 	UpdateCustomData(data *map[string]interface{}) bool
 	UpdateCustomAdminData(data *map[string]interface{}) bool
 	GetTypeName() string
+}
+
+func (this *DeviceBaseModel) EnsureIndex(collection *mgo.Collection) error {
+	return nil
 }
 
 func (this *DeviceBaseModel) GetTypeName() string {
