@@ -3,7 +3,6 @@ package mcdashboard
 import (
 	"mevericcore/mcecho"
 	"github.com/labstack/echo"
-	"tztatom/tztcore"
 	"net/http"
 	"mevericcore/mccommon"
 	"fmt"
@@ -48,7 +47,7 @@ func (this *DevicesBaseControllerSt) List(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	return tztcore.SendJSON(devices, &c)
+	return mcecho.SendJSON(devices, &c)
 }
 
 func (this *DevicesBaseControllerSt) Retrieve(c echo.Context) error {
@@ -58,7 +57,7 @@ func (this *DevicesBaseControllerSt) Retrieve(c echo.Context) error {
 		return err
 	}
 
-	return tztcore.SendJSON(device, &c)
+	return mcecho.SendJSON(device, &c)
 }
 
 func (this *DevicesBaseControllerSt) Destroy(c echo.Context) error {

@@ -32,20 +32,24 @@ var (
 
 func Init(dbsession *mgo.Session, dbName string, e *echo.Echo) {
 	adminG := e.Group("/admin")
-	adminG.Use(jwtMdlw)
-	adminUserG := adminG.Group("/users")
-
+	appG := e.Group("/app")
 	authG := e.Group("/auth")
 
-	appG := e.Group("/app")
+
+	adminG.Use(jwtMdlw)
 	appG.Use(jwtMdlw)
 
+	initUsersRoutes(adminG)
+
 	mcecho.CreateModelControllerRoutes(appG, "/devices", DeviceCtrl)
-
-	InitUserModule(adminUserG, authG, dbsession, dbName)
+	InitUserModule(authG, dbsession, dbName)
 	InitDeviceModule(dbsession, dbName)
-
 	initWsRoute(appG)
-
 	InitWsManager()
+
+
+	// 1. User
+
+	// 1.1. Me
+	initMeModule(e)
 }
