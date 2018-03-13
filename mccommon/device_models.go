@@ -26,16 +26,11 @@ type DeviceBaseModel struct {
 
 	// ToDo: Add this
 	// NetworkId []string // Representation of network for this device
-
-	CustomData      map[string]interface{} `json:"customData" bson:"customData"`
-	CustomAdminData map[string]interface{} `json:"customAdminData" bson:"customAdminData"`
 }
 
 type DeviceBaseModelInterface interface {
 	mcmongo.ModelBaseInterface
 	MarshalJSON() ([]byte, error)
-	UpdateCustomData(data *map[string]interface{}) bool
-	UpdateCustomAdminData(data *map[string]interface{}) bool
 	GetTypeName() string
 }
 
@@ -78,7 +73,21 @@ func (this *DeviceBaseModel) IsOwner(ownerId bson.ObjectId) (bool, error) {
 	return false, nil
 }
 
-func (this *DeviceBaseModel) updateCustomData(currentState *map[string]interface{}, newState *map[string]interface{}) bool {
+//easyjson:json
+type DeviceWithCustomDataBaseModel struct {
+	DeviceBaseModel
+
+	CustomData      map[string]interface{} `json:"customData" bson:"customData"`
+	CustomAdminData map[string]interface{} `json:"customAdminData" bson:"customAdminData"`
+}
+
+type DeviceWithCustomDataBaseModelInterface interface {
+	DeviceBaseModelInterface
+	UpdateCustomData(data *map[string]interface{}) bool
+	UpdateCustomAdminData(data *map[string]interface{}) bool
+}
+
+func (this *DeviceWithCustomDataBaseModel) updateCustomData(currentState *map[string]interface{}, newState *map[string]interface{}) bool {
 	for key, val := range *newState {
 		if (*currentState)[key] != nil {
 			switch newStateV := val.(type) {
@@ -110,11 +119,11 @@ func (this *DeviceBaseModel) updateCustomData(currentState *map[string]interface
 	return true
 }
 
-func (this *DeviceBaseModel) UpdateCustomAdminData(data *map[string]interface{}) bool {
+func (this *DeviceWithCustomDataBaseModel) UpdateCustomAdminData(data *map[string]interface{}) bool {
 	return this.updateCustomData(&this.CustomAdminData, data)
 }
 
-func (this *DeviceBaseModel) UpdateCustomData(data *map[string]interface{}) bool {
+func (this *DeviceWithCustomDataBaseModel) UpdateCustomData(data *map[string]interface{}) bool {
 	return this.updateCustomData(&this.CustomData, data)
 }
 
@@ -133,5 +142,23 @@ func (this *DevicesListBaseModel) GetBaseQuery() *bson.M {
 }
 
 func (this *DevicesListBaseModel) GetTypeName() string {
+	return ""
+}
+
+
+//easyjson:json
+type DevicesWithCustomDataListBaseModel []DeviceWithCustomDataBaseModel
+
+type DevicesWithCustomDataListBaseModelInterface interface {
+	mcmongo.ModelsListBaseInterface
+}
+
+func (this *DevicesWithCustomDataListBaseModel) GetBaseQuery() *bson.M {
+	return &bson.M{
+		"deletedAt": nil,
+	}
+}
+
+func (this *DevicesWithCustomDataListBaseModel) GetTypeName() string {
 	return ""
 }

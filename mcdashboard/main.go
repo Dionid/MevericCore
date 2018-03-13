@@ -42,14 +42,13 @@ func Init(dbsession *mgo.Session, dbName string, e *echo.Echo) {
 	initUsersRoutes(adminG)
 
 	mcecho.CreateModelControllerRoutes(appG, "/devices", DeviceCtrl)
+
 	InitUserModule(authG, dbsession, dbName)
 	InitDeviceModule(dbsession, dbName)
-	initWsRoute(appG)
-	InitWsManager()
-
-
-	// 1. User
 
 	// 1.1. Me
 	initMeModule(e)
+
+	initWsRoute(appG)
+	InitWsManager()
 }

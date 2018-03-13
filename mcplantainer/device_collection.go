@@ -1,4 +1,4 @@
-package mcdashboard
+package mcplantainer
 
 import (
 	"mevericcore/mccommon"
@@ -14,6 +14,6 @@ var (
 )
 
 func initDeviceColManager(dbsession *mgo.Session, dbName string) {
-	DevicesCollectionManager.AddModel(&mccommon.DeviceWithCustomDataBaseModel{})
+	DevicesCollectionManager.AddModel(&PlantainerModelSt{})
 	DevicesCollectionManager.InitManager(dbsession, dbName, "devices")
 }

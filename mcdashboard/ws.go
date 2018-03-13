@@ -23,7 +23,7 @@ func (this *UserController) createAllWSRooms(userId string, userWS *mcws.WSocket
 	WSManager.GetOrAddWSocketRoomWithWSocket(userWS.Id, userWS)
 
 	// Find all devices
-	devices := &mccommon.DevicesListBaseModel{}
+	devices := &mccommon.DevicesWithCustomDataListBaseModel{}
 
 	if err := DevicesCollectionManager.FindByOwnerId(userId, devices); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
@@ -78,7 +78,7 @@ func (this *UserController) WSHandler(c echo.Context) error {
 		}
 
 		if !userWS.Authorized {
-			if msg.Action != "token" || msg.Action != "authenticate" {
+			if msg.Action != "token" && msg.Action != "authenticate" {
 				userWS.SendErrorMsg("Forbidden", msg.Action, 503, msg.RequestId)
 				continue
 			}

@@ -12,13 +12,13 @@ type DevicesCollectionManagerSt struct {
 type DevicesCollectionManagerInterface interface {
 	mcmongo.CollectionManagerBaseInterface
 	SaveData(model mcmongo.ModelBaseInterface, colQuerier map[string]interface{}, data map[string]interface{}, colName string) error
-	FindByOwnerId(ownerId string, modelsList DevicesListBaseModelInterface) error
+	FindByOwnerId(ownerId string, modelsList DevicesWithCustomDataListBaseModelInterface) error
 	FindByShadowId(shadowId string, model DeviceBaseModelInterface) error
 	DestroyByShadowId(shadowId string) error
 	DeleteByShadowId(shadowId string) error
 }
 
-func (this *DevicesCollectionManagerSt) FindByOwnerId(ownerId string, modelsList DevicesListBaseModelInterface) error {
+func (this *DevicesCollectionManagerSt) FindByOwnerId(ownerId string, modelsList DevicesWithCustomDataListBaseModelInterface) error {
 	return this.FindAllModels(&bson.M{"ownersIds": bson.ObjectIdHex(ownerId)}, modelsList)
 }
 

@@ -19,7 +19,73 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson38438769DecodeMevericcoreMccommon(in *jlexer.Lexer, out *DevicesListBaseModel) {
+func easyjson38438769DecodeMevericcoreMccommon(in *jlexer.Lexer, out *DevicesWithCustomDataListBaseModel) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		in.Skip()
+		*out = nil
+	} else {
+		in.Delim('[')
+		if *out == nil {
+			if !in.IsDelim(']') {
+				*out = make(DevicesWithCustomDataListBaseModel, 0, 1)
+			} else {
+				*out = DevicesWithCustomDataListBaseModel{}
+			}
+		} else {
+			*out = (*out)[:0]
+		}
+		for !in.IsDelim(']') {
+			var v1 DeviceWithCustomDataBaseModel
+			(v1).UnmarshalEasyJSON(in)
+			*out = append(*out, v1)
+			in.WantComma()
+		}
+		in.Delim(']')
+	}
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson38438769EncodeMevericcoreMccommon(out *jwriter.Writer, in DevicesWithCustomDataListBaseModel) {
+	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+		out.RawString("null")
+	} else {
+		out.RawByte('[')
+		for v2, v3 := range in {
+			if v2 > 0 {
+				out.RawByte(',')
+			}
+			(v3).MarshalEasyJSON(out)
+		}
+		out.RawByte(']')
+	}
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v DevicesWithCustomDataListBaseModel) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson38438769EncodeMevericcoreMccommon(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v DevicesWithCustomDataListBaseModel) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjson38438769EncodeMevericcoreMccommon(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *DevicesWithCustomDataListBaseModel) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson38438769DecodeMevericcoreMccommon(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *DevicesWithCustomDataListBaseModel) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjson38438769DecodeMevericcoreMccommon(l, v)
+}
+func easyjson38438769DecodeMevericcoreMccommon1(in *jlexer.Lexer, out *DevicesListBaseModel) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		in.Skip()
@@ -36,9 +102,9 @@ func easyjson38438769DecodeMevericcoreMccommon(in *jlexer.Lexer, out *DevicesLis
 			*out = (*out)[:0]
 		}
 		for !in.IsDelim(']') {
-			var v1 DeviceBaseModel
-			(v1).UnmarshalEasyJSON(in)
-			*out = append(*out, v1)
+			var v4 DeviceBaseModel
+			(v4).UnmarshalEasyJSON(in)
+			*out = append(*out, v4)
 			in.WantComma()
 		}
 		in.Delim(']')
@@ -47,16 +113,16 @@ func easyjson38438769DecodeMevericcoreMccommon(in *jlexer.Lexer, out *DevicesLis
 		in.Consumed()
 	}
 }
-func easyjson38438769EncodeMevericcoreMccommon(out *jwriter.Writer, in DevicesListBaseModel) {
+func easyjson38438769EncodeMevericcoreMccommon1(out *jwriter.Writer, in DevicesListBaseModel) {
 	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 		out.RawString("null")
 	} else {
 		out.RawByte('[')
-		for v2, v3 := range in {
-			if v2 > 0 {
+		for v5, v6 := range in {
+			if v5 > 0 {
 				out.RawByte(',')
 			}
-			(v3).MarshalEasyJSON(out)
+			(v6).MarshalEasyJSON(out)
 		}
 		out.RawByte(']')
 	}
@@ -65,27 +131,27 @@ func easyjson38438769EncodeMevericcoreMccommon(out *jwriter.Writer, in DevicesLi
 // MarshalJSON supports json.Marshaler interface
 func (v DevicesListBaseModel) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson38438769EncodeMevericcoreMccommon(&w, v)
+	easyjson38438769EncodeMevericcoreMccommon1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v DevicesListBaseModel) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson38438769EncodeMevericcoreMccommon(w, v)
+	easyjson38438769EncodeMevericcoreMccommon1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *DevicesListBaseModel) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson38438769DecodeMevericcoreMccommon(&r, v)
+	easyjson38438769DecodeMevericcoreMccommon1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *DevicesListBaseModel) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson38438769DecodeMevericcoreMccommon(l, v)
+	easyjson38438769DecodeMevericcoreMccommon1(l, v)
 }
-func easyjson38438769DecodeMevericcoreMccommon1(in *jlexer.Lexer, out *DeviceBaseModel) {
+func easyjson38438769DecodeMevericcoreMccommon2(in *jlexer.Lexer, out *DeviceWithCustomDataBaseModel) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -104,8 +170,60 @@ func easyjson38438769DecodeMevericcoreMccommon1(in *jlexer.Lexer, out *DeviceBas
 			continue
 		}
 		switch key {
+		case "customData":
+			if in.IsNull() {
+				in.Skip()
+			} else {
+				in.Delim('{')
+				if !in.IsDelim('}') {
+					out.CustomData = make(map[string]interface{})
+				} else {
+					out.CustomData = nil
+				}
+				for !in.IsDelim('}') {
+					key := string(in.String())
+					in.WantColon()
+					var v7 interface{}
+					if m, ok := v7.(easyjson.Unmarshaler); ok {
+						m.UnmarshalEasyJSON(in)
+					} else if m, ok := v7.(json.Unmarshaler); ok {
+						_ = m.UnmarshalJSON(in.Raw())
+					} else {
+						v7 = in.Interface()
+					}
+					(out.CustomData)[key] = v7
+					in.WantComma()
+				}
+				in.Delim('}')
+			}
+		case "customAdminData":
+			if in.IsNull() {
+				in.Skip()
+			} else {
+				in.Delim('{')
+				if !in.IsDelim('}') {
+					out.CustomAdminData = make(map[string]interface{})
+				} else {
+					out.CustomAdminData = nil
+				}
+				for !in.IsDelim('}') {
+					key := string(in.String())
+					in.WantColon()
+					var v8 interface{}
+					if m, ok := v8.(easyjson.Unmarshaler); ok {
+						m.UnmarshalEasyJSON(in)
+					} else if m, ok := v8.(json.Unmarshaler); ok {
+						_ = m.UnmarshalJSON(in.Raw())
+					} else {
+						v8 = in.Interface()
+					}
+					(out.CustomAdminData)[key] = v8
+					in.WantComma()
+				}
+				in.Delim('}')
+			}
 		case "shadow":
-			easyjson38438769DecodeMevericcoreMccommon2(in, &out.Shadow)
+			(out.Shadow).UnmarshalEasyJSON(in)
 		case "srcId":
 			out.Src = string(in.String())
 		case "type":
@@ -160,66 +278,14 @@ func easyjson38438769DecodeMevericcoreMccommon1(in *jlexer.Lexer, out *DeviceBas
 					out.OwnersIds = (out.OwnersIds)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v4 bson.ObjectId
+					var v9 bson.ObjectId
 					if data := in.Raw(); in.Ok() {
-						in.AddError((v4).UnmarshalJSON(data))
+						in.AddError((v9).UnmarshalJSON(data))
 					}
-					out.OwnersIds = append(out.OwnersIds, v4)
+					out.OwnersIds = append(out.OwnersIds, v9)
 					in.WantComma()
 				}
 				in.Delim(']')
-			}
-		case "customData":
-			if in.IsNull() {
-				in.Skip()
-			} else {
-				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.CustomData = make(map[string]interface{})
-				} else {
-					out.CustomData = nil
-				}
-				for !in.IsDelim('}') {
-					key := string(in.String())
-					in.WantColon()
-					var v5 interface{}
-					if m, ok := v5.(easyjson.Unmarshaler); ok {
-						m.UnmarshalEasyJSON(in)
-					} else if m, ok := v5.(json.Unmarshaler); ok {
-						_ = m.UnmarshalJSON(in.Raw())
-					} else {
-						v5 = in.Interface()
-					}
-					(out.CustomData)[key] = v5
-					in.WantComma()
-				}
-				in.Delim('}')
-			}
-		case "customAdminData":
-			if in.IsNull() {
-				in.Skip()
-			} else {
-				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.CustomAdminData = make(map[string]interface{})
-				} else {
-					out.CustomAdminData = nil
-				}
-				for !in.IsDelim('}') {
-					key := string(in.String())
-					in.WantColon()
-					var v6 interface{}
-					if m, ok := v6.(easyjson.Unmarshaler); ok {
-						m.UnmarshalEasyJSON(in)
-					} else if m, ok := v6.(json.Unmarshaler); ok {
-						_ = m.UnmarshalJSON(in.Raw())
-					} else {
-						v6 = in.Interface()
-					}
-					(out.CustomAdminData)[key] = v6
-					in.WantComma()
-				}
-				in.Delim('}')
 			}
 		case "id":
 			if data := in.Raw(); in.Ok() {
@@ -251,17 +317,75 @@ func easyjson38438769DecodeMevericcoreMccommon1(in *jlexer.Lexer, out *DeviceBas
 		in.Consumed()
 	}
 }
-func easyjson38438769EncodeMevericcoreMccommon1(out *jwriter.Writer, in DeviceBaseModel) {
+func easyjson38438769EncodeMevericcoreMccommon2(out *jwriter.Writer, in DeviceWithCustomDataBaseModel) {
 	out.RawByte('{')
 	first := true
 	_ = first
+	if len(in.CustomData) != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"customData\":")
+		if in.CustomData == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
+			out.RawByte('{')
+			v10First := true
+			for v10Name, v10Value := range in.CustomData {
+				if !v10First {
+					out.RawByte(',')
+				}
+				v10First = false
+				out.String(string(v10Name))
+				out.RawByte(':')
+				if m, ok := v10Value.(easyjson.Marshaler); ok {
+					m.MarshalEasyJSON(out)
+				} else if m, ok := v10Value.(json.Marshaler); ok {
+					out.Raw(m.MarshalJSON())
+				} else {
+					out.Raw(json.Marshal(v10Value))
+				}
+			}
+			out.RawByte('}')
+		}
+	}
+	if len(in.CustomAdminData) != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"customAdminData\":")
+		if in.CustomAdminData == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+			out.RawString(`null`)
+		} else {
+			out.RawByte('{')
+			v11First := true
+			for v11Name, v11Value := range in.CustomAdminData {
+				if !v11First {
+					out.RawByte(',')
+				}
+				v11First = false
+				out.String(string(v11Name))
+				out.RawByte(':')
+				if m, ok := v11Value.(easyjson.Marshaler); ok {
+					m.MarshalEasyJSON(out)
+				} else if m, ok := v11Value.(json.Marshaler); ok {
+					out.Raw(m.MarshalJSON())
+				} else {
+					out.Raw(json.Marshal(v11Value))
+				}
+			}
+			out.RawByte('}')
+		}
+	}
 	if true {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"shadow\":")
-		easyjson38438769EncodeMevericcoreMccommon2(out, in.Shadow)
+		(in.Shadow).MarshalEasyJSON(out)
 	}
 	if in.Src != "" {
 		if !first {
@@ -325,71 +449,264 @@ func easyjson38438769EncodeMevericcoreMccommon1(out *jwriter.Writer, in DeviceBa
 			out.RawString("null")
 		} else {
 			out.RawByte('[')
-			for v7, v8 := range in.OwnersIds {
-				if v7 > 0 {
+			for v12, v13 := range in.OwnersIds {
+				if v12 > 0 {
 					out.RawByte(',')
 				}
-				out.Raw((v8).MarshalJSON())
+				out.Raw((v13).MarshalJSON())
 			}
 			out.RawByte(']')
 		}
 	}
-	if len(in.CustomData) != 0 {
+	if in.ID != "" {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"customData\":")
-		if in.CustomData == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-			out.RawString(`null`)
+		out.RawString("\"id\":")
+		out.Raw((in.ID).MarshalJSON())
+	}
+	if true {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"updatedAt\":")
+		out.Raw((in.UpdatedAt).MarshalJSON())
+	}
+	if in.DeletedAt != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"deletedAt\":")
+		if in.DeletedAt == nil {
+			out.RawString("null")
 		} else {
-			out.RawByte('{')
-			v9First := true
-			for v9Name, v9Value := range in.CustomData {
-				if !v9First {
-					out.RawByte(',')
-				}
-				v9First = false
-				out.String(string(v9Name))
-				out.RawByte(':')
-				if m, ok := v9Value.(easyjson.Marshaler); ok {
-					m.MarshalEasyJSON(out)
-				} else if m, ok := v9Value.(json.Marshaler); ok {
-					out.Raw(m.MarshalJSON())
-				} else {
-					out.Raw(json.Marshal(v9Value))
-				}
-			}
-			out.RawByte('}')
+			out.Raw((*in.DeletedAt).MarshalJSON())
 		}
 	}
-	if len(in.CustomAdminData) != 0 {
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v DeviceWithCustomDataBaseModel) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson38438769EncodeMevericcoreMccommon2(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v DeviceWithCustomDataBaseModel) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjson38438769EncodeMevericcoreMccommon2(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *DeviceWithCustomDataBaseModel) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson38438769DecodeMevericcoreMccommon2(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *DeviceWithCustomDataBaseModel) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjson38438769DecodeMevericcoreMccommon2(l, v)
+}
+func easyjson38438769DecodeMevericcoreMccommon3(in *jlexer.Lexer, out *DeviceBaseModel) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "shadow":
+			(out.Shadow).UnmarshalEasyJSON(in)
+		case "srcId":
+			out.Src = string(in.String())
+		case "type":
+			out.Type = string(in.String())
+		case "firstActivation":
+			if in.IsNull() {
+				in.Skip()
+				out.FirstActivation = nil
+			} else {
+				if out.FirstActivation == nil {
+					out.FirstActivation = new(time.Time)
+				}
+				if data := in.Raw(); in.Ok() {
+					in.AddError((*out.FirstActivation).UnmarshalJSON(data))
+				}
+			}
+		case "lastSeenOnline":
+			if in.IsNull() {
+				in.Skip()
+				out.LastSeenOnline = nil
+			} else {
+				if out.LastSeenOnline == nil {
+					out.LastSeenOnline = new(time.Time)
+				}
+				if data := in.Raw(); in.Ok() {
+					in.AddError((*out.LastSeenOnline).UnmarshalJSON(data))
+				}
+			}
+		case "isOnline":
+			if in.IsNull() {
+				in.Skip()
+				out.IsOnline = nil
+			} else {
+				if out.IsOnline == nil {
+					out.IsOnline = new(bool)
+				}
+				*out.IsOnline = bool(in.Bool())
+			}
+		case "ownersIds":
+			if in.IsNull() {
+				in.Skip()
+				out.OwnersIds = nil
+			} else {
+				in.Delim('[')
+				if out.OwnersIds == nil {
+					if !in.IsDelim(']') {
+						out.OwnersIds = make([]bson.ObjectId, 0, 4)
+					} else {
+						out.OwnersIds = []bson.ObjectId{}
+					}
+				} else {
+					out.OwnersIds = (out.OwnersIds)[:0]
+				}
+				for !in.IsDelim(']') {
+					var v14 bson.ObjectId
+					if data := in.Raw(); in.Ok() {
+						in.AddError((v14).UnmarshalJSON(data))
+					}
+					out.OwnersIds = append(out.OwnersIds, v14)
+					in.WantComma()
+				}
+				in.Delim(']')
+			}
+		case "id":
+			if data := in.Raw(); in.Ok() {
+				in.AddError((out.ID).UnmarshalJSON(data))
+			}
+		case "updatedAt":
+			if data := in.Raw(); in.Ok() {
+				in.AddError((out.UpdatedAt).UnmarshalJSON(data))
+			}
+		case "deletedAt":
+			if in.IsNull() {
+				in.Skip()
+				out.DeletedAt = nil
+			} else {
+				if out.DeletedAt == nil {
+					out.DeletedAt = new(time.Time)
+				}
+				if data := in.Raw(); in.Ok() {
+					in.AddError((*out.DeletedAt).UnmarshalJSON(data))
+				}
+			}
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson38438769EncodeMevericcoreMccommon3(out *jwriter.Writer, in DeviceBaseModel) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if true {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"customAdminData\":")
-		if in.CustomAdminData == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-			out.RawString(`null`)
+		out.RawString("\"shadow\":")
+		(in.Shadow).MarshalEasyJSON(out)
+	}
+	if in.Src != "" {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"srcId\":")
+		out.String(string(in.Src))
+	}
+	if in.Type != "" {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"type\":")
+		out.String(string(in.Type))
+	}
+	if in.FirstActivation != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"firstActivation\":")
+		if in.FirstActivation == nil {
+			out.RawString("null")
 		} else {
-			out.RawByte('{')
-			v10First := true
-			for v10Name, v10Value := range in.CustomAdminData {
-				if !v10First {
+			out.Raw((*in.FirstActivation).MarshalJSON())
+		}
+	}
+	if in.LastSeenOnline != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"lastSeenOnline\":")
+		if in.LastSeenOnline == nil {
+			out.RawString("null")
+		} else {
+			out.Raw((*in.LastSeenOnline).MarshalJSON())
+		}
+	}
+	if in.IsOnline != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"isOnline\":")
+		if in.IsOnline == nil {
+			out.RawString("null")
+		} else {
+			out.Bool(bool(*in.IsOnline))
+		}
+	}
+	if len(in.OwnersIds) != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"ownersIds\":")
+		if in.OwnersIds == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+			out.RawString("null")
+		} else {
+			out.RawByte('[')
+			for v15, v16 := range in.OwnersIds {
+				if v15 > 0 {
 					out.RawByte(',')
 				}
-				v10First = false
-				out.String(string(v10Name))
-				out.RawByte(':')
-				if m, ok := v10Value.(easyjson.Marshaler); ok {
-					m.MarshalEasyJSON(out)
-				} else if m, ok := v10Value.(json.Marshaler); ok {
-					out.Raw(m.MarshalJSON())
-				} else {
-					out.Raw(json.Marshal(v10Value))
-				}
+				out.Raw((v16).MarshalJSON())
 			}
-			out.RawByte('}')
+			out.RawByte(']')
 		}
 	}
 	if in.ID != "" {
@@ -426,613 +743,23 @@ func easyjson38438769EncodeMevericcoreMccommon1(out *jwriter.Writer, in DeviceBa
 // MarshalJSON supports json.Marshaler interface
 func (v DeviceBaseModel) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson38438769EncodeMevericcoreMccommon1(&w, v)
+	easyjson38438769EncodeMevericcoreMccommon3(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v DeviceBaseModel) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson38438769EncodeMevericcoreMccommon1(w, v)
+	easyjson38438769EncodeMevericcoreMccommon3(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *DeviceBaseModel) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson38438769DecodeMevericcoreMccommon1(&r, v)
+	easyjson38438769DecodeMevericcoreMccommon3(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *DeviceBaseModel) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson38438769DecodeMevericcoreMccommon1(l, v)
-}
-func easyjson38438769DecodeMevericcoreMccommon2(in *jlexer.Lexer, out *ShadowModelSt) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "id":
-			out.Id = string(in.String())
-		case "state":
-			easyjson38438769DecodeMevericcoreMccommon3(in, &out.State)
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjson38438769EncodeMevericcoreMccommon2(out *jwriter.Writer, in ShadowModelSt) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if in.Id != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"id\":")
-		out.String(string(in.Id))
-	}
-	if true {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"state\":")
-		easyjson38438769EncodeMevericcoreMccommon3(out, in.State)
-	}
-	out.RawByte('}')
-}
-func easyjson38438769DecodeMevericcoreMccommon3(in *jlexer.Lexer, out *ShadowStateSt) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "reported":
-			if in.IsNull() {
-				in.Skip()
-			} else {
-				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Reported = make(map[string]interface{})
-				} else {
-					out.Reported = nil
-				}
-				for !in.IsDelim('}') {
-					key := string(in.String())
-					in.WantColon()
-					var v11 interface{}
-					if m, ok := v11.(easyjson.Unmarshaler); ok {
-						m.UnmarshalEasyJSON(in)
-					} else if m, ok := v11.(json.Unmarshaler); ok {
-						_ = m.UnmarshalJSON(in.Raw())
-					} else {
-						v11 = in.Interface()
-					}
-					(out.Reported)[key] = v11
-					in.WantComma()
-				}
-				in.Delim('}')
-			}
-		case "desired":
-			if in.IsNull() {
-				in.Skip()
-			} else {
-				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Desired = make(map[string]interface{})
-				} else {
-					out.Desired = nil
-				}
-				for !in.IsDelim('}') {
-					key := string(in.String())
-					in.WantColon()
-					var v12 interface{}
-					if m, ok := v12.(easyjson.Unmarshaler); ok {
-						m.UnmarshalEasyJSON(in)
-					} else if m, ok := v12.(json.Unmarshaler); ok {
-						_ = m.UnmarshalJSON(in.Raw())
-					} else {
-						v12 = in.Interface()
-					}
-					(out.Desired)[key] = v12
-					in.WantComma()
-				}
-				in.Delim('}')
-			}
-		case "delta":
-			if in.IsNull() {
-				in.Skip()
-				out.Delta = nil
-			} else {
-				if out.Delta == nil {
-					out.Delta = new(ShadowStateDeltaSt)
-				}
-				easyjson38438769DecodeMevericcoreMccommon4(in, &*out.Delta)
-			}
-		case "metadata":
-			easyjson38438769DecodeMevericcoreMccommon5(in, &out.Metadata)
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjson38438769EncodeMevericcoreMccommon3(out *jwriter.Writer, in ShadowStateSt) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if len(in.Reported) != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"reported\":")
-		if in.Reported == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-			out.RawString(`null`)
-		} else {
-			out.RawByte('{')
-			v13First := true
-			for v13Name, v13Value := range in.Reported {
-				if !v13First {
-					out.RawByte(',')
-				}
-				v13First = false
-				out.String(string(v13Name))
-				out.RawByte(':')
-				if m, ok := v13Value.(easyjson.Marshaler); ok {
-					m.MarshalEasyJSON(out)
-				} else if m, ok := v13Value.(json.Marshaler); ok {
-					out.Raw(m.MarshalJSON())
-				} else {
-					out.Raw(json.Marshal(v13Value))
-				}
-			}
-			out.RawByte('}')
-		}
-	}
-	if len(in.Desired) != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"desired\":")
-		if in.Desired == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-			out.RawString(`null`)
-		} else {
-			out.RawByte('{')
-			v14First := true
-			for v14Name, v14Value := range in.Desired {
-				if !v14First {
-					out.RawByte(',')
-				}
-				v14First = false
-				out.String(string(v14Name))
-				out.RawByte(':')
-				if m, ok := v14Value.(easyjson.Marshaler); ok {
-					m.MarshalEasyJSON(out)
-				} else if m, ok := v14Value.(json.Marshaler); ok {
-					out.Raw(m.MarshalJSON())
-				} else {
-					out.Raw(json.Marshal(v14Value))
-				}
-			}
-			out.RawByte('}')
-		}
-	}
-	if in.Delta != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"delta\":")
-		if in.Delta == nil {
-			out.RawString("null")
-		} else {
-			easyjson38438769EncodeMevericcoreMccommon4(out, *in.Delta)
-		}
-	}
-	if true {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"metadata\":")
-		easyjson38438769EncodeMevericcoreMccommon5(out, in.Metadata)
-	}
-	out.RawByte('}')
-}
-func easyjson38438769DecodeMevericcoreMccommon5(in *jlexer.Lexer, out *ShadowStateMetadataSt) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "reported":
-			if in.IsNull() {
-				in.Skip()
-				out.Reported = nil
-			} else {
-				if out.Reported == nil {
-					out.Reported = new(map[string]interface{})
-				}
-				if in.IsNull() {
-					in.Skip()
-				} else {
-					in.Delim('{')
-					if !in.IsDelim('}') {
-						*out.Reported = make(map[string]interface{})
-					} else {
-						*out.Reported = nil
-					}
-					for !in.IsDelim('}') {
-						key := string(in.String())
-						in.WantColon()
-						var v15 interface{}
-						if m, ok := v15.(easyjson.Unmarshaler); ok {
-							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v15.(json.Unmarshaler); ok {
-							_ = m.UnmarshalJSON(in.Raw())
-						} else {
-							v15 = in.Interface()
-						}
-						(*out.Reported)[key] = v15
-						in.WantComma()
-					}
-					in.Delim('}')
-				}
-			}
-		case "desired":
-			if in.IsNull() {
-				in.Skip()
-				out.Desired = nil
-			} else {
-				if out.Desired == nil {
-					out.Desired = new(map[string]interface{})
-				}
-				if in.IsNull() {
-					in.Skip()
-				} else {
-					in.Delim('{')
-					if !in.IsDelim('}') {
-						*out.Desired = make(map[string]interface{})
-					} else {
-						*out.Desired = nil
-					}
-					for !in.IsDelim('}') {
-						key := string(in.String())
-						in.WantColon()
-						var v16 interface{}
-						if m, ok := v16.(easyjson.Unmarshaler); ok {
-							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v16.(json.Unmarshaler); ok {
-							_ = m.UnmarshalJSON(in.Raw())
-						} else {
-							v16 = in.Interface()
-						}
-						(*out.Desired)[key] = v16
-						in.WantComma()
-					}
-					in.Delim('}')
-				}
-			}
-		case "delta":
-			if in.IsNull() {
-				in.Skip()
-				out.Delta = nil
-			} else {
-				if out.Delta == nil {
-					out.Delta = new(map[string]interface{})
-				}
-				if in.IsNull() {
-					in.Skip()
-				} else {
-					in.Delim('{')
-					if !in.IsDelim('}') {
-						*out.Delta = make(map[string]interface{})
-					} else {
-						*out.Delta = nil
-					}
-					for !in.IsDelim('}') {
-						key := string(in.String())
-						in.WantColon()
-						var v17 interface{}
-						if m, ok := v17.(easyjson.Unmarshaler); ok {
-							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v17.(json.Unmarshaler); ok {
-							_ = m.UnmarshalJSON(in.Raw())
-						} else {
-							v17 = in.Interface()
-						}
-						(*out.Delta)[key] = v17
-						in.WantComma()
-					}
-					in.Delim('}')
-				}
-			}
-		case "version":
-			out.Version = int(in.Int())
-		case "timestamp":
-			if data := in.Raw(); in.Ok() {
-				in.AddError((out.Timestamp).UnmarshalJSON(data))
-			}
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjson38438769EncodeMevericcoreMccommon5(out *jwriter.Writer, in ShadowStateMetadataSt) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if in.Reported != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"reported\":")
-		if in.Reported == nil {
-			out.RawString("null")
-		} else {
-			if *in.Reported == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-				out.RawString(`null`)
-			} else {
-				out.RawByte('{')
-				v18First := true
-				for v18Name, v18Value := range *in.Reported {
-					if !v18First {
-						out.RawByte(',')
-					}
-					v18First = false
-					out.String(string(v18Name))
-					out.RawByte(':')
-					if m, ok := v18Value.(easyjson.Marshaler); ok {
-						m.MarshalEasyJSON(out)
-					} else if m, ok := v18Value.(json.Marshaler); ok {
-						out.Raw(m.MarshalJSON())
-					} else {
-						out.Raw(json.Marshal(v18Value))
-					}
-				}
-				out.RawByte('}')
-			}
-		}
-	}
-	if in.Desired != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"desired\":")
-		if in.Desired == nil {
-			out.RawString("null")
-		} else {
-			if *in.Desired == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-				out.RawString(`null`)
-			} else {
-				out.RawByte('{')
-				v19First := true
-				for v19Name, v19Value := range *in.Desired {
-					if !v19First {
-						out.RawByte(',')
-					}
-					v19First = false
-					out.String(string(v19Name))
-					out.RawByte(':')
-					if m, ok := v19Value.(easyjson.Marshaler); ok {
-						m.MarshalEasyJSON(out)
-					} else if m, ok := v19Value.(json.Marshaler); ok {
-						out.Raw(m.MarshalJSON())
-					} else {
-						out.Raw(json.Marshal(v19Value))
-					}
-				}
-				out.RawByte('}')
-			}
-		}
-	}
-	if in.Delta != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"delta\":")
-		if in.Delta == nil {
-			out.RawString("null")
-		} else {
-			if *in.Delta == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-				out.RawString(`null`)
-			} else {
-				out.RawByte('{')
-				v20First := true
-				for v20Name, v20Value := range *in.Delta {
-					if !v20First {
-						out.RawByte(',')
-					}
-					v20First = false
-					out.String(string(v20Name))
-					out.RawByte(':')
-					if m, ok := v20Value.(easyjson.Marshaler); ok {
-						m.MarshalEasyJSON(out)
-					} else if m, ok := v20Value.(json.Marshaler); ok {
-						out.Raw(m.MarshalJSON())
-					} else {
-						out.Raw(json.Marshal(v20Value))
-					}
-				}
-				out.RawByte('}')
-			}
-		}
-	}
-	if in.Version != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"version\":")
-		out.Int(int(in.Version))
-	}
-	if true {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"timestamp\":")
-		out.Raw((in.Timestamp).MarshalJSON())
-	}
-	out.RawByte('}')
-}
-func easyjson38438769DecodeMevericcoreMccommon4(in *jlexer.Lexer, out *ShadowStateDeltaSt) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "version":
-			out.Version = int(in.Int())
-		case "state":
-			if in.IsNull() {
-				in.Skip()
-			} else {
-				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.State = make(map[string]interface{})
-				} else {
-					out.State = nil
-				}
-				for !in.IsDelim('}') {
-					key := string(in.String())
-					in.WantColon()
-					var v21 interface{}
-					if m, ok := v21.(easyjson.Unmarshaler); ok {
-						m.UnmarshalEasyJSON(in)
-					} else if m, ok := v21.(json.Unmarshaler); ok {
-						_ = m.UnmarshalJSON(in.Raw())
-					} else {
-						v21 = in.Interface()
-					}
-					(out.State)[key] = v21
-					in.WantComma()
-				}
-				in.Delim('}')
-			}
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjson38438769EncodeMevericcoreMccommon4(out *jwriter.Writer, in ShadowStateDeltaSt) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if in.Version != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"version\":")
-		out.Int(int(in.Version))
-	}
-	if len(in.State) != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"state\":")
-		if in.State == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-			out.RawString(`null`)
-		} else {
-			out.RawByte('{')
-			v22First := true
-			for v22Name, v22Value := range in.State {
-				if !v22First {
-					out.RawByte(',')
-				}
-				v22First = false
-				out.String(string(v22Name))
-				out.RawByte(':')
-				if m, ok := v22Value.(easyjson.Marshaler); ok {
-					m.MarshalEasyJSON(out)
-				} else if m, ok := v22Value.(json.Marshaler); ok {
-					out.Raw(m.MarshalJSON())
-				} else {
-					out.Raw(json.Marshal(v22Value))
-				}
-			}
-			out.RawByte('}')
-		}
-	}
-	out.RawByte('}')
+	easyjson38438769DecodeMevericcoreMccommon3(l, v)
 }

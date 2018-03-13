@@ -12,11 +12,11 @@ type DevicesBaseControllerSt struct {
 	mcecho.ModelControllerBase
 }
 
-func (this *DevicesBaseControllerSt) getDevice(c echo.Context) (*mccommon.DeviceBaseModel, error) {
+func (this *DevicesBaseControllerSt) getDevice(c echo.Context) (*mccommon.DeviceWithCustomDataBaseModel, error) {
 	userM := c.Get("userM").(*mccommon.UserModel)
 	fmt.Println(userM)
 
-	device := &mccommon.DeviceBaseModel{}
+	device := &mccommon.DeviceWithCustomDataBaseModel{}
 	deviceShadowId := c.Param("id")
 	if err := DevicesCollectionManager.FindByShadowId(deviceShadowId, device); err != nil {
 		return nil, echo.NewHTTPError(http.StatusNotFound, "Device not found")
@@ -37,7 +37,7 @@ func (this *DevicesBaseControllerSt) List(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusUnauthorized, "Haven't got user id")
 	}
 
-	devices := new(mccommon.DevicesListBaseModel)
+	devices := new(mccommon.DevicesWithCustomDataListBaseModel)
 
 	if err := DevicesCollectionManager.FindByOwnerId(userId, devices); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())

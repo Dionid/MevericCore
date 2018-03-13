@@ -43,13 +43,18 @@ func main() {
 	e.Debug = true
 	e.Logger.SetLevel(1)
 
-	e.Pre(middleware.RemoveTrailingSlash())
-
 	// Middleware
+	//e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.Static("/", "")
+	//e.Static("/public", "./public")
+	//e.File("./public/index.html", "")
+	//e.File("", "public/index.html")
+
+	e.GET("/alina", func(c echo.Context) error {
+		return c.File("./public/index.html")
+	})
 
 	mcdashboard.Init(session, MainDBName, e)
 
