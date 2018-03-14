@@ -102,14 +102,14 @@ func (this *DeviceMQTTManagerSt) DeviceToServerSub() {
 }
 
 func (this *DeviceMQTTManagerSt) DevicetoServerRPCSub() {
-	this.router.Subscribe("rpc", func(client mqtt.Client, msg mqtt.Message) {
+	this.router.Subscribe("/rpc", func(client mqtt.Client, msg mqtt.Message) {
 		msgPayload := msg.Payload()
 		msgTopic := msg.Topic()
 
 		fmt.Printf("Product RPC topic: %s\n", msgTopic)
 		fmt.Printf("Product RPC payload: %s\n", msgPayload)
 
-		rpcData := RPCMsg{}
+		rpcData := mccommon.RPCMsg{}
 		if err := rpcData.UnmarshalJSON(msgPayload); err != nil {
 			//b, jerr := res.MarshalJSON()
 			//if jerr != nil {
@@ -117,9 +117,10 @@ func (this *DeviceMQTTManagerSt) DevicetoServerRPCSub() {
 			//	return
 			//}
 			//this.Publish(deviceId+"/rpc", b)
+			return
 		}
 
-		deviceId := rpcData.Dst
+		deviceId := rpcData.Src
 
 		res, sendBack, err := this.HandleReq(&mccommon.DeviceToServerReqSt{
 			DeviceId:  deviceId,
@@ -130,7 +131,7 @@ func (this *DeviceMQTTManagerSt) DevicetoServerRPCSub() {
 
 		if err != nil {
 			// LOG
-			b, jerr := res.MarshalJSON()
+			b, jerr := err.MarshalJSON()
 			if jerr != nil {
 				// LOG
 				return
@@ -186,6 +187,10 @@ func (this *DeviceMQTTManagerSt) PublishJSON(topic string, jsonData mccommon.JSO
 		return token.Error()
 	}
 	return nil
+}
+
+func (this *DeviceMQTTManagerSt) SendJSON(topic string, jsonData mccommon.JSONData) error {
+	return this.PublishJSON(topic, jsonData)
 }
 
 func (this *DeviceMQTTManagerSt) UnSubscribeFromAll() {

@@ -4,7 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"mevericcore/mcdashboard"
+	"mevericcore/mcplantainer"
 )
 
 var (
@@ -48,15 +48,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	//e.Static("/public", "./public")
-	//e.File("./public/index.html", "")
-	//e.File("", "public/index.html")
-
-	e.GET("/alina", func(c echo.Context) error {
-		return c.File("./public/index.html")
-	})
-
-	mcdashboard.Init(session, MainDBName, e)
+	mcplantainer.Init(session, MainDBName)
 
 	e.Logger.Fatal(e.Start("localhost:3000"))
 }

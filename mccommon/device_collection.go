@@ -18,6 +18,10 @@ type DevicesCollectionManagerInterface interface {
 	DeleteByShadowId(shadowId string) error
 }
 
+func (this *DevicesCollectionManagerSt) SaveData(model mcmongo.ModelBaseInterface, colQuerier map[string]interface{}, data map[string]interface{}, colName string) error {
+	return nil
+}
+
 func (this *DevicesCollectionManagerSt) FindByOwnerId(ownerId string, modelsList DevicesWithCustomDataListBaseModelInterface) error {
 	return this.FindAllModels(&bson.M{"ownersIds": bson.ObjectIdHex(ownerId)}, modelsList)
 }

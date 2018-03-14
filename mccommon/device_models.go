@@ -30,6 +30,7 @@ type DeviceBaseModel struct {
 
 type DeviceBaseModelInterface interface {
 	mcmongo.ModelBaseInterface
+	GetShadow() ShadowModelInterface
 	MarshalJSON() ([]byte, error)
 	GetTypeName() string
 }

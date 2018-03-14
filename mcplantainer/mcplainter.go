@@ -5,75 +5,15 @@ import (
 	"fmt"
 	"mevericcore/mcmqttrouter"
 	"mevericcore/mcdevicemqttmanager"
-	"mevericcore/mccommon"
-	"strings"
 	"gopkg.in/mgo.v2"
+	"mevericcore/mcdevicerpcmanager"
 )
 
-func DeviceRPCReqHandler (msg *mccommon.DeviceToServerReqSt) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
-	rpcData := mcdevicemqttmanager.RPCMsg{}
-	if err := rpcData.UnmarshalJSON(*msg.Msg); err != nil {
-		return nil, true, mcdevicemqttmanager.RPCMsg{
-			Src: "qweyuiasdhjky",
-			Dst: msg.DeviceId,
-			Id: rpcData.Id,
-			Error: &map[string]interface{}{
-				"error": err.Error(),
-			},
-		}
-	}
 
-	splitedMethod := strings.Split(rpcData.Method, ".")
 
-	if splitedMethod[0] != msg.DeviceId {
-		return nil, false, nil
-	}
-
-	if splitedMethod[1] == "Shadow" {
-		if splitedMethod[2] == "Get" {
-			plantainer := PlantainerModelSt{}
-
-			// 1. Find device model
-			if err := DevicesCollectionManager.FindByShadowId(msg.DeviceId, &plantainer); err != nil {
-				return nil, true, mcdevicemqttmanager.RPCMsg{
-					Src: "qweyuiasdhjky",
-					Dst: msg.DeviceId,
-					Id: rpcData.Id,
-					Error: &map[string]interface{}{
-						"error": err.Error(),
-					},
-				}
-			}
-
-			// 2. Send state in Get.Accepted
-			state := plantainer.Shadow.State
-
-			state.FillDelta()
-
-			if state.Delta != nil {
-				mcdevicemqttmanager.DeviceMQTTManager.PublishJSON(msg.DeviceId+"/rpc", mcdevicemqttmanager.RPCMsg{
-					Src: "qweyuiasdhjky",
-					Dst: msg.DeviceId,
-					Id: rpcData.Id,
-					Method: msg.DeviceId+".Shadow.Delta",
-					Args: state.Delta,
-				})
-			}
-		}
-		if splitedMethod[2] == "Update" {
-
-		}
-	}
-
-	return mcdevicemqttmanager.RPCMsg{
-		Src: "qweyuiasdhjky",
-		Dst: msg.DeviceId,
-		Id: rpcData.Id,
-		Result: &map[string]interface{}{
-			"success": true,
-		},
-	}, true, nil
-}
+var (
+	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", &DevicesCollectionManager, mcdevicemqttmanager.DeviceMQTTManager)
+)
 
 func activateMQTT() {
 	//opts := mcmqttrouter.CreateConnOpts("tcp://iot.eclipse.org:1883", "randomString123qweasd", true)
@@ -84,10 +24,10 @@ func activateMQTT() {
 	}
 	c := mcmqttrouter.CreateClient(opts)
 	mqttRouter := mcmqttrouter.NewMQTTRouter(c)
-	mqttMainG := mqttRouter.Group("qweyuiasdhjky")
+	mqttMainG := mqttRouter.Group("plantainerServerId")
 
 	mcdevicemqttmanager.Init(mqttMainG)
-	mcdevicemqttmanager.DeviceMQTTManager.SetReqHandler(DeviceRPCReqHandler)
+	mcdevicemqttmanager.DeviceMQTTManager.SetReqHandler(DeviceRPCManager.RPCReqHandler)
 
 	fmt.Println("MQTT IS ACTIVATED")
 }
@@ -95,8 +35,11 @@ func activateMQTT() {
 func Init(dbsession *mgo.Session, dbName string) {
 	initDeviceColManager(dbsession, dbName)
 
+	DeviceRPCManager.DeviceModelsAndCollectionsManager.RegisterNewDeviceType("plantainer", CreateNewPlantainerModelSt, &DevicesCollectionManager)
+
 	// 1. Activate MQTT
 	activateMQTT()
 
 	// 2. Activate HTTP
+
 }

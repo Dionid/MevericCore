@@ -8,3 +8,20 @@ type DeviceToServerReqSt struct {
 	Protocol  string
 	Msg       *[]byte
 }
+
+//easyjson:json
+type RPCMsg struct {
+	Src string
+	Dst string
+	Method string
+	Id  int
+	Args interface{}
+	Error *map[string]interface{}
+	Result *map[string]interface{}
+}
+
+//easyjson:json
+type RPCWithShadowUpdateMsg struct {
+	RPCMsg
+	Args DeviceShadowUpdateMsg
+}

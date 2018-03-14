@@ -15,7 +15,12 @@ type CollectionManagerBaseSt struct {
 	ErrNotFound    error
 }
 
+type CollectionManagerMgoBaseInterface interface {
+	Find(query interface{}) *mgo.Query
+}
+
 type CollectionManagerBaseInterface interface {
+	CollectionManagerMgoBaseInterface
 	// Collections and Sessions
 	GetFullCustomSesAndCol(DBName string, collectionName string) (*mgo.Session, *mgo.Collection)
 	GetCustomSesAndCol(collectionName string) (*mgo.Session, *mgo.Collection)
@@ -45,6 +50,13 @@ type CollectionManagerBaseInterface interface {
 	AddModel(model ModelBaseInterface)
 	EnsureModelsIndexes() error
 	InitManager(session *mgo.Session, dbName string, colName string)
+}
+
+func (this *CollectionManagerBaseSt) Find(query interface{}) *mgo.Query {
+	session, col := this.GetSesAndCol()
+	defer session.Close()
+
+	return col.Find(query)
 }
 
 func (this *CollectionManagerBaseSt) GetColBySes(session *mgo.Session) *mgo.Collection {

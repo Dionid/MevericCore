@@ -3,6 +3,19 @@ package mccommon
 import "time"
 
 //easyjson:json
+type DeviceShadowMsgState struct {
+	Reported *map[string]interface{}
+	Desired  *map[string]interface{}
+}
+
+//easyjson:json
+type DeviceShadowUpdateMsg struct {
+	State     DeviceShadowMsgState
+	Version   int
+	Timestamp time.Time
+}
+
+//easyjson:json
 type ShadowUpdateMsgStateSt struct {
 	Reported *map[string]interface{}
 	Desired  *map[string]interface{}
@@ -37,6 +50,47 @@ type ShadowStateSt struct {
 	Desired  map[string]interface{}
 	Delta    *ShadowStateDeltaSt
 	Metadata ShadowStateMetadataSt
+}
+
+func (this *ShadowStateSt) setStatePiece(currentState *map[string]interface{}, newState *map[string]interface{}, addNew bool) {
+	for key, val := range *newState {
+		if (*currentState)[key] != nil {
+			switch newStateV := val.(type) {
+			// TODO: Test nil type
+			case map[string]interface{}:
+				switch currentStateV := (*currentState)[key].(type) {
+				case map[string]interface{}:
+					this.setStatePiece(&currentStateV, &newStateV, addNew)
+				default:
+					continue
+				}
+			default:
+				(*currentState)[key] = newStateV
+			}
+			// TODO: This can be dangerous if system needs new values, maybe `addNew` must be always `true`
+		} else if addNew {
+			(*currentState)[key] = val
+		}
+	}
+}
+
+func (this *ShadowStateSt) SetReportedState(reported *map[string]interface{}) {
+	this.setStatePiece(&this.Reported, reported, false)
+}
+
+func (this *ShadowStateSt) SetDesiredState(desired *map[string]interface{}) {
+	if this.Desired == nil {
+		this.Desired = map[string]interface{}{}
+	}
+	this.setStatePiece(&this.Desired, desired, true)
+}
+
+func (this *ShadowStateSt) CheckVersion(version int) bool {
+	return this.Metadata.Version == version
+}
+
+func (this *ShadowStateSt) IncrementVersion() {
+	this.Metadata.Version += 1
 }
 
 func (this *ShadowStateSt) fillDelta(reported *map[string]interface{}, desired *map[string]interface{}, delta *map[string]interface{}) {
@@ -87,6 +141,13 @@ type ShadowModelSt struct {
 	State ShadowStateSt
 }
 
-type ShadowModelInterface interface{
+func (this *ShadowModelSt) GetState() *ShadowStateSt {
+	return &this.State
+}
 
+type ShadowModelInterface interface{
+	//ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesCollectionManagerInterface) error
+	GetState() *ShadowStateSt
+	//NotifyOwners(msg string, handler func(userId string, msg string) (success bool))
+	//SetIsActivated(colMan DevicesCollectionManagerInterface) error
 }

@@ -12,8 +12,12 @@ type PlantainerCustomAdminData struct {
 
 //easyjson:json
 type PlantainerModelSt struct {
-	mccommon.DeviceBaseModel
+	mccommon.DeviceBaseModel `bson:",inline"`
 
 	CustomData      PlantainerCustomData `json:"customData" bson:"customData"`
 	CustomAdminData PlantainerCustomAdminData `json:"customAdminData" bson:"customAdminData"`
+}
+
+func CreateNewPlantainerModelSt() mccommon.DeviceBaseModelInterface {
+	return &PlantainerModelSt{}
 }

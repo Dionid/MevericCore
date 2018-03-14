@@ -997,3 +997,287 @@ func (v *ShadowModelSt) UnmarshalJSON(data []byte) error {
 func (v *ShadowModelSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjsonB7ed31d3DecodeMevericcoreMccommon5(l, v)
 }
+func easyjsonB7ed31d3DecodeMevericcoreMccommon6(in *jlexer.Lexer, out *DeviceShadowUpdateMsg) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "state":
+			(out.State).UnmarshalEasyJSON(in)
+		case "version":
+			out.Version = int(in.Int())
+		case "timestamp":
+			if data := in.Raw(); in.Ok() {
+				in.AddError((out.Timestamp).UnmarshalJSON(data))
+			}
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonB7ed31d3EncodeMevericcoreMccommon6(out *jwriter.Writer, in DeviceShadowUpdateMsg) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if true {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"state\":")
+		(in.State).MarshalEasyJSON(out)
+	}
+	if in.Version != 0 {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"version\":")
+		out.Int(int(in.Version))
+	}
+	if true {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"timestamp\":")
+		out.Raw((in.Timestamp).MarshalJSON())
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v DeviceShadowUpdateMsg) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonB7ed31d3EncodeMevericcoreMccommon6(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v DeviceShadowUpdateMsg) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonB7ed31d3EncodeMevericcoreMccommon6(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *DeviceShadowUpdateMsg) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonB7ed31d3DecodeMevericcoreMccommon6(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *DeviceShadowUpdateMsg) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonB7ed31d3DecodeMevericcoreMccommon6(l, v)
+}
+func easyjsonB7ed31d3DecodeMevericcoreMccommon7(in *jlexer.Lexer, out *DeviceShadowMsgState) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "reported":
+			if in.IsNull() {
+				in.Skip()
+				out.Reported = nil
+			} else {
+				if out.Reported == nil {
+					out.Reported = new(map[string]interface{})
+				}
+				if in.IsNull() {
+					in.Skip()
+				} else {
+					in.Delim('{')
+					if !in.IsDelim('}') {
+						*out.Reported = make(map[string]interface{})
+					} else {
+						*out.Reported = nil
+					}
+					for !in.IsDelim('}') {
+						key := string(in.String())
+						in.WantColon()
+						var v17 interface{}
+						if m, ok := v17.(easyjson.Unmarshaler); ok {
+							m.UnmarshalEasyJSON(in)
+						} else if m, ok := v17.(json.Unmarshaler); ok {
+							_ = m.UnmarshalJSON(in.Raw())
+						} else {
+							v17 = in.Interface()
+						}
+						(*out.Reported)[key] = v17
+						in.WantComma()
+					}
+					in.Delim('}')
+				}
+			}
+		case "desired":
+			if in.IsNull() {
+				in.Skip()
+				out.Desired = nil
+			} else {
+				if out.Desired == nil {
+					out.Desired = new(map[string]interface{})
+				}
+				if in.IsNull() {
+					in.Skip()
+				} else {
+					in.Delim('{')
+					if !in.IsDelim('}') {
+						*out.Desired = make(map[string]interface{})
+					} else {
+						*out.Desired = nil
+					}
+					for !in.IsDelim('}') {
+						key := string(in.String())
+						in.WantColon()
+						var v18 interface{}
+						if m, ok := v18.(easyjson.Unmarshaler); ok {
+							m.UnmarshalEasyJSON(in)
+						} else if m, ok := v18.(json.Unmarshaler); ok {
+							_ = m.UnmarshalJSON(in.Raw())
+						} else {
+							v18 = in.Interface()
+						}
+						(*out.Desired)[key] = v18
+						in.WantComma()
+					}
+					in.Delim('}')
+				}
+			}
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonB7ed31d3EncodeMevericcoreMccommon7(out *jwriter.Writer, in DeviceShadowMsgState) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if in.Reported != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"reported\":")
+		if in.Reported == nil {
+			out.RawString("null")
+		} else {
+			if *in.Reported == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+				out.RawString(`null`)
+			} else {
+				out.RawByte('{')
+				v19First := true
+				for v19Name, v19Value := range *in.Reported {
+					if !v19First {
+						out.RawByte(',')
+					}
+					v19First = false
+					out.String(string(v19Name))
+					out.RawByte(':')
+					if m, ok := v19Value.(easyjson.Marshaler); ok {
+						m.MarshalEasyJSON(out)
+					} else if m, ok := v19Value.(json.Marshaler); ok {
+						out.Raw(m.MarshalJSON())
+					} else {
+						out.Raw(json.Marshal(v19Value))
+					}
+				}
+				out.RawByte('}')
+			}
+		}
+	}
+	if in.Desired != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"desired\":")
+		if in.Desired == nil {
+			out.RawString("null")
+		} else {
+			if *in.Desired == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
+				out.RawString(`null`)
+			} else {
+				out.RawByte('{')
+				v20First := true
+				for v20Name, v20Value := range *in.Desired {
+					if !v20First {
+						out.RawByte(',')
+					}
+					v20First = false
+					out.String(string(v20Name))
+					out.RawByte(':')
+					if m, ok := v20Value.(easyjson.Marshaler); ok {
+						m.MarshalEasyJSON(out)
+					} else if m, ok := v20Value.(json.Marshaler); ok {
+						out.Raw(m.MarshalJSON())
+					} else {
+						out.Raw(json.Marshal(v20Value))
+					}
+				}
+				out.RawByte('}')
+			}
+		}
+	}
+	out.RawByte('}')
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v DeviceShadowMsgState) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonB7ed31d3EncodeMevericcoreMccommon7(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v DeviceShadowMsgState) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonB7ed31d3EncodeMevericcoreMccommon7(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *DeviceShadowMsgState) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonB7ed31d3DecodeMevericcoreMccommon7(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *DeviceShadowMsgState) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonB7ed31d3DecodeMevericcoreMccommon7(l, v)
+}

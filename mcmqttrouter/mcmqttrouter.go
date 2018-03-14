@@ -24,7 +24,7 @@ func (this *MQTTRouter) UnSubscribeFromAll() {
 }
 
 func (this *MQTTRouter) Publish(topic string, payload interface{}) mqtt.Token {
-	return (*this.Client).Publish(this.prefix+topic, 0, false, payload)
+	return (*this.Client).Publish(topic, 0, false, payload)
 }
 
 func (this *MQTTRouter) Group(path string) *MQTTRouter{
