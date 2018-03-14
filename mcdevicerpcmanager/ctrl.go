@@ -2,6 +2,8 @@ package mcdevicerpcmanager
 
 import "mevericcore/mccommon"
 
+type DeviceCreatorFn func() mccommon.DeviceBaseModelInterface
+
 type DeviceRPCCtrlSt struct{
 	DeviceResponseServiceSt
 
@@ -18,12 +20,13 @@ type DeviceRPCCtrlInterface interface {
 	SetManagers(mqttMan ProtocolManagerInterface)
 }
 
-func CreateNewDeviceRPCCtrl(typeName string) *DeviceRPCCtrlSt {
+func CreateNewDeviceRPCCtrl(typeName string, deviceCreator DeviceCreatorFn) *DeviceRPCCtrlSt {
 	router := CreateNewDeviceRPCRouter()
 
 	res := &DeviceRPCCtrlSt{
 		Type: typeName,
 		Router: router,
+		DeviceCreator: deviceCreator,
 	}
 
 	res.InitShadowRoutes()
@@ -35,6 +38,11 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 	shadowG := thisR.Router.Group("Shadow")
 	shadowG.AddHandler("Get", func(req *ReqSt) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
 		device := thisR.DeviceCreator()
+
+		if err := thisR.DevicesCollectionManager.FindByShadowId(req.DeviceId, device); err != nil {
+			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 404)
+		}
+
 		state := device.GetShadow().GetState()
 		state.FillDelta()
 

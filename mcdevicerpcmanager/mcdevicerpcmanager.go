@@ -27,6 +27,7 @@ func CreateDeviceRPCManager(serverId string, devicesColManager mccommon.DevicesC
 			DeviceMQTTManager: mqttMan,
 		},
 		DevicesCollectionManager: devicesColManager,
+		DeviceCtrlsByType: map[string]DeviceRPCCtrlInterface{},
 	}
 }
 
@@ -36,6 +37,9 @@ func (thisR *DeviceRPCManagerSt) AddDeviceCtrl(deviceType string, ctrls DeviceRP
 }
 
 func (this *DeviceRPCManagerSt) RPCReqHandler(msg *mccommon.DeviceToServerReqSt) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
+	session, col := this.DevicesCollectionManager.GetSesAndCol()
+	defer session.Close()
+
 	rpcData := &mccommon.RPCMsg{}
 	if err := rpcData.UnmarshalJSON(*msg.Msg); err != nil {
 		return this.SendRPCErrorRes(msg.Protocol, msg.DeviceId, 0, err.Error(), 422)
@@ -45,7 +49,7 @@ func (this *DeviceRPCManagerSt) RPCReqHandler(msg *mccommon.DeviceToServerReqSt)
 	shadowId := splitedMethod[0]
 	model := struct{ Type string }{}
 
-	if err := this.DevicesCollectionManager.Find(&bson.M{
+	if err := col.Find(&bson.M{
 		"shadow.id": shadowId,
 	}).One(&model); err != nil {
 		return this.SendRPCErrorRes(msg.Protocol, msg.DeviceId, rpcData.Id, err.Error(), 404)

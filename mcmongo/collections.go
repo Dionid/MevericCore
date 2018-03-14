@@ -16,7 +16,7 @@ type CollectionManagerBaseSt struct {
 }
 
 type CollectionManagerMgoBaseInterface interface {
-	Find(query interface{}) *mgo.Query
+	//Find(query interface{}) *mgo.Query
 }
 
 type CollectionManagerBaseInterface interface {
@@ -52,12 +52,12 @@ type CollectionManagerBaseInterface interface {
 	InitManager(session *mgo.Session, dbName string, colName string)
 }
 
-func (this *CollectionManagerBaseSt) Find(query interface{}) *mgo.Query {
-	session, col := this.GetSesAndCol()
-	defer session.Close()
-
-	return col.Find(query)
-}
+//func (this *CollectionManagerBaseSt) Find(query interface{}) *mgo.Query {
+//	session, col := this.GetSesAndCol()
+//	defer session.Close()
+//
+//	return col.Find(query)
+//}
 
 func (this *CollectionManagerBaseSt) GetColBySes(session *mgo.Session) *mgo.Collection {
 	col := session.DB(this.DBName).C(this.CollectionName)

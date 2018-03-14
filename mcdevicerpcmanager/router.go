@@ -45,8 +45,14 @@ func CreateNewDeviceRPCRouter() *DeviceRPCRouterSt {
 }
 
 func (this *DeviceRPCRouterSt) Group(resource string) *DeviceRPCRouterSt {
+	prefix := ""
+
+	if this.prefix != "" {
+		prefix = this.prefix + "."
+	}
+
 	return &DeviceRPCRouterSt{
-		prefix:             this.prefix + "." + resource,
+		prefix:             prefix + resource,
 		middlewares: this.middlewares,
 		handlersByResource: this.handlersByResource,
 	}
@@ -69,12 +75,17 @@ func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToSer
 	res := strings.Join(splitedRes[1:], ".")
 
 	h := (*this.handlersByResource)[res]
+
+	if h == nil {
+		return nil, false, nil
+	}
+
 	for i := len(this.middlewares) - 1; i >= 0; i-- {
 		h = this.middlewares[i](h)
 	}
 
 	return h(&ReqSt{
-		resource,
+		res,
 		msg,
 		rpcData,
 		splitedRes[0],

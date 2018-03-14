@@ -35,6 +35,10 @@ type DeviceBaseModelInterface interface {
 	GetTypeName() string
 }
 
+func (this *DeviceBaseModel) GetShadow() ShadowModelInterface {
+	return &this.Shadow
+}
+
 func (this *DeviceBaseModel) EnsureIndex(collection *mgo.Collection) error {
 	return nil
 }
