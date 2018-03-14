@@ -11,10 +11,12 @@ type ProtocolManagerInterface interface {
 }
 
 type DeviceRPCManagerSt struct {
+	DeviceResponseServiceSt
+
 	ServerId string
 
-	DeviceResponseServiceSt
 	DevicesCollectionManager mccommon.DevicesCollectionManagerInterface
+
 	DeviceCtrlsByType map[string]DeviceRPCCtrlInterface
 }
 
@@ -51,29 +53,3 @@ func (this *DeviceRPCManagerSt) RPCReqHandler(msg *mccommon.DeviceToServerReqSt)
 
 	return this.DeviceCtrlsByType[model.Type].HandleReq(rpcData.Method, msg, rpcData)
 }
-
-//func (thisR *DeviceRPCManagerSt) initShadowRoutes() {
-//	shadowG := thisR.Router.Group("Shadow")
-//	shadowG.AddHandler("Get", func(req *ReqSt) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
-//		state := req.Device.GetShadow().GetState()
-//		state.FillDelta()
-//
-//		if len(state.Delta.State) != 0 {
-//			thisR.PublishDelta(req.Msg.Protocol, req.Msg.DeviceId, req.DeviceId, req.RPCData.Id, state.Delta)
-//		}
-//
-//		return mccommon.RPCMsg{
-//			Src: thisR.ServerId,
-//			Dst: req.Msg.DeviceId,
-//			Id: req.RPCData.Id,
-//			Result: &map[string]interface{}{
-//				"state": state,
-//			},
-//		}, true, nil
-//	})
-//}
-
-func (this *DeviceRPCManagerSt) Init() {
-	//this.initShadowRoutes()
-}
-

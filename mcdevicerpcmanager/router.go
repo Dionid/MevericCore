@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+// REQ
+
 type (
 	ReqSt struct {
 		Resource string
@@ -25,6 +27,8 @@ func (r *ReqSt) Get(name string) interface{} {
 func (r *ReqSt) Set(name string, what interface{}) {
 	r.ctx[name] = what
 }
+
+// ROUTER
 
 type DeviceRPCRouterSt struct {
 	prefix             string

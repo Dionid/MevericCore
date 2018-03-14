@@ -34,7 +34,8 @@ func CreateNewDeviceRPCCtrl(typeName string) *DeviceRPCCtrlSt {
 func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 	shadowG := thisR.Router.Group("Shadow")
 	shadowG.AddHandler("Get", func(req *ReqSt) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
-		state := req.Device.GetShadow().GetState()
+		device := thisR.DeviceCreator()
+		state := device.GetShadow().GetState()
 		state.FillDelta()
 
 		if len(state.Delta.State) != 0 {

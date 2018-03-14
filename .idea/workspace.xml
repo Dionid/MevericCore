@@ -4,7 +4,6 @@
     <list default="true" id="881e5201-14e1-4691-ab10-7c4b95d047ed" name="Default" comment="">
       <change beforePath="" afterPath="$PROJECT_DIR$/apps/plantainer/main.go" />
       <change beforePath="" afterPath="$PROJECT_DIR$/mcdevicerpcmanager/ctrl.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcdevicerpcmanager/deviceModelsAndCollectionsManager.go" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/apps/dashboard/main.go" afterPath="$PROJECT_DIR$/apps/dashboard/main.go" />
       <change beforePath="$PROJECT_DIR$/mccommon/device_collection.go" afterPath="$PROJECT_DIR$/mccommon/device_collection.go" />
@@ -15,6 +14,7 @@
       <change beforePath="$PROJECT_DIR$/mcdevicemqttmanager/controllers.go" afterPath="$PROJECT_DIR$/mcdevicemqttmanager/controllers.go" />
       <change beforePath="$PROJECT_DIR$/mcdevicemqttmanager/models.go" afterPath="$PROJECT_DIR$/mcdevicemqttmanager/models.go" />
       <change beforePath="$PROJECT_DIR$/mcdevicemqttmanager/models_easyjson.go" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/mcdevicerpcmanager/deviceModelsAndCollectionsManager.go" afterPath="" />
       <change beforePath="$PROJECT_DIR$/mcdevicerpcmanager/mcdevicerpcmanager.go" afterPath="$PROJECT_DIR$/mcdevicerpcmanager/mcdevicerpcmanager.go" />
       <change beforePath="$PROJECT_DIR$/mcdevicerpcmanager/reqhandlers.go" afterPath="$PROJECT_DIR$/mcdevicerpcmanager/reqhandlers.go" />
       <change beforePath="$PROJECT_DIR$/mcdevicerpcmanager/router.go" afterPath="$PROJECT_DIR$/mcdevicerpcmanager/router.go" />
@@ -37,13 +37,49 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="device_init.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcplantainer/device_init.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="9" column="42" lean-forward="false" selection-start-line="9" selection-start-column="42" selection-end-line="9" selection-end-column="42" />
+              <folding>
+                <element signature="e#22#61#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="ctrl.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/ctrl.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="12" column="34" lean-forward="false" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+            <state relative-caret-position="506">
+              <caret line="37" column="23" lean-forward="false" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
               <folding>
                 <element signature="e#28#57#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mcdevicerpcmanager.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/mcdevicerpcmanager.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <folding>
+                <element signature="e#28#97#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="router.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/router.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1319">
+              <caret line="10" column="4" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+              <folding>
+                <element signature="e#28#73#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -151,11 +187,11 @@
         <option value="$PROJECT_DIR$/mccommon/device_models.go" />
         <option value="$PROJECT_DIR$/mcdevicerpcmanager/deviceModelsAndCollectionsManager.go" />
         <option value="$PROJECT_DIR$/mcplantainer/device_model.go" />
-        <option value="$PROJECT_DIR$/mcdevicerpcmanager/router.go" />
-        <option value="$PROJECT_DIR$/mcdevicerpcmanager/reqhandlers.go" />
         <option value="$PROJECT_DIR$/mcplantainer/mcplainter.go" />
         <option value="$PROJECT_DIR$/mcplantainer/device_init.go" />
         <option value="$PROJECT_DIR$/mcdevicerpcmanager/mcdevicerpcmanager.go" />
+        <option value="$PROJECT_DIR$/mcdevicerpcmanager/reqhandlers.go" />
+        <option value="$PROJECT_DIR$/mcdevicerpcmanager/router.go" />
         <option value="$PROJECT_DIR$/mcdevicerpcmanager/ctrl.go" />
       </list>
     </option>
@@ -784,39 +820,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/deviceModelsAndCollectionsManager.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="33" column="3" lean-forward="true" selection-start-line="2" selection-start-column="4" selection-end-line="33" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/device_collection.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="12" column="28" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="28" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/router.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="34" column="29" lean-forward="false" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="29" />
-          <folding>
-            <element signature="e#28#73#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/reqhandlers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-746">
-          <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-          <folding>
-            <element signature="e#28#62#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -828,12 +836,39 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/mcdevicerpcmanager.go">
+    <entry file="file://$PROJECT_DIR$/mcplantainer/device_model.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="30" column="33" lean-forward="false" selection-start-line="30" selection-start-column="33" selection-end-line="30" selection-end-column="33" />
+        <state relative-caret-position="252">
+          <caret line="14" column="27" lean-forward="false" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/deviceModelsAndCollectionsManager.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="33" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/reqhandlers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="625">
+          <caret line="45" column="1" lean-forward="false" selection-start-line="45" selection-start-column="1" selection-end-line="45" selection-end-column="1" />
           <folding>
-            <element signature="e#28#97#0" expanded="true" />
+            <element signature="e#28#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/mcplainter.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="36" column="55" lean-forward="true" selection-start-line="36" selection-start-column="55" selection-end-line="36" selection-end-column="55" />
+          <folding>
+            <element signature="e#22#194#0" expanded="true" />
+            <element signature="n#!!block;n#activateMQTT#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -848,29 +883,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/mcplainter.go">
+    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/router.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="36" column="60" lean-forward="false" selection-start-line="36" selection-start-column="60" selection-end-line="36" selection-end-column="60" />
+        <state relative-caret-position="-1319">
+          <caret line="10" column="4" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
           <folding>
-            <element signature="e#22#194#0" expanded="true" />
-            <element signature="n#!!block;n#activateMQTT#0" expanded="false" />
+            <element signature="e#28#73#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/device_model.go">
+    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/mcdevicerpcmanager.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
-          <caret line="14" column="27" lean-forward="false" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-          <folding />
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding>
+            <element signature="e#28#97#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/ctrl.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="12" column="34" lean-forward="false" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
+        <state relative-caret-position="506">
+          <caret line="37" column="23" lean-forward="false" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
           <folding>
             <element signature="e#28#57#0" expanded="true" />
           </folding>
