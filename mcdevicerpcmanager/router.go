@@ -10,7 +10,6 @@ type (
 		Resource string
 		Msg *mccommon.DeviceToServerReqSt
 		RPCData *mccommon.RPCMsg
-		Device mccommon.DeviceBaseModelInterface
 		DeviceId string
 		ctx map[string]interface{}
 	}
@@ -61,7 +60,7 @@ func (this *DeviceRPCRouterSt) ChangeAnyHandler(resource string, handler Handler
 	(*this.handlersByResource)[resource] = handler
 }
 
-func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToServerReqSt, rpcData *mccommon.RPCMsg, device mccommon.DeviceBaseModelInterface) (mccommon.JSONData, bool, mccommon.JSONData) {
+func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToServerReqSt, rpcData *mccommon.RPCMsg) (mccommon.JSONData, bool, mccommon.JSONData) {
 	splitedRes := strings.Split(resource, ".")
 	res := strings.Join(splitedRes[1:], ".")
 
@@ -74,7 +73,6 @@ func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToSer
 		resource,
 		msg,
 		rpcData,
-		device,
 		splitedRes[0],
 		map[string]interface{}{},
 	})

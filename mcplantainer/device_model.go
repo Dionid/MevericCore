@@ -18,6 +18,6 @@ type PlantainerModelSt struct {
 	CustomAdminData PlantainerCustomAdminData `json:"customAdminData" bson:"customAdminData"`
 }
 
-func CreateNewPlantainerModelSt() mccommon.DeviceBaseModelInterface {
-	return &PlantainerModelSt{}
-}
+//func CreateNewPlantainerModelSt() mccommon.DeviceBaseModelInterface {
+//	return &PlantainerModelSt{}
+//}

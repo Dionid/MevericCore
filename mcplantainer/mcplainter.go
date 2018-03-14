@@ -9,10 +9,9 @@ import (
 	"mevericcore/mcdevicerpcmanager"
 )
 
-
-
 var (
-	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", &DevicesCollectionManager, mcdevicemqttmanager.DeviceMQTTManager)
+	DeviceMQTTManager = mcdevicemqttmanager.DeviceMQTTManager
+	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", &DevicesCollectionManager, DeviceMQTTManager)
 )
 
 func activateMQTT() {
@@ -27,7 +26,7 @@ func activateMQTT() {
 	mqttMainG := mqttRouter.Group("plantainerServerId")
 
 	mcdevicemqttmanager.Init(mqttMainG)
-	mcdevicemqttmanager.DeviceMQTTManager.SetReqHandler(DeviceRPCManager.RPCReqHandler)
+	DeviceMQTTManager.SetReqHandler(DeviceRPCManager.RPCReqHandler)
 
 	fmt.Println("MQTT IS ACTIVATED")
 }
@@ -35,11 +34,7 @@ func activateMQTT() {
 func Init(dbsession *mgo.Session, dbName string) {
 	initDeviceColManager(dbsession, dbName)
 
-	DeviceRPCManager.DeviceModelsAndCollectionsManager.RegisterNewDeviceType("plantainer", CreateNewPlantainerModelSt, &DevicesCollectionManager)
+	DeviceRPCManager.AddDeviceCtrl("plantainer", CreateNewPlantainerCtrl())
 
-	// 1. Activate MQTT
 	activateMQTT()
-
-	// 2. Activate HTTP
-
 }
