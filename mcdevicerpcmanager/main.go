@@ -12,11 +12,8 @@ type ProtocolManagerInterface interface {
 
 type DeviceRPCManagerSt struct {
 	DeviceResponseServiceSt
-
 	ServerId string
-
 	DevicesCollectionManager mccommon.DevicesCollectionManagerInterface
-
 	DeviceCtrlsByType map[string]DeviceRPCCtrlInterface
 }
 

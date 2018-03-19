@@ -41,15 +41,15 @@ func easyjsonEa461afbDecodeMevericcoreMcdashboard(in *jlexer.Lexer, out *WsToken
 		case "requestId":
 			if in.IsNull() {
 				in.Skip()
-				out.RequestId = nil
+				out.Id = nil
 			} else {
-				if out.RequestId == nil {
-					out.RequestId = new(string)
+				if out.Id == nil {
+					out.Id = new(string)
 				}
-				*out.RequestId = string(in.String())
+				*out.Id = string(in.String())
 			}
 		case "action":
-			out.Action = string(in.String())
+			out.Method = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -72,25 +72,25 @@ func easyjsonEa461afbEncodeMevericcoreMcdashboard(out *jwriter.Writer, in WsToke
 		out.RawString("\"status\":")
 		out.String(string(in.Status))
 	}
-	if in.RequestId != nil {
+	if in.Id != nil {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"requestId\":")
-		if in.RequestId == nil {
+		if in.Id == nil {
 			out.RawString("null")
 		} else {
-			out.String(string(*in.RequestId))
+			out.String(string(*in.Id))
 		}
 	}
-	if in.Action != "" {
+	if in.Method != "" {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"action\":")
-		out.String(string(in.Action))
+		out.String(string(in.Method))
 	}
 	out.RawByte('}')
 }
@@ -144,15 +144,15 @@ func easyjsonEa461afbDecodeMevericcoreMcdashboard1(in *jlexer.Lexer, out *WsToke
 		case "requestId":
 			if in.IsNull() {
 				in.Skip()
-				out.RequestId = nil
+				out.Id = nil
 			} else {
-				if out.RequestId == nil {
-					out.RequestId = new(string)
+				if out.Id == nil {
+					out.Id = new(string)
 				}
-				*out.RequestId = string(in.String())
+				*out.Id = string(in.String())
 			}
 		case "action":
-			out.Action = string(in.String())
+			out.Method = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -183,25 +183,25 @@ func easyjsonEa461afbEncodeMevericcoreMcdashboard1(out *jwriter.Writer, in WsTok
 		out.RawString("\"password\":")
 		out.String(string(in.Password))
 	}
-	if in.RequestId != nil {
+	if in.Id != nil {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"requestId\":")
-		if in.RequestId == nil {
+		if in.Id == nil {
 			out.RawString("null")
 		} else {
-			out.String(string(*in.RequestId))
+			out.String(string(*in.Id))
 		}
 	}
-	if in.Action != "" {
+	if in.Method != "" {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"action\":")
-		out.String(string(in.Action))
+		out.String(string(in.Method))
 	}
 	out.RawByte('}')
 }
@@ -253,15 +253,15 @@ func easyjsonEa461afbDecodeMevericcoreMcdashboard2(in *jlexer.Lexer, out *WsAuth
 		case "requestId":
 			if in.IsNull() {
 				in.Skip()
-				out.RequestId = nil
+				out.Id = nil
 			} else {
-				if out.RequestId == nil {
-					out.RequestId = new(string)
+				if out.Id == nil {
+					out.Id = new(string)
 				}
-				*out.RequestId = string(in.String())
+				*out.Id = string(in.String())
 			}
 		case "action":
-			out.Action = string(in.String())
+			out.Method = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -284,25 +284,25 @@ func easyjsonEa461afbEncodeMevericcoreMcdashboard2(out *jwriter.Writer, in WsAut
 		out.RawString("\"status\":")
 		out.String(string(in.Status))
 	}
-	if in.RequestId != nil {
+	if in.Id != nil {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"requestId\":")
-		if in.RequestId == nil {
+		if in.Id == nil {
 			out.RawString("null")
 		} else {
-			out.String(string(*in.RequestId))
+			out.String(string(*in.Id))
 		}
 	}
-	if in.Action != "" {
+	if in.Method != "" {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"action\":")
-		out.String(string(in.Action))
+		out.String(string(in.Method))
 	}
 	out.RawByte('}')
 }
@@ -354,15 +354,15 @@ func easyjsonEa461afbDecodeMevericcoreMcdashboard3(in *jlexer.Lexer, out *WsAuth
 		case "requestId":
 			if in.IsNull() {
 				in.Skip()
-				out.RequestId = nil
+				out.Id = nil
 			} else {
-				if out.RequestId == nil {
-					out.RequestId = new(string)
+				if out.Id == nil {
+					out.Id = new(string)
 				}
-				*out.RequestId = string(in.String())
+				*out.Id = string(in.String())
 			}
 		case "action":
-			out.Action = string(in.String())
+			out.Method = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -385,25 +385,25 @@ func easyjsonEa461afbEncodeMevericcoreMcdashboard3(out *jwriter.Writer, in WsAut
 		out.RawString("\"token\":")
 		out.String(string(in.Token))
 	}
-	if in.RequestId != nil {
+	if in.Id != nil {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"requestId\":")
-		if in.RequestId == nil {
+		if in.Id == nil {
 			out.RawString("null")
 		} else {
-			out.String(string(*in.RequestId))
+			out.String(string(*in.Id))
 		}
 	}
-	if in.Action != "" {
+	if in.Method != "" {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"action\":")
-		out.String(string(in.Action))
+		out.String(string(in.Method))
 	}
 	out.RawByte('}')
 }

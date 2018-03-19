@@ -7,10 +7,12 @@ import (
 
 type DevicesCollectionManagerSt struct {
 	mccommon.DevicesCollectionManagerSt
+	Inited bool
 }
 
 type DataCollectionManagerSt struct {
 	mccommon.DataCollectionManagerSt
+	Inited bool
 }
 
 func CreateNewDevicesCollectionManager(colMan mccommon.DataCollectionManagerInt) *DevicesCollectionManagerSt {
@@ -18,6 +20,7 @@ func CreateNewDevicesCollectionManager(colMan mccommon.DataCollectionManagerInt)
 		mccommon.DevicesCollectionManagerSt{
 			DataCollectionManager: colMan,
 		},
+		false,
 	}
 }
 
@@ -27,7 +30,13 @@ var (
 )
 
 func initDeviceColManager(dbsession *mgo.Session, dbName string) {
-	DevicesCollectionManager.AddModel(&PlantainerModelSt{})
-	DevicesCollectionManager.InitManager(dbsession, dbName, "devices")
-	DataCollectionManager.InitManager(dbsession, dbName, "plantainerdata")
+	if !DevicesCollectionManager.Inited {
+		DevicesCollectionManager.AddModel(&PlantainerModelSt{})
+		DevicesCollectionManager.InitManager(dbsession, dbName, "devices")
+		DevicesCollectionManager.Inited = true
+	}
+	if !DataCollectionManager.Inited {
+		DataCollectionManager.InitManager(dbsession, dbName, "plantainerdata")
+		DevicesCollectionManager.Inited = true
+	}
 }

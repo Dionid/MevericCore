@@ -72,19 +72,19 @@ func (this *UserController) WSHandler(c echo.Context) error {
 		}
 		fmt.Println("Receieved: " + string(byteMsg))
 
-		msg := &mcws.WsActionMsgBaseSt{}
+		msg := &mcws.WsRPCMsgBaseSt{}
 		if err := msg.UnmarshalJSON(byteMsg); err != nil {
 			continue
 		}
 
 		if !userWS.Authorized {
-			if msg.Action != "token" && msg.Action != "authenticate" {
-				userWS.SendErrorMsg("Forbidden", msg.Action, 503, msg.RequestId)
+			if msg.Method != "token" && msg.Method != "authenticate" {
+				userWS.SendErrorMsg("Forbidden", msg.Method, 503, msg.Id)
 				continue
 			}
 		}
 
-		if err := WSocketsResources.Handle(msg.Action, userWS, byteMsg); err != nil {
+		if err := WSocketsResources.Handle(msg.Method, userWS, byteMsg); err != nil {
 			continue
 		}
 
@@ -93,7 +93,7 @@ func (this *UserController) WSHandler(c echo.Context) error {
 		//	//if err := msg.UnmarshalJSON(byteMsg); err != nil {
 		//	//	return err
 		//	//}
-		//	//if msg.Action === "token" {
+		//	//if msg.Method === "token" {
 		//	//	QueueManager.Pub("", msg)
 		//	//}
 		//	return nil

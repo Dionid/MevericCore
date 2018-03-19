@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/middleware"
-	"gopkg.in/mgo.v2"
+	"mevericcore/mccommon"
 )
 
 var (
@@ -26,18 +26,24 @@ var (
 		AuthScheme:  "JWT",
 		Claims:      jwt.MapClaims{},
 	})
+	UsersCollectionManager *mccommon.UsersCollectionManagerSt = nil
 )
 
+func InitColManagers(userColManager *mccommon.UsersCollectionManagerSt) {
+	UsersCollectionManager = userColManager
+}
 
-func InitMainModules(dbsession *mgo.Session, dbName string, e *echo.Group) {
+func InitMainHttp(e *echo.Group) {
 	adminG := e.Group("/admin")
-	authG := e.Group("/auth")
-
-
 	adminG.Use(jwtMdlw)
-
 	initUsersRoutes(adminG)
 
-	initUserModule(authG, dbsession, dbName)
+	authG := e.Group("/auth")
+	initAuthRoutes(authG)
 	initMeModule(e)
+}
+
+func InitMain(userColManager *mccommon.UsersCollectionManagerSt, e *echo.Group) {
+	InitColManagers(userColManager)
+	InitMainHttp(e)
 }

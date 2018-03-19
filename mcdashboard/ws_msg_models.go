@@ -1,10 +1,13 @@
 package mcdashboard
 
-import "mevericcore/mcws"
+import (
+	"mevericcore/mcws"
+	"mevericcore/mccommon"
+)
 
 // easyjson:json
 type WsTokenActionReqSt struct {
-	mcws.WsActionMsgBaseSt
+	mcws.WsRPCMsgBaseSt
 	Login string
 	Password string
 }
@@ -15,12 +18,15 @@ type WsTokenActionResSt struct {
 	token string
 }
 
-func CreateAndSendWsTokenActionRes(ws *mcws.WSocket,token string, action string, reqId *string) error {
+func CreateAndSendWsTokenActionRes(ws *mcws.WSocket,token string, action string, reqId int) error {
 	res := &WsTokenActionResSt{
 		WsResActionMsg: mcws.WsResActionMsg{
-			WsActionMsgBaseSt: mcws.WsActionMsgBaseSt{
-				RequestId:  reqId,
-				Action: action,
+			WsRPCMsgBaseSt: mcws.WsRPCMsgBaseSt{
+				WsMsgBase: nil,
+				RPCMsg: mccommon.RPCMsg{
+					Id:     reqId,
+					Method: action,
+				},
 			},
 			Status: mcws.WsResActionStatuses.Success,
 		},
@@ -37,7 +43,7 @@ func CreateAndSendWsTokenActionRes(ws *mcws.WSocket,token string, action string,
 
 // easyjson:json
 type WsAuthenticateActionReqSt struct {
-	mcws.WsActionMsgBaseSt
+	mcws.WsRPCMsgBaseSt
 	Token string
 }
 
@@ -49,9 +55,9 @@ type WsAuthenticateActionResSt struct {
 func CreateAndSendWsAuthenticateActionRes(ws *mcws.WSocket, action string, reqId *string) error {
 	res := &WsAuthenticateActionResSt{
 		WsResActionMsg: mcws.WsResActionMsg{
-			WsActionMsgBaseSt: mcws.WsActionMsgBaseSt{
-				RequestId:  reqId,
-				Action: action,
+			WsRPCMsgBaseSt: mcws.WsRPCMsgBaseSt{
+				Id:     reqId,
+				Method: action,
 			},
 			Status: mcws.WsResActionStatuses.Success,
 		},

@@ -9,6 +9,8 @@ import (
 	"mevericcore/mcdevicerpcmanager"
 	"mevericcore/mcecho"
 	"github.com/labstack/echo"
+	"mevericcore/mcuserrpcmanager"
+	"mevericcore/mccommon"
 )
 
 var (
@@ -17,7 +19,17 @@ var (
 	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", DevicesCollectionManager, DeviceMQTTManager)
 )
 
-func activateMQTT() {
+func Init(userColMan *mccommon.UsersCollectionManagerSt, dbsession *mgo.Session, dbName string, e *echo.Group) {
+
+	InitHttp(e)
+	InitMainModules(dbsession, dbName)
+	InitRPCManager()
+	InitMQTT()
+
+	mcuserrpcmanager.InitMain(userColMan, DevicesCollectionManager, e)
+}
+
+func InitMQTT() {
 	//opts := mcmqttrouter.CreateConnOpts("tcp://iot.eclipse.org:1883", "randomString123qweasd", true)
 	opts := mcmqttrouter.CreateConnOpts("tcp://localhost:1883", "randomString123qweasd", true)
 	opts.OnConnectionLost = func(c mqtt.Client, err error) {
@@ -34,18 +46,15 @@ func activateMQTT() {
 	fmt.Println("MQTT IS ACTIVATED")
 }
 
-func Init(dbsession *mgo.Session, dbName string) {
+func InitMainModules(dbsession *mgo.Session, dbName string) {
 	initDeviceColManager(dbsession, dbName)
-
-	DeviceRPCManager.AddDeviceCtrl(PlantainerTypeName, CreateNewPlantainerCtrl(PlantainerTypeName))
-
-	activateMQTT()
 }
 
-func InitHttp(dbsession *mgo.Session, dbName string, e *echo.Group) {
-	initDeviceColManager(dbsession, dbName)
+func InitRPCManager() {
+	DeviceRPCManager.AddDeviceCtrl(PlantainerTypeName, CreateNewPlantainerCtrl(PlantainerTypeName))
+}
 
+func InitHttp(e *echo.Group) {
 	UserPlantainerController := &UserPlantainerControllerSt{}
-
 	mcecho.CreateModelControllerRoutes(e, "/plantainer", UserPlantainerController)
 }

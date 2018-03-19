@@ -17,7 +17,7 @@ func InitWsManager() {
 			return err
 		}
 		if tokenMsg.Login == "" || tokenMsg.Password == "" {
-			req.Ws.SendErrorMsg("Login and password are required", tokenMsg.Action, 503, tokenMsg.RequestId)
+			req.Ws.SendErrorMsg("Login and password are required", tokenMsg.Method, 503, tokenMsg.Id)
 			return nil
 		}
 		// Create token
@@ -45,12 +45,12 @@ func InitWsManager() {
 		t, err := token.SignedString([]byte("secret"))
 
 		if err != nil {
-			req.Ws.SendErrorMsg("Token creation problem", tokenMsg.Action, 503, tokenMsg.RequestId)
+			req.Ws.SendErrorMsg("Token creation problem", tokenMsg.Method, 503, tokenMsg.Id)
 			return nil
 		}
 
 		// Send success
-		CreateAndSendWsTokenActionRes(req.Ws, t, tokenMsg.Action, tokenMsg.RequestId)
+		CreateAndSendWsTokenActionRes(req.Ws, t, tokenMsg.Method, tokenMsg.Id)
 		return nil
 	})
 	authG.AddHandler("auth", func(req *mcws.ReqSt) error {
@@ -59,7 +59,7 @@ func InitWsManager() {
 			return err
 		}
 		if authMsg.Token == "" {
-			req.Ws.SendErrorMsg("Token is required", authMsg.Action, 503, authMsg.RequestId)
+			req.Ws.SendErrorMsg("Token is required", authMsg.Method, 503, authMsg.Id)
 			return nil
 		}
 		// Auth user
@@ -68,21 +68,21 @@ func InitWsManager() {
 		})
 
 		if err != nil {
-			req.Ws.SendErrorMsg("Problem with token", authMsg.Action, 503, authMsg.RequestId)
+			req.Ws.SendErrorMsg("Problem with token", authMsg.Method, 503, authMsg.Id)
 		}
 
 		userTokenId := t.Claims.(jwt.MapClaims)["id"].(string)
 		user := new(mccommon.UserModel)
 
 		if err := UsersCollectionManager.FindModelByStringId(userTokenId, user); err != nil {
-			req.Ws.SendErrorMsg("Incorrect token", authMsg.Action, 503, authMsg.RequestId)
+			req.Ws.SendErrorMsg("Incorrect token", authMsg.Method, 503, authMsg.Id)
 			return nil
 		}
 
 		req.Ws.Authorized = true
 
 		// Send success
-		CreateAndSendWsAuthenticateActionRes(req.Ws, authMsg.Action, authMsg.RequestId)
+		CreateAndSendWsAuthenticateActionRes(req.Ws, authMsg.Method, authMsg.Id)
 		return nil
 	})
 	InitDeviceResource()

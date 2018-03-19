@@ -7,6 +7,7 @@ import (
 	"mevericcore/mcplantainer"
 	"github.com/dgrijalva/jwt-go"
 	"mevericcore/mcusers"
+	"mevericcore/mccommon"
 )
 
 var (
@@ -57,18 +58,15 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	// ToDo: Remove
+	UsersCollectionManager := mccommon.InitUserColManager(session, MainDBName)
+
+	// USERS (Auth, Me modules)
+	usersG := e.Group("/users")
+	mcusers.InitMain(UsersCollectionManager, usersG)
+
 	appG := e.Group("/app")
 	appG.Use(jwtMdlw)
-	mcplantainer.InitHttp(session, MainDBName, appG)
-	//
-
-
-	// Add Users (Auth + Me modules)
-	usersG := e.Group("/users")
-	mcusers.InitMainModules(session, MainDBName, usersG)
-
-	mcplantainer.Init(session, MainDBName)
+	mcplantainer.Init(UsersCollectionManager, session, MainDBName, appG)
 
 	e.Logger.Fatal(e.Start("localhost:3001"))
 }

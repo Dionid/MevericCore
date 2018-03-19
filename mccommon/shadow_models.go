@@ -157,7 +157,7 @@ type ShadowStateInterface interface {
 
 //easyjson:json
 type ShadowModelSt struct {
-	Id    string `json:"id,omitempty" bson:"id"` // RequestId that will be stored on Device
+	Id    string `json:"id,omitempty" bson:"id"` // Id that will be stored on Device
 	State ShadowStateSt
 }
 

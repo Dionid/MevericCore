@@ -9,6 +9,10 @@ type DeviceToServerReqSt struct {
 	Msg       *[]byte
 }
 
+//type RPCMsgBase struct {
+//
+//}
+
 //easyjson:json
 type RPCMsg struct {
 	Src string

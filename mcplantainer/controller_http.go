@@ -19,7 +19,7 @@ func (this *UserPlantainerControllerSt) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusUnauthorized, "Haven't got user id")
 	}
 
-	// TODO: ADD CREATING OTHER DEVICES
+	// TODO: ONLY ADMIN CHECK
 
 	deviceShadowId := mccommon.RandString(13)
 
