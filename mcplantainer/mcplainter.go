@@ -7,6 +7,8 @@ import (
 	"mevericcore/mcdevicemqttmanager"
 	"gopkg.in/mgo.v2"
 	"mevericcore/mcdevicerpcmanager"
+	"mevericcore/mcecho"
+	"github.com/labstack/echo"
 )
 
 var (
@@ -38,4 +40,12 @@ func Init(dbsession *mgo.Session, dbName string) {
 	DeviceRPCManager.AddDeviceCtrl(PlantainerTypeName, CreateNewPlantainerCtrl(PlantainerTypeName))
 
 	activateMQTT()
+}
+
+func InitHttp(dbsession *mgo.Session, dbName string, e *echo.Group) {
+	initDeviceColManager(dbsession, dbName)
+
+	UserPlantainerController := &UserPlantainerControllerSt{}
+
+	mcecho.CreateModelControllerRoutes(e, "/plantainer", UserPlantainerController)
 }

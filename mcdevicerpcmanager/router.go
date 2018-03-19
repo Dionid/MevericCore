@@ -3,6 +3,7 @@ package mcdevicerpcmanager
 import (
 	"mevericcore/mccommon"
 	"strings"
+	"fmt"
 )
 
 // REQ
@@ -71,6 +72,14 @@ func (this *DeviceRPCRouterSt) ChangeAnyHandler(resource string, handler Handler
 }
 
 func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToServerReqSt, rpcData *mccommon.RPCMsg) (mccommon.JSONData, bool, mccommon.JSONData) {
+	defer func() {
+		if recover() != nil {
+			fmt.Println("Recovered")
+			return
+		}
+		fmt.Println("Closed")
+	}()
+
 	splitedRes := strings.Split(resource, ".")
 	res := strings.Join(splitedRes[1:], ".")
 

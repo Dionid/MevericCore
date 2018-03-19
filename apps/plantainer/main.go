@@ -5,6 +5,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"mevericcore/mcplantainer"
+	"github.com/dgrijalva/jwt-go"
 )
 
 var (
@@ -31,6 +32,13 @@ func InitMongoDbConnection() *mgo.Session {
 
 var (
 	MainDBName = "tztatom"
+	jwtMdlw = middleware.JWTWithConfig(middleware.JWTConfig{
+		SigningKey:  []byte("secret"),
+		ContextKey:  "client",
+		TokenLookup: "header:" + echo.HeaderAuthorization,
+		AuthScheme:  "JWT",
+		Claims:      jwt.MapClaims{},
+	})
 )
 
 func main() {
@@ -48,7 +56,13 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	// ToDo: Remove
+	appG := e.Group("/app")
+	appG.Use(jwtMdlw)
+	mcplantainer.InitHttp(session, MainDBName, appG)
+	//
+
 	mcplantainer.Init(session, MainDBName)
 
-	e.Logger.Fatal(e.Start("localhost:3000"))
+	e.Logger.Fatal(e.Start("localhost:3001"))
 }
