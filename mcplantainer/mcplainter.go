@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	PlantainerTypeName = "smartHeater"
+	PlantainerTypeName = "plantainer"
 	DeviceMQTTManager = mcdevicemqttmanager.DeviceMQTTManager
 	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", DevicesCollectionManager, DeviceMQTTManager)
 )

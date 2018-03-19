@@ -23,10 +23,13 @@ type DeviceRPCCtrlInterface interface {
 	SetManagers(mqttMan ProtocolManagerInterface)
 }
 
-func CreateNewDeviceRPCCtrl(typeName string, deviceCreator DeviceCreatorFn) *DeviceRPCCtrlSt {
+func CreateNewDeviceRPCCtrl(typeName string, deviceCreator DeviceCreatorFn, mqttMan ProtocolManagerInterface) *DeviceRPCCtrlSt {
 	router := CreateNewDeviceRPCRouter()
 
 	res := &DeviceRPCCtrlSt{
+		DeviceResponseServiceSt: DeviceResponseServiceSt{
+			DeviceMQTTManager: mqttMan,
+		},
 		Type: typeName,
 		Router: router,
 		DeviceCreator: deviceCreator,
@@ -43,7 +46,7 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 		device := thisR.DeviceCreator()
 
 		if err := thisR.DevicesCollectionManager.FindByShadowId(req.DeviceId, device); err != nil {
-			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 404)
+			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 404)
 		}
 
 		state := device.GetShadow().GetState()
@@ -67,13 +70,13 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 		device := thisR.DeviceCreator()
 
 		if err := thisR.DevicesCollectionManager.FindByShadowId(req.DeviceId, device); err != nil {
-			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 404)
+			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 404)
 		}
 
 		updateRpcMsg := &mccommon.RPCWithShadowUpdateMsg{}
 
 		if err := updateRpcMsg.UnmarshalJSON(*req.Msg.Msg); err != nil {
-			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
 		}
 
 		updateData := updateRpcMsg.Args
@@ -88,7 +91,7 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 			deviceState.SetDesiredState(updateData.State.Desired)
 			deviceState.IncrementVersion()
 			if err := thisR.DevicesCollectionManager.SaveModel(device); err != nil {
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
 			}
 			// PUB /update/accepted with Desire and Reported
 			somethingNew = true
@@ -96,7 +99,7 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 			deviceState.SetReportedState(updateData.State.Reported)
 			deviceState.IncrementVersion()
 			if err := thisR.DevicesCollectionManager.SaveModel(device); err != nil {
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
 			}
 			// PUB /update/accepted with Reported
 			somethingNew = true
@@ -104,12 +107,12 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 			if !deviceState.CheckVersion(updateData.Version) {
 				// PUB /update/rejected with Desired and Reported
 				err := errors.New("version wrong")
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
 			}
 			deviceState.SetDesiredState(updateData.State.Desired)
 			deviceState.IncrementVersion()
 			if err := thisR.DevicesCollectionManager.SaveModel(device); err != nil {
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
 			}
 			// PUB /update/accepted with Desired
 			somethingNew = true
@@ -124,7 +127,7 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 		if !somethingNew {
 			// In this case SetIsActivated haven't been saved
 			if err := thisR.DevicesCollectionManager.SaveModel(device); err != nil {
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
 			}
 		}
 

@@ -12,10 +12,11 @@ type DeviceResponseServiceSt struct {
 	ServerId string
 }
 
-func (this *DeviceResponseServiceSt) SendRPCErrorRes(protocol string, srcDeviceId string, reqId int, errMessage string, errCode int) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
+func (this *DeviceResponseServiceSt) SendRPCErrorRes(protocol string, methodName string, srcDeviceId string, reqId int, errMessage string, errCode int) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
 	return nil, true, mccommon.RPCMsg{
 		Src: this.ServerId,
 		Dst: srcDeviceId,
+		Method: methodName,
 		Id: reqId,
 		Error: &map[string]interface{}{
 			"message": errMessage,

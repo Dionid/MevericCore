@@ -21,14 +21,16 @@ type DeviceRPCManagerSt struct {
 }
 
 func CreateDeviceRPCManager(serverId string, devicesColManager mccommon.DevicesCollectionManagerInterface, mqttMan ProtocolManagerInterface) *DeviceRPCManagerSt {
-	return &DeviceRPCManagerSt{
+	dev := &DeviceRPCManagerSt{
 		ServerId: serverId,
 		DeviceResponseServiceSt: DeviceResponseServiceSt{
 			DeviceMQTTManager: mqttMan,
+			ServerId: serverId,
 		},
 		DevicesCollectionManager: devicesColManager,
 		DeviceCtrlsByType: map[string]DeviceRPCCtrlInterface{},
 	}
+	return dev
 }
 
 func (thisR *DeviceRPCManagerSt) AddDeviceCtrl(deviceType string, ctrls DeviceRPCCtrlInterface) {
@@ -42,7 +44,7 @@ func (this *DeviceRPCManagerSt) RPCReqHandler(msg *mccommon.DeviceToServerReqSt)
 
 	rpcData := &mccommon.RPCMsg{}
 	if err := rpcData.UnmarshalJSON(*msg.Msg); err != nil {
-		return this.SendRPCErrorRes(msg.Protocol, msg.DeviceId, 0, err.Error(), 422)
+		return this.SendRPCErrorRes(msg.Protocol, "", msg.DeviceId, 0, err.Error(), 422)
 	}
 
 	splitedMethod := strings.Split(rpcData.Method, ".")
@@ -52,7 +54,11 @@ func (this *DeviceRPCManagerSt) RPCReqHandler(msg *mccommon.DeviceToServerReqSt)
 	if err := col.Find(&bson.M{
 		"shadow.id": shadowId,
 	}).One(&model); err != nil {
-		return this.SendRPCErrorRes(msg.Protocol, msg.DeviceId, rpcData.Id, err.Error(), 404)
+		return this.SendRPCErrorRes(msg.Protocol, rpcData.Method, msg.DeviceId, rpcData.Id, err.Error(), 404)
+	}
+
+	if this.DeviceCtrlsByType[model.Type] == nil {
+		return this.SendRPCErrorRes(msg.Protocol, rpcData.Method, msg.DeviceId, 0, "No type of device", 404)
 	}
 
 	return this.DeviceCtrlsByType[model.Type].HandleReq(rpcData.Method, msg, rpcData)

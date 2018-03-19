@@ -137,6 +137,7 @@ func (this *DeviceMQTTManagerSt) DevicetoServerRPCSub() {
 				return
 			}
 			this.Publish(deviceId+"/rpc", b)
+			return
 		}
 
 		if sendBack && res != nil {

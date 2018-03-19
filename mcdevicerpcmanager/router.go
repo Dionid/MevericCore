@@ -77,7 +77,6 @@ func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToSer
 			fmt.Println("Recovered")
 			return
 		}
-		fmt.Println("Closed")
 	}()
 
 	splitedRes := strings.Split(resource, ".")
