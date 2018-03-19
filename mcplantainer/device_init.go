@@ -1,6 +1,8 @@
 package mcplantainer
 
-import "mevericcore/mcdevicerpcmanager"
+import (
+	"mevericcore/mcdevicerpcmanager"
+)
 
 type PlantainerCtrlSt struct {
 	mcdevicerpcmanager.DeviceRPCCtrlSt
@@ -8,7 +10,7 @@ type PlantainerCtrlSt struct {
 
 func CreateNewPlantainerCtrl(typeName string) *PlantainerCtrlSt {
 	bR := mcdevicerpcmanager.CreateNewDeviceRPCCtrl(typeName, CreateNewPlantainerModelSt)
-	bR.DevicesCollectionManager = &DevicesCollectionManager
+	bR.DevicesCollectionManager = DevicesCollectionManager
 
 	res := &PlantainerCtrlSt{
 		*bR,

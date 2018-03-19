@@ -7,6 +7,7 @@ import (
 
 type DevicesCollectionManagerSt struct {
 	mcmongo.CollectionManagerBaseSt
+	DataCollectionManager DataCollectionManagerInt
 }
 
 type DevicesCollectionManagerInterface interface {

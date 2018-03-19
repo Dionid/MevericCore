@@ -30,12 +30,32 @@ type ShadowUpdateMsgSt struct {
 }
 
 //easyjson:json
+type ShadowStateMetadataTimestamp struct {
+	Timestamp *time.Time
+}
+
+//easyjson:json
 type ShadowStateMetadataSt struct {
 	Reported  *map[string]interface{}
 	Desired   *map[string]interface{}
 	Delta     *map[string]interface{}
 	Version   int
 	Timestamp time.Time
+}
+
+func (this *ShadowStateMetadataSt) fillMetadataReported(piece *map[string]interface{}, metaReported *map[string]interface{}, now *time.Time) {
+	for key, val := range *piece {
+		switch v := val.(type) {
+		case map[string]interface{}:
+			newMap := map[string]interface{}{}
+			this.fillMetadataReported(&v, &newMap, now)
+			(*metaReported)[key] = newMap
+		default:
+			(*metaReported)[key] = ShadowStateMetadataTimestamp{
+				Timestamp: now,
+			}
+		}
+	}
 }
 
 //easyjson:json

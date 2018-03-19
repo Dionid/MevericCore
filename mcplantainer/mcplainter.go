@@ -12,7 +12,7 @@ import (
 var (
 	PlantainerTypeName = "smartHeater"
 	DeviceMQTTManager = mcdevicemqttmanager.DeviceMQTTManager
-	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", &DevicesCollectionManager, DeviceMQTTManager)
+	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", DevicesCollectionManager, DeviceMQTTManager)
 )
 
 func activateMQTT() {

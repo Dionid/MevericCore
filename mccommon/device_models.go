@@ -13,7 +13,6 @@ type DeviceBaseModel struct {
 	mcmongo.ModelBase `bson:",inline"`
 	Shadow               ShadowModelSt `bson:"shadow"`
 
-	//Name string `json:"name,omitempty" bson:"name"`
 	Src  string `json:"srcId,omitempty" bson:"src"` // Channel Id where this device is working
 	Type string `json:"type,omitempty" bson:"type"`
 
@@ -31,12 +30,36 @@ type DeviceBaseModel struct {
 type DeviceBaseModelInterface interface {
 	mcmongo.ModelBaseInterface
 	GetShadow() ShadowModelInterface
+	ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesCollectionManagerInterface) error
 	MarshalJSON() ([]byte, error)
 	GetTypeName() string
 }
 
 func (this *DeviceBaseModel) GetShadow() ShadowModelInterface {
 	return &this.Shadow
+}
+
+func (this *DeviceBaseModel) CreateShadowStateMetadata(reported *map[string]interface{}) *ShadowStateMetadataSt {
+	now := time.Now()
+
+	state := &ShadowStateMetadataSt{
+		Version:   0,
+		Timestamp: now,
+		Reported:  &map[string]interface{}{},
+	}
+
+	state.fillMetadataReported(reported, state.Reported, &now)
+
+	return state
+}
+
+func (this *DeviceBaseModel) CreateShadowState(reported *map[string]interface{}) *ShadowStateSt {
+	return &ShadowStateSt{
+		Reported: *reported,
+		Desired:  nil,
+		Delta:    nil,
+		Metadata: *this.CreateShadowStateMetadata(reported),
+	}
 }
 
 func (this *DeviceBaseModel) EnsureIndex(collection *mgo.Collection) error {
@@ -47,7 +70,7 @@ func (this *DeviceBaseModel) GetTypeName() string {
 	return ""
 }
 
-func (this *DeviceBaseModel) ActionsOnUpdate(updateData *ShadowUpdateMsgSt, deviceDataColMan DevicesCollectionManagerInterface) error {
+func (this *DeviceBaseModel) ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesCollectionManagerInterface) error {
 	return nil
 }
 
