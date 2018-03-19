@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/middleware"
 	"mevericcore/mcplantainer"
 	"github.com/dgrijalva/jwt-go"
+	"mevericcore/mcusers"
 )
 
 var (
@@ -61,6 +62,11 @@ func main() {
 	appG.Use(jwtMdlw)
 	mcplantainer.InitHttp(session, MainDBName, appG)
 	//
+
+
+	// Add Users (Auth + Me modules)
+	usersG := e.Group("/users")
+	mcusers.InitMainModules(session, MainDBName, usersG)
 
 	mcplantainer.Init(session, MainDBName)
 
