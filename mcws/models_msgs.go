@@ -1,5 +1,7 @@
 package mcws
 
+import "mevericcore/mccommon"
+
 type WsMsgBase struct {}
 
 func (this *WsMsgBase) IsWsMsg() bool {
@@ -12,10 +14,9 @@ type WSocketMsgBaseI interface {
 }
 
 //easyjson:json
-type WsActionMsgBaseSt struct {
+type WsRPCMsgBaseSt struct {
 	WsMsgBase
-	RequestId *string
-	Action    string
+	mccommon.RPCMsg
 }
 
 type WsResActionStatusesSt struct {
@@ -30,7 +31,7 @@ var WsResActionStatuses = WsResActionStatusesSt{
 
 //easyjson:json
 type WsResActionMsg struct {
-	WsActionMsgBaseSt
+	WsRPCMsgBaseSt
 	Status string
 }
 
@@ -41,12 +42,14 @@ type WsResActionSingleErrorMsg struct {
 	ErrorCode int
 }
 
-func CreateWsResActionSingleErrorMsg(err string, action string, errorCode int, reqId *string) *WsResActionSingleErrorMsg {
+func CreateWsResActionSingleErrorMsg(err string, action string, errorCode int, reqId int) *WsResActionSingleErrorMsg {
 	return &WsResActionSingleErrorMsg{
 		WsResActionMsg: WsResActionMsg{
-			WsActionMsgBaseSt: WsActionMsgBaseSt{
-				RequestId: reqId,
-				Action: action,
+			WsRPCMsgBaseSt: WsRPCMsgBaseSt{
+				RPCMsg: mccommon.RPCMsg{
+					Method: action,
+					Id:     reqId,
+				},
 			},
 			Status: WsResActionStatuses.Error,
 		},
