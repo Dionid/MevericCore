@@ -8,6 +8,8 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
+type DeviceCreatorFn func() DeviceBaseModelInterface
+
 //easyjson:json
 type DeviceBaseModel struct {
 	mcmongo.ModelBase `bson:",inline"`

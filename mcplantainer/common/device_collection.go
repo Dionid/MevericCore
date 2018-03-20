@@ -5,18 +5,18 @@ import (
 	"gopkg.in/mgo.v2"
 )
 
-type DevicesCollectionManagerSt struct {
+type PlantainerCollectionManagerSt struct {
 	mccommon.DevicesCollectionManagerSt
 	Inited bool
 }
 
-type DataCollectionManagerSt struct {
+type PlantainerDataCollectionManagerSt struct {
 	mccommon.DataCollectionManagerSt
 	Inited bool
 }
 
-func CreateNewDevicesCollectionManager(colMan mccommon.DataCollectionManagerInt) *DevicesCollectionManagerSt {
-	return &DevicesCollectionManagerSt{
+func CreateNewPlantainerCollectionManager(colMan mccommon.DataCollectionManagerInt) *PlantainerCollectionManagerSt {
+	return &PlantainerCollectionManagerSt{
 		mccommon.DevicesCollectionManagerSt{
 			DataCollectionManager: colMan,
 		},
@@ -25,8 +25,8 @@ func CreateNewDevicesCollectionManager(colMan mccommon.DataCollectionManagerInt)
 }
 
 var (
-	DataCollectionManager       = &DataCollectionManagerSt{}
-	PlantainerCollectionManager = CreateNewDevicesCollectionManager(DataCollectionManager)
+	PlantainerDataCollectionManager = &PlantainerDataCollectionManagerSt{}
+	PlantainerCollectionManager     = CreateNewPlantainerCollectionManager(PlantainerDataCollectionManager)
 )
 
 func InitDeviceColManager(dbsession *mgo.Session, dbName string) {
@@ -35,8 +35,8 @@ func InitDeviceColManager(dbsession *mgo.Session, dbName string) {
 		PlantainerCollectionManager.InitManager(dbsession, dbName, "devices")
 		PlantainerCollectionManager.Inited = true
 	}
-	if !DataCollectionManager.Inited {
-		DataCollectionManager.InitManager(dbsession, dbName, "plantainerdata")
+	if !PlantainerDataCollectionManager.Inited {
+		PlantainerDataCollectionManager.InitManager(dbsession, dbName, "plantainerdata")
 		PlantainerCollectionManager.Inited = true
 	}
 }

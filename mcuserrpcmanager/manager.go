@@ -9,19 +9,10 @@ import (
 	"time"
 )
 
-//type UserRPCManagerHandleResult struct {
-//	Res mccommon.JSONData
-//	Error mccommon.JSONData
-//}
-
-//type mccommon.ClientToServerHandleResChannel chan UserRPCManagerHandleResult
-
-type DeviceCreatorFn func() mccommon.DeviceBaseModelInterface
-
 type UserRPCManagerSt struct {
 	Router *UserRPCRouterSt
 	ServerId string
-	DeviceCreator DeviceCreatorFn
+	DeviceCreator mccommon.DeviceCreatorFn
 	SendToDevice func(msg *mccommon.RPCMsg) error
 }
 
@@ -34,7 +25,7 @@ func CreateNewUserRPCManagerSt(serverId string) *UserRPCManagerSt {
 			if bData, err := msg.MarshalJSON(); err != nil {
 				return err
 			} else {
-				NATSCon.Publish("Device.RPC.Send", bData)
+				InnerRPCMan.Service.Publish("Device.RPC.Send", bData)
 			}
 
 			return nil
@@ -101,7 +92,7 @@ func (thisR *UserRPCManagerSt) SendReq(c mccommon.ClientToServerHandleResChannel
 	return nil
 }
 
-func (thisRPCMan *UserRPCManagerSt) Init(deviceCr DeviceCreatorFn) {
+func (thisRPCMan *UserRPCManagerSt) Init(deviceCr mccommon.DeviceCreatorFn) {
 	thisRPCMan.DeviceCreator = deviceCr
 }
 
@@ -259,8 +250,6 @@ func (thisR *UserRPCManagerSt) initDeviceResource() {
 				Args: &map[string]interface{}{"state": state.Delta.State, "version": state.Delta.Version, "timestamp": time.Now()},
 			}
 			thisR.SendToDevice(data)
-			//return thisR.SendReq(req.Channel, "Device.Shadow.Delta", deviceId, req.RPCData.Id, &map[string]interface{}{"state": state.Delta.State, "version": state.Delta.Version})
-
 		}
 
 		return nil

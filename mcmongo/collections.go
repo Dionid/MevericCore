@@ -39,8 +39,8 @@ type CollectionManagerBaseInterface interface {
 	FindAllModels(targetQuery *bson.M, modelsList ModelsListBaseInterface) error
 	InsertModelFullCustom(dbName string, colName string, model ModelBaseInterface) error
 	InsertModelCustomCol(colName string, model ModelBaseInterface) error
-	UpdateModelFullCustom(dbName string, colName string, model ModelBaseInterface, colQuerier *bson.M, data *bson.M) error
-	UpdateModelCustomCol(colName string, model ModelBaseInterface, colQuerier *bson.M, data *bson.M) error
+	UpdateModelFullCustom(dbName string, colName string, model ModelBaseInterface, colQuerier bson.M, data bson.M) error
+	UpdateModelCustomCol(colName string, model ModelBaseInterface, colQuerier bson.M, data bson.M) error
 	InsertModel(model ModelBaseInterface) error
 	UpdateModel(model ModelBaseInterface) error
 	SaveModel(model ModelBaseInterface) error
@@ -193,7 +193,7 @@ func (this *CollectionManagerBaseSt) InsertModelCustomCol(colName string, model 
 	return this.InsertModelFullCustom(this.DBName, colName, model)
 }
 
-func (this *CollectionManagerBaseSt) UpdateModelFullCustom(dbName string, colName string, model ModelBaseInterface, colQuerier *bson.M, data *bson.M) error {
+func (this *CollectionManagerBaseSt) UpdateModelFullCustom(dbName string, colName string, model ModelBaseInterface, colQuerier bson.M, data bson.M) error {
 	ses, col := this.GetFullCustomSesAndCol(dbName, colName)
 	defer ses.Close()
 
@@ -214,7 +214,7 @@ func (this *CollectionManagerBaseSt) UpdateModelFullCustom(dbName string, colNam
 	return nil
 }
 
-func (this *CollectionManagerBaseSt) UpdateModelCustomCol(colName string, model ModelBaseInterface, colQuerier *bson.M, data *bson.M) error {
+func (this *CollectionManagerBaseSt) UpdateModelCustomCol(colName string, model ModelBaseInterface, colQuerier bson.M, data bson.M) error {
 	return this.UpdateModelFullCustom(this.DBName, colName, model, colQuerier, data)
 }
 
@@ -223,8 +223,8 @@ func (this *CollectionManagerBaseSt) InsertModel(model ModelBaseInterface) error
 }
 
 func (this *CollectionManagerBaseSt) UpdateModel(model ModelBaseInterface) error {
-	colQuerier := &bson.M{"_id": model.GetId()}
-	return this.UpdateModelFullCustom(this.DBName, this.CollectionName, model, colQuerier, &bson.M{"$set": model})
+	colQuerier := bson.M{"_id": model.GetId()}
+	return this.UpdateModelFullCustom(this.DBName, this.CollectionName, model, colQuerier, bson.M{"$set": model})
 }
 
 func (this *CollectionManagerBaseSt) SaveModel(model ModelBaseInterface) error {

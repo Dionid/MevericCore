@@ -24,6 +24,7 @@ func Init(dbsession *mgo.Session, dbName string) {
 	InitInnerRPCManager()
 
 	InitMainModules(dbsession, dbName)
+
 	InitRPCManager()
 
 	InitMQTT()

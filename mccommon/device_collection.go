@@ -20,6 +20,12 @@ type DevicesCollectionManagerInterface interface {
 }
 
 func (this *DevicesCollectionManagerSt) SaveData(model mcmongo.ModelBaseInterface, colQuerier map[string]interface{}, data map[string]interface{}, colName string) error {
+	if err := this.UpdateModelCustomCol(colName, model, colQuerier, data); err != nil {
+		if err != this.ErrNotFound {
+			return err
+		}
+		this.InsertModelCustomCol(colName, model)
+	}
 	return nil
 }
 

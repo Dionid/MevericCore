@@ -24,7 +24,6 @@ func Init(session *mgo.Session, dbName string, e *echo.Echo) {
 }
 
 func initUserModules(usersColMan *mccommon.UsersCollectionManagerSt, e *echo.Echo) {
-	// USERS (Auth, Me modules)
 	usersG := e.Group("/users")
 	mcusers.InitMain(usersColMan, usersG)
 }
