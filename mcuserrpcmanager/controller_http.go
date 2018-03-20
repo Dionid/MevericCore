@@ -35,7 +35,9 @@ func (this *WSHttpControllerSt) createAllWSRooms(userId string, userWS *mcws.WSo
 
 	// Create rooms for them
 	for _, dev := range *devices {
-		WSManager.GetOrAddWSocketRoomWithWSocket(dev.Shadow.Id, userWS)
+		if dev.Shadow.Id != "" {
+			WSManager.GetOrAddWSocketRoomWithWSocket(dev.Shadow.Id, userWS)
+		}
 	}
 
 	return nil

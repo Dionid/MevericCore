@@ -9,6 +9,8 @@ type DeviceResponseServiceSt struct {
 	DeviceMQTTManager ProtocolManagerInterface
 	DeviceWSManager ProtocolManagerInterface
 
+	SendToUser func(msg *mccommon.RPCMsg) error
+
 	ServerId string
 }
 

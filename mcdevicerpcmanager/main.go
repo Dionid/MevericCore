@@ -13,11 +13,12 @@ type DeviceRPCManagerSt struct {
 	DeviceCtrlsByType map[string]DeviceRPCCtrlInterface
 }
 
-func CreateDeviceRPCManager(serverId string, devicesColManager mccommon.DevicesCollectionManagerInterface, mqttMan ProtocolManagerInterface) *DeviceRPCManagerSt {
+func CreateDeviceRPCManager(serverId string, devicesColManager mccommon.DevicesCollectionManagerInterface, mqttMan ProtocolManagerInterface, SendToUser func(msg *mccommon.RPCMsg) error) *DeviceRPCManagerSt {
 	dev := &DeviceRPCManagerSt{
 		ServerId: serverId,
 		DeviceResponseServiceSt: DeviceResponseServiceSt{
 			DeviceMQTTManager: mqttMan,
+			SendToUser: SendToUser,
 			ServerId: serverId,
 		},
 		DevicesCollectionManager: devicesColManager,

@@ -22,6 +22,17 @@ func InitMain(deviceCr DeviceCreatorFn, userColMan *mccommon.UsersCollectionMana
 	nc, _ := nats.Connect(nats.DefaultURL)
 	NATSCon = nc
 
+	NATSCon.Subscribe("User.RPC.Send", func(msg *nats.Msg) {
+		rpcData := &mcws.WsRPCMsgBaseSt{}
+
+		if err := rpcData.UnmarshalJSON(msg.Data); err != nil {
+			return
+		}
+
+		//DeviceMQTTManager.PublishJSON(rpcData.Dst + "/rpc", rpcData)
+		WSManager.SendWsMsgByRoomName(rpcData.Dst, rpcData)
+	})
+
 	InitRPCManager(deviceCr)
 	InitColManagers(userColMan, devicesColMan)
 	InitHttp(e)

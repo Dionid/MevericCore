@@ -23,12 +23,14 @@ type DeviceRPCCtrlInterface interface {
 	SetManagers(mqttMan ProtocolManagerInterface)
 }
 
-func CreateNewDeviceRPCCtrl(typeName string, deviceCreator DeviceCreatorFn, mqttMan ProtocolManagerInterface) *DeviceRPCCtrlSt {
+func CreateNewDeviceRPCCtrl(serverId string, typeName string, deviceCreator DeviceCreatorFn, mqttMan ProtocolManagerInterface, SendToUser func(msg *mccommon.RPCMsg) error) *DeviceRPCCtrlSt {
 	router := CreateNewDeviceRPCRouter()
 
 	res := &DeviceRPCCtrlSt{
 		DeviceResponseServiceSt: DeviceResponseServiceSt{
 			DeviceMQTTManager: mqttMan,
+			SendToUser: SendToUser,
+			ServerId: serverId,
 		},
 		Type: typeName,
 		Router: router,
@@ -130,6 +132,18 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 		thisR.SendRPCSuccessRes(req.Channel, req.Msg.Protocol, req.DeviceId + ".Shadow.Update", req.Msg.ClientId, req.RPCData.Id, &map[string]interface{}{
 			"state": deviceState,
 		})
+
+		rpcData := &mccommon.RPCMsg{
+			Dst: device.GetShadowId(),
+			Src: thisR.ServerId,
+			Method: "Device.Shadow.Update.Accepted",
+			Args: &map[string]interface{}{
+				"state": updateData.State,
+				"version": deviceState.Metadata.Version,
+			},
+		}
+
+		thisR.SendToUser(rpcData)
 
 		return nil
 	})

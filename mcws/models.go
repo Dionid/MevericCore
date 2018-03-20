@@ -126,5 +126,10 @@ func (this *WSocketsManagerSt) RemoveWSocketFromRoom(roomName string, id string)
 }
 
 func (this *WSocketsManagerSt) SendWsMsgByRoomName(roomName string, msg WSocketMsgBaseI) error {
-	return this.WSocketRoomsList[roomName].SendMsg(msg)
+	room := this.WSocketRoomsList[roomName]
+	if room != nil {
+		return this.WSocketRoomsList[roomName].SendMsg(msg)
+	} else {
+		return errors.New("room not found")
+	}
 }

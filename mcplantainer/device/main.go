@@ -16,14 +16,20 @@ var (
 	PlantainerTypeName = "plantainer"
 	NATSCon *nats.Conn = nil
 	DeviceMQTTManager = &mcdevicemqttmanager.DeviceMQTTManagerSt{}
-	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", common.PlantainerCollectionManager, DeviceMQTTManager)
+	DeviceRPCManager *mcdevicerpcmanager.DeviceRPCManagerSt = nil
 )
 
-func Init(dbsession *mgo.Session, dbName string) {
-	InitMainModules(dbsession, dbName)
-	InitRPCManager()
-	InitMQTT()
+func SendToUser(msg *mccommon.RPCMsg) error {
+	if bData, err := msg.MarshalJSON(); err != nil {
+		return err
+	} else {
+		NATSCon.Publish("User.RPC.Send", bData)
+	}
 
+	return nil
+}
+
+func Init(dbsession *mgo.Session, dbName string) {
 	nc, _ := nats.Connect(nats.DefaultURL)
 	NATSCon = nc
 
@@ -34,9 +40,14 @@ func Init(dbsession *mgo.Session, dbName string) {
 			return
 		}
 
-		//fmt.Printf("%+v\n", rpcData)
 		DeviceMQTTManager.PublishJSON(rpcData.Dst + "/rpc", rpcData)
 	})
+
+	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", common.PlantainerCollectionManager, DeviceMQTTManager, SendToUser)
+
+	InitMainModules(dbsession, dbName)
+	InitRPCManager()
+	InitMQTT()
 }
 
 func InitMQTT() {
