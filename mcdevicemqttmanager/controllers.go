@@ -10,22 +10,24 @@ import (
 
 type DeviceMQTTManagerSt struct {
 	router     *mcmqttrouter.MQTTRouter
-	reqHandler mccommon.DeviceToServerReqHandler
-	//deviceIdPropName string
+	reqHandler mccommon.ClientToServerReqHandler
 }
 
-func (this *DeviceMQTTManagerSt) SetReqHandler(handler mccommon.DeviceToServerReqHandler) {
+func (this *DeviceMQTTManagerSt) SetReqHandler(handler mccommon.ClientToServerReqHandler) {
 	this.reqHandler = handler
 }
 
-func (this *DeviceMQTTManagerSt) HandleReq(msg *mccommon.DeviceToServerReqSt) (resMsg mccommon.JSONData, sendBack bool, errMsg mccommon.JSONData) {
+func (this *DeviceMQTTManagerSt) HandleReq(c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt) error {
+	// ToDo: Check if this close must be somewhere else
+	close(c)
+
 	if this.reqHandler != nil {
-		return this.reqHandler(msg)
+		return this.reqHandler(c, msg)
 	}
 
 	// ToDo: Send req to QueueManager and return
 
-	return nil, false, nil
+	return nil
 }
 
 func (this *DeviceMQTTManagerSt) GetChannelIdFromTopicName(topicName string) string {
@@ -38,70 +40,7 @@ func (this *DeviceMQTTManagerSt) GetDeviceIdFromTopicName(topicName string) stri
 	return splitedTopicName[4]
 }
 
-func (this *DeviceMQTTManagerSt) DeviceToServerSub() {
-	this.router.Subscribe("channels/+/devices/+/s/rpc", func(client mqtt.Client, msg mqtt.Message) {
-		msgPayload := msg.Payload()
-		msgTopic := msg.Topic()
-
-		fmt.Printf("Product RPC topic: %s\n", msgTopic)
-		fmt.Printf("Product RPC payload: %s\n", msgPayload)
-
-		deviceId := this.GetDeviceIdFromTopicName(msgTopic)
-		channelId := this.GetChannelIdFromTopicName(msgTopic)
-
-		// ToDo: Auth
-		// Get PublisherId
-		// MUST: deviceId == publisherId
-
-		// ToDo: Replace this code to other module
-		//device := new(DeviceBaseModelSt)
-		//if err := DevicesCollectionManager.FindByStringId(deviceId, device); err != nil {
-		//	return
-		//}
-		//
-		//channel := new(ChannelBaseModel)
-		//if err := ChannelsCollectionManager.FindByStringId(channelId, channel); err != nil {
-		//	return
-		//}
-		//
-		//if err := channel.CheckPublisherDeviceAccess(publisherId, device); err != nil {
-		//	return
-		//}
-		//
-		//man := GlobalActionManager.DeviceToServerActionManagersByDeviceType[device.Type]
-		//
-		//res, sendBack, err := man.ProcessAction()
-
-		res, sendBack, err := this.HandleReq(&mccommon.DeviceToServerReqSt{
-			DeviceId:  deviceId,
-			ChannelId: channelId,
-			Protocol:  "MQTT",
-			Msg:       &msgPayload,
-		})
-
-		if err != nil {
-			// LOG
-			b, jerr := res.MarshalJSON()
-			if jerr != nil {
-				// LOG
-				return
-			}
-			// TODO: Change this to normal way
-			this.Publish(deviceId+"/rpc", b)
-		}
-
-		if sendBack && res != nil {
-			b, jerr := res.MarshalJSON()
-			if jerr != nil {
-				// LOG
-				return
-			}
-			this.Publish(deviceId+"/rpc", b)
-		}
-	})
-}
-
-func (this *DeviceMQTTManagerSt) DevicetoServerRPCSub() {
+func (this *DeviceMQTTManagerSt) DeviceToServerRPCSub() {
 	this.router.Subscribe("/rpc", func(client mqtt.Client, msg mqtt.Message) {
 		msgPayload := msg.Payload()
 		msgTopic := msg.Topic()
@@ -111,43 +50,71 @@ func (this *DeviceMQTTManagerSt) DevicetoServerRPCSub() {
 
 		rpcData := mccommon.RPCMsg{}
 		if err := rpcData.UnmarshalJSON(msgPayload); err != nil {
-			//b, jerr := res.MarshalJSON()
-			//if jerr != nil {
-			//	// LOG
-			//	return
-			//}
-			//this.Publish(deviceId+"/rpc", b)
+			// TODO: Try to send back an error
 			return
 		}
 
 		deviceId := rpcData.Src
 
-		res, sendBack, err := this.HandleReq(&mccommon.DeviceToServerReqSt{
-			DeviceId:  deviceId,
+		handleMsg := &mccommon.ClientToServerReqSt{
+			ClientId:  deviceId,
 			ChannelId: "",
 			Protocol:  "MQTT",
 			Msg:       &msgPayload,
-		})
-
-		if err != nil {
-			// LOG
-			b, jerr := err.MarshalJSON()
-			if jerr != nil {
-				// LOG
-				return
-			}
-			this.Publish(deviceId+"/rpc", b)
-			return
+			Resource: &msgTopic,
 		}
 
-		if sendBack && res != nil {
-			b, jerr := res.MarshalJSON()
-			if jerr != nil {
-				// LOG
-				return
+		respChan := make(mccommon.ClientToServerHandleResChannel)
+
+		go func() {
+			err := this.HandleReq(respChan, handleMsg)
+			if err != nil {
+				print("OMG ERR IN MQTT CONTROLLER")
 			}
-			this.Publish(deviceId+"/rpc", b)
+		}()
+
+		for resultSt := range respChan {
+			if resultSt.Error != nil {
+				if bData, err := resultSt.Error.MarshalJSON(); err != nil {
+					// ToDo: Change err to RPCMsg
+					this.Publish(deviceId+"/rpc", []byte(err.Error()))
+				} else {
+					this.Publish(deviceId+"/rpc", bData)
+				}
+			}
+			if resultSt.Resp != nil {
+				if bData, err := resultSt.Resp.MarshalJSON(); err != nil {
+					// ToDo: Change err to RPCMsg
+					this.Publish(deviceId+"/rpc", []byte(err.Error()))
+				} else {
+					this.Publish(deviceId+"/rpc", bData)
+				}
+			}
 		}
+
+		//res, sendBack, err := this.HandleReq(handleMsg)
+
+		//if err != nil {
+		//	// LOG
+		//	b, jerr := err.MarshalJSON()
+		//	if jerr != nil {
+		//		// TODO: LOG
+		//		// TODO: Try to send back an error
+		//		return
+		//	}
+		//	this.Publish(deviceId+"/rpc", b)
+		//	return
+		//}
+		//
+		//if sendBack && res != nil {
+		//	b, jerr := res.MarshalJSON()
+		//	if jerr != nil {
+		//		// TODO: LOG
+		//		// TODO: Try to send back an error
+		//		return
+		//	}
+		//	this.Publish(deviceId+"/rpc", b)
+		//}
 	})
 }
 
@@ -199,5 +166,5 @@ func (this *DeviceMQTTManagerSt) UnSubscribeFromAll() {
 }
 
 func (this *DeviceMQTTManagerSt) SubscribeMainRoutes() {
-	this.DevicetoServerRPCSub()
+	this.DeviceToServerRPCSub()
 }

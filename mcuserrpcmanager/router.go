@@ -3,7 +3,6 @@ package mcuserrpcmanager
 import (
 	"mevericcore/mccommon"
 	"fmt"
-	"strings"
 	"errors"
 )
 
@@ -11,7 +10,7 @@ type (
 	ReqSt struct {
 		Channel UserRPCManagerHandleResultChannel
 		Resource string
-		Msg *mccommon.DeviceToServerReqSt
+		Msg *mccommon.ClientToServerReqSt
 		RPCData *mccommon.RPCMsg
 		ctx map[string]interface{}
 	}
@@ -70,7 +69,7 @@ func (this *UserRPCRouterSt) ChangeAnyHandler(resource string, handler HandlerFu
 	(*this.handlersByResource)[resource] = handler
 }
 
-func (this *UserRPCRouterSt) Handle(c UserRPCManagerHandleResultChannel, resource string, msg *mccommon.DeviceToServerReqSt, rpcData *mccommon.RPCMsg) error {
+func (this *UserRPCRouterSt) Handle(c UserRPCManagerHandleResultChannel, resource string, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
 	defer func() {
 		close(c)
 		if recover() != nil {
@@ -79,10 +78,7 @@ func (this *UserRPCRouterSt) Handle(c UserRPCManagerHandleResultChannel, resourc
 		}
 	}()
 
-	splitedRes := strings.Split(resource, ".")
-	res := strings.Join(splitedRes[1:], ".")
-
-	h := (*this.handlersByResource)[res]
+	h := (*this.handlersByResource)[resource]
 
 	if h == nil {
 		return errors.New("no handler")
@@ -94,7 +90,7 @@ func (this *UserRPCRouterSt) Handle(c UserRPCManagerHandleResultChannel, resourc
 
 	return h(&ReqSt{
 		c,
-		res,
+		resource,
 		msg,
 		rpcData,
 		map[string]interface{}{},

@@ -17,7 +17,7 @@ func (this *DeviceHTTPManagerSt) SetReqHandler(handler mccommon.DeviceToServerRe
 	this.reqHandler = handler
 }
 
-func (this *DeviceHTTPManagerSt) HandleReq(msg *mccommon.DeviceToServerReqSt) (resMsg mccommon.JSONData, sendBack bool, errMsg mccommon.JSONData) {
+func (this *DeviceHTTPManagerSt) HandleReq(msg *mccommon.ClientToServerReqSt) (resMsg mccommon.JSONData, sendBack bool, errMsg mccommon.JSONData) {
 	if this.reqHandler != nil {
 		return this.reqHandler(msg)
 	}
@@ -45,8 +45,8 @@ func (this *DeviceHTTPManagerSt) ReqPostHandler(c echo.Context) error {
 
 	raw, _ := ioutil.ReadAll(c.Request().Body)
 
-	res, sendBack, err := this.HandleReq(&mccommon.DeviceToServerReqSt{
-		DeviceId:  deviceId,
+	res, sendBack, err := this.HandleReq(&mccommon.ClientToServerReqSt{
+		ClientId:  deviceId,
 		ChannelId: channelId,
 		Protocol:  "HTTP",
 		Msg:       &raw,

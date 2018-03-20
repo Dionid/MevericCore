@@ -8,37 +8,6 @@ import (
 	"fmt"
 )
 
-type MQTTRouter struct {
-	Client *mqtt.Client
-	prefix string
-	Routes []string
-}
-
-func (this *MQTTRouter) Subscribe(path string, handler mqtt.MessageHandler) {
-	this.Routes = append(this.Routes, path)
-	addSubscribeRoute(this.Client, this.prefix + path, handler)
-}
-
-func (this *MQTTRouter) UnSubscribeFromAll() {
-	unsubscribeFromChannels(this.Client, this.Routes...)
-}
-
-func (this *MQTTRouter) Publish(topic string, payload interface{}) mqtt.Token {
-	return (*this.Client).Publish(topic, 0, false, payload)
-}
-
-func (this *MQTTRouter) Group(path string) *MQTTRouter{
-	return &MQTTRouter{this.Client, this.prefix + path, []string{}}
-}
-
-func NewMQTTRouter(c *mqtt.Client) *MQTTRouter {
-	return &MQTTRouter{
-		c,
-		"",
-		[]string{},
-	}
-}
-
 func CreateConnOpts(brokerName string, clientId string, debug bool) *mqtt.ClientOptions {
 	if debug {
 		//mqtt.DEBUG = log.New(os.Stdout, "", 0)

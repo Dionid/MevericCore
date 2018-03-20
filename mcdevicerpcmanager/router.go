@@ -4,20 +4,22 @@ import (
 	"mevericcore/mccommon"
 	"strings"
 	"fmt"
+	"errors"
 )
 
 // REQ
 
 type (
 	ReqSt struct {
+		Channel mccommon.ClientToServerHandleResChannel
 		Resource string
-		Msg *mccommon.DeviceToServerReqSt
+		Msg *mccommon.ClientToServerReqSt
 		RPCData *mccommon.RPCMsg
 		DeviceId string
 		ctx map[string]interface{}
 	}
 
-	HandlerFunc func(*ReqSt) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData)
+	HandlerFunc func(*ReqSt) error
 	MiddlewareFunc func(HandlerFunc) HandlerFunc
 )
 
@@ -71,7 +73,7 @@ func (this *DeviceRPCRouterSt) ChangeAnyHandler(resource string, handler Handler
 	(*this.handlersByResource)[resource] = handler
 }
 
-func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToServerReqSt, rpcData *mccommon.RPCMsg) (mccommon.JSONData, bool, mccommon.JSONData) {
+func (this *DeviceRPCRouterSt) Handle(resource string, c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
 	defer func() {
 		if recover() != nil {
 			fmt.Println("Recovered")
@@ -85,7 +87,7 @@ func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToSer
 	h := (*this.handlersByResource)[res]
 
 	if h == nil {
-		return nil, false, nil
+		return errors.New("no handler")
 	}
 
 	for i := len(this.middlewares) - 1; i >= 0; i-- {
@@ -93,6 +95,7 @@ func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToSer
 	}
 
 	return h(&ReqSt{
+		c,
 		res,
 		msg,
 		rpcData,
@@ -100,39 +103,3 @@ func (this *DeviceRPCRouterSt) Handle(resource string, msg *mccommon.DeviceToSer
 		map[string]interface{}{},
 	})
 }
-
-//type DeviceSpecificRouterHandlersSt struct{
-//	BeforeHandlerExec HandlerFunc
-//	AfterHandlerExec HandlerFunc
-//}
-
-//type DeviceSpecificRouter struct {
-//	Handlers map[string]*DeviceSpecificRouterHandlersSt
-//}
-//
-//func (this *DeviceSpecificRouter) AddHandler(resource string, beforeH HandlerFunc, afterH HandlerFunc) {
-//	this.Handlers[resource] = &DeviceSpecificRouterHandlersSt{
-//		beforeH,
-//		afterH,
-//	}
-//}
-//
-//func (this *DeviceSpecificRouter) BeforeHandlerExec(req *ReqSt) {
-//	this.Handlers[req.Resource].BeforeHandlerExec(req)
-//}
-//
-//func (this *DeviceSpecificRouter) AfterHandlerExec(req *ReqSt) {
-//	this.Handlers[req.Resource].AfterHandlerExec(req)
-//}
-//
-//func (this *DeviceSpecificRouter) ExecDeviceSpecificRouterMiddleware(h HandlerFunc) HandlerFunc {
-//	return func(req *ReqSt) (mccommon.JSONData, bool, mccommon.JSONData) {
-//		this.BeforeHandlerExec(req)
-//
-//		res, s, e := h(req)
-//
-//		this.AfterHandlerExec(req)
-//
-//		return res, s, e
-//	}
-//}

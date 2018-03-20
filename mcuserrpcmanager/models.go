@@ -6,8 +6,8 @@ import "mevericcore/mcws"
 type WsAuthRPCReqSt struct {
 	mcws.WsRPCMsgBaseSt
 	Args struct {
-		Login string
-		Password string
+		Login string `json:"login"`
+		Password string `json:"password"`
 	}
 }
 

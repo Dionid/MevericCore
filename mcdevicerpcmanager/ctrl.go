@@ -15,11 +15,11 @@ type DeviceRPCCtrlSt struct{
 	Type string
 	Router *DeviceRPCRouterSt
 
-	DeviceCreator func() mccommon.DeviceBaseModelInterface
+	DeviceCreator DeviceCreatorFn
 }
 
 type DeviceRPCCtrlInterface interface {
-	HandleReq(resource string, msg *mccommon.DeviceToServerReqSt, rpcData *mccommon.RPCMsg) (mccommon.JSONData, bool, mccommon.JSONData)
+	HandleReq(resource string, c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error
 	SetManagers(mqttMan ProtocolManagerInterface)
 }
 
@@ -42,41 +42,37 @@ func CreateNewDeviceRPCCtrl(typeName string, deviceCreator DeviceCreatorFn, mqtt
 
 func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 	shadowG := thisR.Router.Group("Shadow")
-	shadowG.AddHandler("Get", func(req *ReqSt) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
+	shadowG.AddHandler("Get", func(req *ReqSt) error {
 		device := thisR.DeviceCreator()
 
 		if err := thisR.DevicesCollectionManager.FindByShadowId(req.DeviceId, device); err != nil {
-			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 404)
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
 		}
 
 		state := device.GetShadow().GetState()
 		state.FillDelta()
 
 		if len(state.Delta.State) != 0 {
-			thisR.PublishDelta(req.Msg.Protocol, req.Msg.DeviceId, req.DeviceId, req.RPCData.Id, state.Delta)
+			thisR.PublishDelta(req.Channel, req.Msg.Protocol, req.Msg.ClientId, req.DeviceId, req.RPCData.Id, state.Delta)
 		}
 
-		return mccommon.RPCMsg{
-			Src: thisR.ServerId,
-			Dst: req.Msg.DeviceId,
-			Id: req.RPCData.Id,
-			Method: req.DeviceId + ".Shadow.Get",
-			Result: &map[string]interface{}{
-				"state": state,
-			},
-		}, true, nil
+		thisR.SendRPCSuccessRes(req.Channel, req.Msg.Protocol, req.DeviceId + ".Shadow.Get", req.Msg.ClientId, req.RPCData.Id, &map[string]interface{}{
+			"state": state,
+		})
+
+		return nil
 	})
-	shadowG.AddHandler("Update", func(req *ReqSt) (res mccommon.JSONData, sendBack bool, err mccommon.JSONData) {
+	shadowG.AddHandler("Update", func(req *ReqSt) error {
 		device := thisR.DeviceCreator()
 
 		if err := thisR.DevicesCollectionManager.FindByShadowId(req.DeviceId, device); err != nil {
-			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 404)
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
 		}
 
 		updateRpcMsg := &mccommon.RPCWithShadowUpdateMsg{}
 
 		if err := updateRpcMsg.UnmarshalJSON(*req.Msg.Msg); err != nil {
-			return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
 		}
 
 		updateData := updateRpcMsg.Args
@@ -91,7 +87,7 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 			deviceState.SetDesiredState(updateData.State.Desired)
 			deviceState.IncrementVersion()
 			if err := thisR.DevicesCollectionManager.SaveModel(device); err != nil {
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
 			}
 			// PUB /update/accepted with Desire and Reported
 			somethingNew = true
@@ -99,7 +95,7 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 			deviceState.SetReportedState(updateData.State.Reported)
 			deviceState.IncrementVersion()
 			if err := thisR.DevicesCollectionManager.SaveModel(device); err != nil {
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
 			}
 			// PUB /update/accepted with Reported
 			somethingNew = true
@@ -107,12 +103,12 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 			if !deviceState.CheckVersion(updateData.Version) {
 				// PUB /update/rejected with Desired and Reported
 				err := errors.New("version wrong")
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
 			}
 			deviceState.SetDesiredState(updateData.State.Desired)
 			deviceState.IncrementVersion()
 			if err := thisR.DevicesCollectionManager.SaveModel(device); err != nil {
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
 			}
 			// PUB /update/accepted with Desired
 			somethingNew = true
@@ -121,30 +117,26 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 		deviceState.FillDelta()
 
 		if len(deviceState.Delta.State) != 0 {
-			thisR.PublishDelta(req.Msg.Protocol, req.Msg.DeviceId, req.DeviceId, req.RPCData.Id, deviceState.Delta)
+			thisR.PublishDelta(req.Channel, req.Msg.Protocol, req.Msg.ClientId, req.DeviceId, req.RPCData.Id, deviceState.Delta)
 		}
 
 		if !somethingNew {
 			// In this case SetIsActivated haven't been saved
 			if err := thisR.DevicesCollectionManager.SaveModel(device); err != nil {
-				return thisR.SendRPCErrorRes(req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, err.Error(), 500)
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
 			}
 		}
 
-		return mccommon.RPCMsg{
-			Src: thisR.ServerId,
-			Dst: req.Msg.DeviceId,
-			Id: req.RPCData.Id,
-			Method: req.DeviceId + ".Shadow.Update",
-			Result: &map[string]interface{}{
-				"state": deviceState,
-			},
-		}, true, nil
+		thisR.SendRPCSuccessRes(req.Channel, req.Msg.Protocol, req.DeviceId + ".Shadow.Update", req.Msg.ClientId, req.RPCData.Id, &map[string]interface{}{
+			"state": deviceState,
+		})
+
+		return nil
 	})
 }
 
-func (this *DeviceRPCCtrlSt) HandleReq(resource string, msg *mccommon.DeviceToServerReqSt, rpcData *mccommon.RPCMsg) (mccommon.JSONData, bool, mccommon.JSONData) {
-	return this.Router.Handle(resource, msg, rpcData)
+func (this *DeviceRPCCtrlSt) HandleReq(resource string, c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
+	return this.Router.Handle(resource, c, msg, rpcData)
 }
 
 func (this *DeviceRPCCtrlSt) SetManagers(mqttMan ProtocolManagerInterface) {

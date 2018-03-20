@@ -16,22 +16,26 @@ type UserRPCManagerHandleResult struct {
 
 type UserRPCManagerHandleResultChannel chan UserRPCManagerHandleResult
 
+type DeviceCreatorFn func() mccommon.DeviceBaseModelInterface
+
 type UserRPCManagerSt struct {
 	Router *UserRPCRouterSt
 	ServerId string
+	DeviceCreator DeviceCreatorFn
 }
 
 func CreateNewUserRPCManagerSt(serverId string) *UserRPCManagerSt {
 	return &UserRPCManagerSt{
 		CreateNewDeviceRPCRouter(),
 		serverId,
+		nil,
 	}
 }
 
-func (thisR *UserRPCManagerSt) Handle(c UserRPCManagerHandleResultChannel, msg *mccommon.DeviceToServerReqSt) error {
+func (thisR *UserRPCManagerSt) Handle(c UserRPCManagerHandleResultChannel, msg *mccommon.ClientToServerReqSt) error {
 	rpcData := &mccommon.RPCMsg{}
 	if err := rpcData.UnmarshalJSON(*msg.Msg); err != nil {
-		return thisR.SendRPCErrorRes(c, msg.Protocol, "", msg.DeviceId, 0, err.Error(), 422)
+		return thisR.SendRPCErrorRes(c, msg.Protocol, "", msg.ClientId, 0, err.Error(), 422)
 	}
 
 	thisR.Router.Handle(c, rpcData.Method, msg, rpcData)
@@ -72,6 +76,25 @@ func (thisR *UserRPCManagerSt) SendSuccessResp(c UserRPCManagerHandleResultChann
 	return nil
 }
 
+func (thisR *UserRPCManagerSt) SendReq(c UserRPCManagerHandleResultChannel, protocol string, methodName string, srcDeviceId string, reqId int, args *map[string]interface{}) error {
+	data := mccommon.RPCMsg{
+		Method: methodName,
+		Id: reqId,
+		Src: thisR.ServerId,
+		Dst: srcDeviceId,
+		Args: args,
+	}
+	c <- UserRPCManagerHandleResult{
+		data,
+		nil,
+	}
+	return nil
+}
+
+func (thisRPCMan *UserRPCManagerSt) Init(deviceCr DeviceCreatorFn) {
+	thisRPCMan.DeviceCreator = deviceCr
+}
+
 func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 	authG := thisRPCMan.Router.Group("Auth")
 	authG.AddHandler("Login", func(req *ReqSt) error {
@@ -80,7 +103,7 @@ func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 			return err
 		}
 		if tokenMsg.Args.Login == "" || tokenMsg.Args.Password == "" {
-			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, "Login and password are required", 503)
+			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "Login and password are required", 503)
 		}
 
 		// Create token
@@ -88,14 +111,14 @@ func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 
 		if err := UsersCollectionManager.FindModelByLogin(tokenMsg.Args.Login, user); err != nil {
 			if err == UsersCollectionManager.ErrNotFound {
-				return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, "Invalid email or password", 406)
+				return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "Invalid email or password", 406)
 			} else {
-				return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, "Try again", 406)
+				return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "Try again", 406)
 			}
 		}
 
 		if !user.CheckPasswordHash(tokenMsg.Args.Password) {
-			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, "Invalid email or password", 406)
+			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "Invalid email or password", 406)
 		}
 
 		token := jwt.New(jwt.SigningMethodHS256)
@@ -108,7 +131,7 @@ func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 		t, err := token.SignedString([]byte("secret"))
 
 		if err != nil {
-			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, "Token creation problem", 503)
+			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "Token creation problem", 503)
 		}
 
 		// Send success
@@ -138,7 +161,7 @@ func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 			return err
 		}
 		if authMsg.Args.Token == "" {
-			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, "Token is required", 503)
+			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "Token is required", 503)
 		}
 		// Auth user
 		t, err := jwt.Parse(authMsg.Args.Token, func(t *jwt.Token) (interface{}, error) {
@@ -146,14 +169,14 @@ func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 		})
 
 		if err != nil {
-			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, "Problem with token", 503)
+			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "Problem with token", 503)
 		}
 
 		userTokenId := t.Claims.(jwt.MapClaims)["id"].(string)
 		user := new(mccommon.UserModel)
 
 		if err := UsersCollectionManager.FindModelByStringId(userTokenId, user); err != nil {
-			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.DeviceId, req.RPCData.Id, "Incorrect token", 503)
+			return thisRPCMan.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "Incorrect token", 503)
 		}
 
 		//req.Ws.Authorized = true
@@ -168,7 +191,7 @@ func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 
 func userWsMiddleware(next HandlerFunc) HandlerFunc {
 	return func(req *ReqSt) error {
-		userId := req.Msg.DeviceId
+		userId := req.Msg.ClientId
 
 		userM := new(mccommon.UserModel)
 		if err := UsersCollectionManager.FindModelByStringId(userId, userM); err != nil {
@@ -187,10 +210,33 @@ func userWsMiddleware(next HandlerFunc) HandlerFunc {
 func (thisR *UserRPCManagerSt) initDeviceResource() {
 	deviceG := thisR.Router.Group("Device")
 	deviceG.Use(userWsMiddleware)
-	//deviceG.AddHandler("List", func(req *mcws.ReqSt) error {
-	//	return nil
-	//})
-	//deviceG.AddHandler("Get", func(req *mcws.ReqSt) error {
-	//	return nil
-	//})
+	deviceG.AddHandler("List", func(req *ReqSt) error {
+		return nil
+	})
+	deviceG.AddHandler("Get", func(req *ReqSt) error {
+		return nil
+	})
+	shadowG := deviceG.Group("Shadow")
+	shadowG.AddHandler("Get", func(req *ReqSt) error {
+		device := thisR.DeviceCreator()
+		args := req.RPCData.Args.(map[string]interface{})
+		deviceId := args["deviceId"].(string)
+
+		if err := DevicesCollectionManager.FindByShadowId(deviceId, device); err != nil {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+
+		state := device.GetShadow().GetState()
+
+		thisR.SendSuccessResp(req.Channel, req.RPCData, &map[string]interface{}{"state": state})
+
+		state.FillDelta()
+
+		if len(state.Delta.State) != 0 {
+			// TODO: SEND TO DEVICE
+			//return thisR.SendReq(req.Channel, req.Msg.Protocol, "Device.Shadow.Delta", deviceId, req.RPCData.Id, &map[string]interface{}{"state": state.Delta.State, "version": state.Delta.Version})
+		}
+
+		return nil
+	})
 }

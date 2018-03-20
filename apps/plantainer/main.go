@@ -8,6 +8,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"mevericcore/mcusers"
 	"mevericcore/mccommon"
+	"fmt"
 )
 
 var (
@@ -34,7 +35,15 @@ func InitMongoDbConnection() *mgo.Session {
 
 var (
 	MainDBName = "tztatom"
+	WSSkipperFn = func(c echo.Context) bool {
+		fmt.Println(c.Path())
+		if c.Path() == "/app/ws" {
+			return true
+		}
+		return false
+	}
 	jwtMdlw = middleware.JWTWithConfig(middleware.JWTConfig{
+		Skipper:     WSSkipperFn,
 		SigningKey:  []byte("secret"),
 		ContextKey:  "client",
 		TokenLookup: "header:" + echo.HeaderAuthorization,
@@ -43,10 +52,7 @@ var (
 	})
 )
 
-func main() {
-	session := InitMongoDbConnection()
-	defer session.Close()
-
+func initEcho() *echo.Echo {
 	e := echo.New()
 
 	// Debug
@@ -58,15 +64,38 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	UsersCollectionManager := mccommon.InitUserColManager(session, MainDBName)
+	e.Static("/", "")
 
+	return e
+}
+
+func initUserModules(usersColMan *mccommon.UsersCollectionManagerSt, session *mgo.Session,e *echo.Echo) {
 	// USERS (Auth, Me modules)
 	usersG := e.Group("/users")
-	mcusers.InitMain(UsersCollectionManager, usersG)
+	mcusers.InitMain(usersColMan, usersG)
+}
 
+func initDeviceModules(usersColMan *mccommon.UsersCollectionManagerSt, session *mgo.Session,e *echo.Echo) {
 	appG := e.Group("/app")
 	appG.Use(jwtMdlw)
-	mcplantainer.Init(UsersCollectionManager, session, MainDBName, appG)
+	mcplantainer.Init(usersColMan, session, MainDBName, appG)
+}
 
+func main() {
+	// 1. Init MongoDB session
+	session := InitMongoDbConnection()
+	defer session.Close()
+
+	// 2. Init Echo server for Devices and Users
+	e := initEcho()
+
+	// 3. Get UsersColManager for both modules
+	usersColMan := mccommon.InitUserColManager(session, MainDBName)
+
+	// 4. Init modules
+	initUserModules(usersColMan, session, e)
+	initDeviceModules(usersColMan, session, e)
+
+	// 5. Start Echo server
 	e.Logger.Fatal(e.Start("localhost:3001"))
 }

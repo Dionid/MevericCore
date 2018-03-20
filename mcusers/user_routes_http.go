@@ -13,7 +13,3 @@ func initUsersRoutes(group *echo.Group) {
 func initAuthRoutes(group *echo.Group) {
 	group.POST("/login", UserCtrl.Auth)
 }
-
-//func initWsRoute(group *echo.Group) {
-//	group.GET("/ws", UserCtrl.WSHandler)
-//}

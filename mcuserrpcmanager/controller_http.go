@@ -82,24 +82,41 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 		}
 
 		if !userWS.Authorized {
-			if msg.Method != "Auth.Token" && msg.Method != "Auth.Authenticate" {
-				userWS.SendErrorMsg("Forbidden", msg.Method, 503, msg.Id)
+			if msg.Method != "Auth.Auth" && msg.Method != "Auth.Login" {
+				//userWS.SendErrorMsg("Forbidden", msg.Method, 503, msg.Id)
+				r := mccommon.RPCMsg{
+					Method: msg.Method,
+					Id: msg.Id,
+					Src: msg.Dst,
+					Dst: msg.Src,
+					Error: &map[string]interface{}{
+						"message": "Forbidden",
+						"code": 503,
+					},
+				}
+				if bData, err := r.MarshalJSON(); err != nil {
+					userWS.SendMsg([]byte(err.Error()))
+				} else {
+					userWS.SendMsg(bData)
+				}
 				continue
 			}
 		}
 
-		handleMsg := &mccommon.DeviceToServerReqSt{
-			DeviceId: userId,
+		handleMsg := &mccommon.ClientToServerReqSt{
+			ClientId:  userId,
 			ChannelId: "",
-			Protocol: "WS",
-			Msg: &byteMsg,
+			Protocol:  "WS",
+			Msg:       &byteMsg,
 		}
 
 		respChan := make(UserRPCManagerHandleResultChannel)
 
-		if err := UserRPCManager.Handle(respChan, handleMsg); err != nil {
-			continue
-		}
+		go func() {
+			if err := UserRPCManager.Handle(respChan, handleMsg); err != nil {
+				userWS.SendMsg([]byte(err.Error()))
+			}
+		}()
 
 		for resultSt := range respChan {
 			if resultSt.Error != nil {
@@ -113,6 +130,9 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 				if bData, err := resultSt.Resp.MarshalJSON(); err != nil {
 					userWS.SendMsg([]byte(err.Error()))
 				} else {
+					if msg.Method == "Auth.Auth" {
+						userWS.Authorized = true
+					}
 					userWS.SendMsg(bData)
 				}
 			}

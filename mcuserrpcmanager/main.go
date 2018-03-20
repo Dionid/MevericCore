@@ -15,13 +15,14 @@ var (
 	UsersCollectionManager *mccommon.UsersCollectionManagerSt = nil
 )
 
-func InitMain(userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesCollectionManagerInterface, e *echo.Group) {
-	InitRPCManager()
+func InitMain(deviceCr DeviceCreatorFn, userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesCollectionManagerInterface, e *echo.Group) {
+	InitRPCManager(deviceCr)
 	InitColManagers(userColMan, devicesColMan)
 	InitHttp(e)
 }
 
-func InitRPCManager() {
+func InitRPCManager(deviceCr DeviceCreatorFn) {
+	UserRPCManager.Init(deviceCr)
 	UserRPCManager.InitRoutes()
 }
 

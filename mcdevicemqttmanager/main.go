@@ -4,20 +4,20 @@ import (
 	"mevericcore/mcmqttrouter"
 )
 
-var (
-	DeviceMQTTManager = &DeviceMQTTManagerSt{}
-)
+//var (
+//	DeviceMQTTManager = &DeviceMQTTManagerSt{}
+//)
 
-func Init(router *mcmqttrouter.MQTTRouter) {
-	InitMQTT(router)
+func (this *DeviceMQTTManagerSt) Init(router *mcmqttrouter.MQTTRouter) {
+	this.InitMQTT(router)
 }
 
-func InitMQTT(router *mcmqttrouter.MQTTRouter) {
-	DeviceMQTTManager.router = router
-	DeviceMQTTManager.SubscribeMainRoutes()
+func (this *DeviceMQTTManagerSt) InitMQTT(router *mcmqttrouter.MQTTRouter) {
+	this.router = router
+	this.SubscribeMainRoutes()
 }
 
-func ReInitMQTT() {
-	DeviceMQTTManager.UnSubscribeFromAll()
-	DeviceMQTTManager.SubscribeMainRoutes()
+func (this *DeviceMQTTManagerSt) ReInitMQTT() {
+	this.UnSubscribeFromAll()
+	this.SubscribeMainRoutes()
 }

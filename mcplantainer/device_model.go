@@ -114,14 +114,14 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 }
 
 //easyjson:json
-type SmartHeatersDeviceList []PlantainerModelSt
+type PlantainersList []PlantainerModelSt
 
-func (this *SmartHeatersDeviceList) GetBaseQuery() *bson.M {
+func (this *PlantainersList) GetBaseQuery() *bson.M {
 	return &bson.M{
 		"deletedAt": nil,
 	}
 }
 
-func (this *SmartHeatersDeviceList) GetTypeName() string {
+func (this *PlantainersList) GetTypeName() string {
 	return "plantainer"
 }
