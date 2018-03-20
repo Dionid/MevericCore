@@ -9,12 +9,12 @@ import (
 	"time"
 )
 
-type UserRPCManagerHandleResult struct {
-	Resp mccommon.JSONData
-	Error mccommon.JSONData
-}
+//type UserRPCManagerHandleResult struct {
+//	Resp mccommon.JSONData
+//	Error mccommon.JSONData
+//}
 
-type UserRPCManagerHandleResultChannel chan UserRPCManagerHandleResult
+//type mccommon.ClientToServerHandleResChannel chan UserRPCManagerHandleResult
 
 type DeviceCreatorFn func() mccommon.DeviceBaseModelInterface
 
@@ -32,7 +32,7 @@ func CreateNewUserRPCManagerSt(serverId string) *UserRPCManagerSt {
 	}
 }
 
-func (thisR *UserRPCManagerSt) Handle(c UserRPCManagerHandleResultChannel, msg *mccommon.ClientToServerReqSt) error {
+func (thisR *UserRPCManagerSt) Handle(c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt) error {
 	rpcData := &mccommon.RPCMsg{}
 	if err := rpcData.UnmarshalJSON(*msg.Msg); err != nil {
 		return thisR.SendRPCErrorRes(c, msg.Protocol, "", msg.ClientId, 0, err.Error(), 422)
@@ -43,7 +43,7 @@ func (thisR *UserRPCManagerSt) Handle(c UserRPCManagerHandleResultChannel, msg *
 	return nil
 }
 
-func (thisR *UserRPCManagerSt) SendRPCErrorRes(c UserRPCManagerHandleResultChannel, protocol string, methodName string, srcDeviceId string, reqId int, errMessage string, errCode int) error {
+func (thisR *UserRPCManagerSt) SendRPCErrorRes(c mccommon.ClientToServerHandleResChannel, protocol string, methodName string, srcDeviceId string, reqId int, errMessage string, errCode int) error {
 	data := mccommon.RPCMsg{
 		Method: methodName,
 		Id: reqId,
@@ -54,14 +54,14 @@ func (thisR *UserRPCManagerSt) SendRPCErrorRes(c UserRPCManagerHandleResultChann
 			"code": errCode,
 		},
 	}
-	c <- UserRPCManagerHandleResult{
+	c <- mccommon.ClientToServerHandleRes{
 		nil,
 		data,
 	}
 	return nil
 }
 
-func (thisR *UserRPCManagerSt) SendSuccessResp(c UserRPCManagerHandleResultChannel, msg *mccommon.RPCMsg, result *map[string]interface{}) error {
+func (thisR *UserRPCManagerSt) SendSuccessResp(c mccommon.ClientToServerHandleResChannel, msg *mccommon.RPCMsg, result *map[string]interface{}) error {
 	data := mccommon.RPCMsg{
 		Method: msg.Method,
 		Id: msg.Id,
@@ -69,14 +69,14 @@ func (thisR *UserRPCManagerSt) SendSuccessResp(c UserRPCManagerHandleResultChann
 		Dst: msg.Src,
 		Result: result,
 	}
-	c <- UserRPCManagerHandleResult{
+	c <- mccommon.ClientToServerHandleRes{
 		data,
 		nil,
 	}
 	return nil
 }
 
-func (thisR *UserRPCManagerSt) SendReq(c UserRPCManagerHandleResultChannel, protocol string, methodName string, srcDeviceId string, reqId int, args *map[string]interface{}) error {
+func (thisR *UserRPCManagerSt) SendReq(c mccommon.ClientToServerHandleResChannel, protocol string, methodName string, srcDeviceId string, reqId int, args *map[string]interface{}) error {
 	data := mccommon.RPCMsg{
 		Method: methodName,
 		Id: reqId,
@@ -84,7 +84,7 @@ func (thisR *UserRPCManagerSt) SendReq(c UserRPCManagerHandleResultChannel, prot
 		Dst: srcDeviceId,
 		Args: args,
 	}
-	c <- UserRPCManagerHandleResult{
+	c <- mccommon.ClientToServerHandleRes{
 		data,
 		nil,
 	}
@@ -147,7 +147,7 @@ func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 			Result: struct{Token string}{t},
 		}
 
-		req.Channel <- UserRPCManagerHandleResult{
+		req.Channel <- mccommon.ClientToServerHandleRes{
 			rpcResData,
 			nil,
 		}
@@ -223,6 +223,13 @@ func (thisR *UserRPCManagerSt) initDeviceResource() {
 		deviceId := args["deviceId"].(string)
 
 		if err := DevicesCollectionManager.FindByShadowId(deviceId, device); err != nil {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+
+		if isOwner, err := device.IsOwnerStringId(req.Msg.ClientId); !isOwner {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "It's not your device", 403)
+		} else if err != nil {
+			print(err.Error())
 			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
 		}
 

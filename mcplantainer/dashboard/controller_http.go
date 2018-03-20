@@ -33,12 +33,12 @@ func (this *UserPlantainerControllerSt) Create(c echo.Context) error {
 		},
 	}
 
-	if err := common.DevicesCollectionManager.SaveModel(device); err != nil {
+	if err := common.PlantainerCollectionManager.SaveModel(device); err != nil {
 		// TODO: Must check if problem with shadowId
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	if err := common.DevicesCollectionManager.FindModelById(device.ID, device); err != nil {
+	if err := common.PlantainerCollectionManager.FindModelById(device.ID, device); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, "Product not found")
 	}
 

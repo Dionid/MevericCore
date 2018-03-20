@@ -25,18 +25,18 @@ func CreateNewDevicesCollectionManager(colMan mccommon.DataCollectionManagerInt)
 }
 
 var (
-	DataCollectionManager = &DataCollectionManagerSt{}
-	DevicesCollectionManager = CreateNewDevicesCollectionManager(DataCollectionManager)
+	DataCollectionManager       = &DataCollectionManagerSt{}
+	PlantainerCollectionManager = CreateNewDevicesCollectionManager(DataCollectionManager)
 )
 
 func InitDeviceColManager(dbsession *mgo.Session, dbName string) {
-	if !DevicesCollectionManager.Inited {
-		DevicesCollectionManager.AddModel(&PlantainerModelSt{})
-		DevicesCollectionManager.InitManager(dbsession, dbName, "devices")
-		DevicesCollectionManager.Inited = true
+	if !PlantainerCollectionManager.Inited {
+		PlantainerCollectionManager.AddModel(&PlantainerModelSt{})
+		PlantainerCollectionManager.InitManager(dbsession, dbName, "devices")
+		PlantainerCollectionManager.Inited = true
 	}
 	if !DataCollectionManager.Inited {
 		DataCollectionManager.InitManager(dbsession, dbName, "plantainerdata")
-		DevicesCollectionManager.Inited = true
+		PlantainerCollectionManager.Inited = true
 	}
 }

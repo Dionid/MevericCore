@@ -13,11 +13,10 @@ import (
 var (
 	PlantainerTypeName = "plantainer"
 	DeviceMQTTManager = &mcdevicemqttmanager.DeviceMQTTManagerSt{}
-	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", common.DevicesCollectionManager, DeviceMQTTManager)
+	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", common.PlantainerCollectionManager, DeviceMQTTManager)
 )
 
 func Init(dbsession *mgo.Session, dbName string) {
-
 	InitMainModules(dbsession, dbName)
 	InitRPCManager()
 	InitMQTT()

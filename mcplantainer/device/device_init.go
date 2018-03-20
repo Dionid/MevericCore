@@ -11,7 +11,7 @@ type PlantainerCtrlSt struct {
 
 func CreateNewPlantainerCtrl(typeName string) *PlantainerCtrlSt {
 	bR := mcdevicerpcmanager.CreateNewDeviceRPCCtrl(typeName, common.CreateNewPlantainerModelSt, DeviceMQTTManager)
-	bR.DevicesCollectionManager = common.DevicesCollectionManager
+	bR.DevicesCollectionManager = common.PlantainerCollectionManager
 
 	res := &PlantainerCtrlSt{
 		*bR,

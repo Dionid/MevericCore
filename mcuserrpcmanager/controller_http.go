@@ -110,7 +110,7 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 			Msg:       &byteMsg,
 		}
 
-		respChan := make(UserRPCManagerHandleResultChannel)
+		respChan := make(mccommon.ClientToServerHandleResChannel)
 
 		go func() {
 			if err := UserRPCManager.Handle(respChan, handleMsg); err != nil {

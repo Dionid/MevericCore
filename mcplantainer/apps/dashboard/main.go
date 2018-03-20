@@ -5,8 +5,6 @@ import (
 	"github.com/labstack/echo"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"mevericcore/mccommon"
-	"mevericcore/mcusers"
 	"github.com/labstack/echo/middleware"
 	"mevericcore/mcplantainer/dashboard"
 )
@@ -69,31 +67,15 @@ func initEcho() *echo.Echo {
 	return e
 }
 
-func initUserModules(usersColMan *mccommon.UsersCollectionManagerSt, session *mgo.Session,e *echo.Echo) {
-	// USERS (Auth, Me modules)
-	usersG := e.Group("/users")
-	mcusers.InitMain(usersColMan, usersG)
-}
-
-func initDeviceModules(e *echo.Echo) {
-	devicesG := e.Group("/devices")
-	dashboard.InitDeviceModule(devicesG)
-}
-
 func main() {
 	// 1. Init MongoDB session
 	session := InitMongoDbConnection()
 	defer session.Close()
 
-	// 2. Init Echo server for Devices and Users
+	//// 2. Init Echo server for Devices and Users
 	e := initEcho()
 
-	// 3. Get UsersColManager for both modules
-	usersColMan := mccommon.InitUserColManager(session, MainDBName)
-
-	// 4. Init modules
-	initUserModules(usersColMan, session, e)
-	initDeviceModules(e)
+	dashboard.Init(session, MainDBName, e)
 
 	// 5. Start Echo server
 	e.Logger.Fatal(e.Start("localhost:3000"))

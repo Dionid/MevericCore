@@ -8,7 +8,7 @@ import (
 
 type (
 	ReqSt struct {
-		Channel UserRPCManagerHandleResultChannel
+		Channel mccommon.ClientToServerHandleResChannel
 		Resource string
 		Msg *mccommon.ClientToServerReqSt
 		RPCData *mccommon.RPCMsg
@@ -69,7 +69,7 @@ func (this *UserRPCRouterSt) ChangeAnyHandler(resource string, handler HandlerFu
 	(*this.handlersByResource)[resource] = handler
 }
 
-func (this *UserRPCRouterSt) Handle(c UserRPCManagerHandleResultChannel, resource string, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
+func (this *UserRPCRouterSt) Handle(c mccommon.ClientToServerHandleResChannel, resource string, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
 	defer func() {
 		close(c)
 		if recover() != nil {

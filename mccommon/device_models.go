@@ -31,6 +31,8 @@ type DeviceBaseModelInterface interface {
 	mcmongo.ModelBaseInterface
 	GetShadow() ShadowModelInterface
 	ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesCollectionManagerInterface) error
+	IsOwnerStringId(ownerId string) (bool, error)
+	IsOwner(ownerId bson.ObjectId) (bool, error)
 	MarshalJSON() ([]byte, error)
 	GetTypeName() string
 }
@@ -99,6 +101,10 @@ func (this *DeviceBaseModel) IsOwner(ownerId bson.ObjectId) (bool, error) {
 	}
 
 	return false, nil
+}
+
+func (this *DeviceBaseModel) IsOwnerStringId(ownerId string) (bool, error) {
+	return this.IsOwner(bson.ObjectIdHex(ownerId))
 }
 
 //easyjson:json
