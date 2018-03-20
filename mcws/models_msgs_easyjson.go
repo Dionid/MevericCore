@@ -17,7 +17,7 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjsonF0e85041DecodeMevericcoreMcws(in *jlexer.Lexer, out *WsResActionSingleErrorMsg) {
+func easyjsonF0e85041DecodeMevericcoreMcws(in *jlexer.Lexer, out *WsRPCMsgBaseSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -36,12 +36,6 @@ func easyjsonF0e85041DecodeMevericcoreMcws(in *jlexer.Lexer, out *WsResActionSin
 			continue
 		}
 		switch key {
-		case "error":
-			out.Error = string(in.String())
-		case "errorCode":
-			out.ErrorCode = int(in.Int())
-		case "status":
-			out.Status = string(in.String())
 		case "src":
 			out.Src = string(in.String())
 		case "dst":
@@ -58,22 +52,22 @@ func easyjsonF0e85041DecodeMevericcoreMcws(in *jlexer.Lexer, out *WsResActionSin
 			} else {
 				out.Args = in.Interface()
 			}
-		case "result":
+		case "error":
 			if in.IsNull() {
 				in.Skip()
-				out.Result = nil
+				out.Error = nil
 			} else {
-				if out.Result == nil {
-					out.Result = new(map[string]interface{})
+				if out.Error == nil {
+					out.Error = new(map[string]interface{})
 				}
 				if in.IsNull() {
 					in.Skip()
 				} else {
 					in.Delim('{')
 					if !in.IsDelim('}') {
-						*out.Result = make(map[string]interface{})
+						*out.Error = make(map[string]interface{})
 					} else {
-						*out.Result = nil
+						*out.Error = nil
 					}
 					for !in.IsDelim('}') {
 						key := string(in.String())
@@ -86,221 +80,7 @@ func easyjsonF0e85041DecodeMevericcoreMcws(in *jlexer.Lexer, out *WsResActionSin
 						} else {
 							v1 = in.Interface()
 						}
-						(*out.Result)[key] = v1
-						in.WantComma()
-					}
-					in.Delim('}')
-				}
-			}
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjsonF0e85041EncodeMevericcoreMcws(out *jwriter.Writer, in WsResActionSingleErrorMsg) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if in.Error != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"error\":")
-		out.String(string(in.Error))
-	}
-	if in.ErrorCode != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"errorCode\":")
-		out.Int(int(in.ErrorCode))
-	}
-	if in.Status != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"status\":")
-		out.String(string(in.Status))
-	}
-	if in.Src != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"src\":")
-		out.String(string(in.Src))
-	}
-	if in.Dst != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"dst\":")
-		out.String(string(in.Dst))
-	}
-	if in.Method != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"method\":")
-		out.String(string(in.Method))
-	}
-	if in.Id != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"id\":")
-		out.Int(int(in.Id))
-	}
-	if in.Args != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"args\":")
-		if m, ok := in.Args.(easyjson.Marshaler); ok {
-			m.MarshalEasyJSON(out)
-		} else if m, ok := in.Args.(json.Marshaler); ok {
-			out.Raw(m.MarshalJSON())
-		} else {
-			out.Raw(json.Marshal(in.Args))
-		}
-	}
-	if in.Result != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"result\":")
-		if in.Result == nil {
-			out.RawString("null")
-		} else {
-			if *in.Result == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-				out.RawString(`null`)
-			} else {
-				out.RawByte('{')
-				v2First := true
-				for v2Name, v2Value := range *in.Result {
-					if !v2First {
-						out.RawByte(',')
-					}
-					v2First = false
-					out.String(string(v2Name))
-					out.RawByte(':')
-					if m, ok := v2Value.(easyjson.Marshaler); ok {
-						m.MarshalEasyJSON(out)
-					} else if m, ok := v2Value.(json.Marshaler); ok {
-						out.Raw(m.MarshalJSON())
-					} else {
-						out.Raw(json.Marshal(v2Value))
-					}
-				}
-				out.RawByte('}')
-			}
-		}
-	}
-	out.RawByte('}')
-}
-
-// MarshalJSON supports json.Marshaler interface
-func (v WsResActionSingleErrorMsg) MarshalJSON() ([]byte, error) {
-	w := jwriter.Writer{}
-	easyjsonF0e85041EncodeMevericcoreMcws(&w, v)
-	return w.Buffer.BuildBytes(), w.Error
-}
-
-// MarshalEasyJSON supports easyjson.Marshaler interface
-func (v WsResActionSingleErrorMsg) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF0e85041EncodeMevericcoreMcws(w, v)
-}
-
-// UnmarshalJSON supports json.Unmarshaler interface
-func (v *WsResActionSingleErrorMsg) UnmarshalJSON(data []byte) error {
-	r := jlexer.Lexer{Data: data}
-	easyjsonF0e85041DecodeMevericcoreMcws(&r, v)
-	return r.Error()
-}
-
-// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *WsResActionSingleErrorMsg) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF0e85041DecodeMevericcoreMcws(l, v)
-}
-func easyjsonF0e85041DecodeMevericcoreMcws1(in *jlexer.Lexer, out *WsResActionMsg) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "status":
-			out.Status = string(in.String())
-		case "src":
-			out.Src = string(in.String())
-		case "dst":
-			out.Dst = string(in.String())
-		case "method":
-			out.Method = string(in.String())
-		case "id":
-			out.Id = int(in.Int())
-		case "args":
-			if m, ok := out.Args.(easyjson.Unmarshaler); ok {
-				m.UnmarshalEasyJSON(in)
-			} else if m, ok := out.Args.(json.Unmarshaler); ok {
-				_ = m.UnmarshalJSON(in.Raw())
-			} else {
-				out.Args = in.Interface()
-			}
-		case "error":
-			if in.IsNull() {
-				in.Skip()
-				out.Error = nil
-			} else {
-				if out.Error == nil {
-					out.Error = new(map[string]interface{})
-				}
-				if in.IsNull() {
-					in.Skip()
-				} else {
-					in.Delim('{')
-					if !in.IsDelim('}') {
-						*out.Error = make(map[string]interface{})
-					} else {
-						*out.Error = nil
-					}
-					for !in.IsDelim('}') {
-						key := string(in.String())
-						in.WantColon()
-						var v3 interface{}
-						if m, ok := v3.(easyjson.Unmarshaler); ok {
-							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v3.(json.Unmarshaler); ok {
-							_ = m.UnmarshalJSON(in.Raw())
-						} else {
-							v3 = in.Interface()
-						}
-						(*out.Error)[key] = v3
+						(*out.Error)[key] = v1
 						in.WantComma()
 					}
 					in.Delim('}')
@@ -326,15 +106,15 @@ func easyjsonF0e85041DecodeMevericcoreMcws1(in *jlexer.Lexer, out *WsResActionMs
 					for !in.IsDelim('}') {
 						key := string(in.String())
 						in.WantColon()
-						var v4 interface{}
-						if m, ok := v4.(easyjson.Unmarshaler); ok {
+						var v2 interface{}
+						if m, ok := v2.(easyjson.Unmarshaler); ok {
 							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v4.(json.Unmarshaler); ok {
+						} else if m, ok := v2.(json.Unmarshaler); ok {
 							_ = m.UnmarshalJSON(in.Raw())
 						} else {
-							v4 = in.Interface()
+							v2 = in.Interface()
 						}
-						(*out.Result)[key] = v4
+						(*out.Result)[key] = v2
 						in.WantComma()
 					}
 					in.Delim('}')
@@ -350,577 +130,7 @@ func easyjsonF0e85041DecodeMevericcoreMcws1(in *jlexer.Lexer, out *WsResActionMs
 		in.Consumed()
 	}
 }
-func easyjsonF0e85041EncodeMevericcoreMcws1(out *jwriter.Writer, in WsResActionMsg) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if in.Status != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"status\":")
-		out.String(string(in.Status))
-	}
-	if in.Src != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"src\":")
-		out.String(string(in.Src))
-	}
-	if in.Dst != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"dst\":")
-		out.String(string(in.Dst))
-	}
-	if in.Method != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"method\":")
-		out.String(string(in.Method))
-	}
-	if in.Id != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"id\":")
-		out.Int(int(in.Id))
-	}
-	if in.Args != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"args\":")
-		if m, ok := in.Args.(easyjson.Marshaler); ok {
-			m.MarshalEasyJSON(out)
-		} else if m, ok := in.Args.(json.Marshaler); ok {
-			out.Raw(m.MarshalJSON())
-		} else {
-			out.Raw(json.Marshal(in.Args))
-		}
-	}
-	if in.Error != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"error\":")
-		if in.Error == nil {
-			out.RawString("null")
-		} else {
-			if *in.Error == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-				out.RawString(`null`)
-			} else {
-				out.RawByte('{')
-				v5First := true
-				for v5Name, v5Value := range *in.Error {
-					if !v5First {
-						out.RawByte(',')
-					}
-					v5First = false
-					out.String(string(v5Name))
-					out.RawByte(':')
-					if m, ok := v5Value.(easyjson.Marshaler); ok {
-						m.MarshalEasyJSON(out)
-					} else if m, ok := v5Value.(json.Marshaler); ok {
-						out.Raw(m.MarshalJSON())
-					} else {
-						out.Raw(json.Marshal(v5Value))
-					}
-				}
-				out.RawByte('}')
-			}
-		}
-	}
-	if in.Result != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"result\":")
-		if in.Result == nil {
-			out.RawString("null")
-		} else {
-			if *in.Result == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-				out.RawString(`null`)
-			} else {
-				out.RawByte('{')
-				v6First := true
-				for v6Name, v6Value := range *in.Result {
-					if !v6First {
-						out.RawByte(',')
-					}
-					v6First = false
-					out.String(string(v6Name))
-					out.RawByte(':')
-					if m, ok := v6Value.(easyjson.Marshaler); ok {
-						m.MarshalEasyJSON(out)
-					} else if m, ok := v6Value.(json.Marshaler); ok {
-						out.Raw(m.MarshalJSON())
-					} else {
-						out.Raw(json.Marshal(v6Value))
-					}
-				}
-				out.RawByte('}')
-			}
-		}
-	}
-	out.RawByte('}')
-}
-
-// MarshalJSON supports json.Marshaler interface
-func (v WsResActionMsg) MarshalJSON() ([]byte, error) {
-	w := jwriter.Writer{}
-	easyjsonF0e85041EncodeMevericcoreMcws1(&w, v)
-	return w.Buffer.BuildBytes(), w.Error
-}
-
-// MarshalEasyJSON supports easyjson.Marshaler interface
-func (v WsResActionMsg) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF0e85041EncodeMevericcoreMcws1(w, v)
-}
-
-// UnmarshalJSON supports json.Unmarshaler interface
-func (v *WsResActionMsg) UnmarshalJSON(data []byte) error {
-	r := jlexer.Lexer{Data: data}
-	easyjsonF0e85041DecodeMevericcoreMcws1(&r, v)
-	return r.Error()
-}
-
-// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *WsResActionMsg) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF0e85041DecodeMevericcoreMcws1(l, v)
-}
-func easyjsonF0e85041DecodeMevericcoreMcws2(in *jlexer.Lexer, out *WsResActionArrErrorMsg) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "errors":
-			if in.IsNull() {
-				in.Skip()
-				out.Errors = nil
-			} else {
-				in.Delim('[')
-				if out.Errors == nil {
-					if !in.IsDelim(']') {
-						out.Errors = make([]string, 0, 4)
-					} else {
-						out.Errors = []string{}
-					}
-				} else {
-					out.Errors = (out.Errors)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v7 string
-					v7 = string(in.String())
-					out.Errors = append(out.Errors, v7)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
-		case "status":
-			out.Status = string(in.String())
-		case "src":
-			out.Src = string(in.String())
-		case "dst":
-			out.Dst = string(in.String())
-		case "method":
-			out.Method = string(in.String())
-		case "id":
-			out.Id = int(in.Int())
-		case "args":
-			if m, ok := out.Args.(easyjson.Unmarshaler); ok {
-				m.UnmarshalEasyJSON(in)
-			} else if m, ok := out.Args.(json.Unmarshaler); ok {
-				_ = m.UnmarshalJSON(in.Raw())
-			} else {
-				out.Args = in.Interface()
-			}
-		case "error":
-			if in.IsNull() {
-				in.Skip()
-				out.Error = nil
-			} else {
-				if out.Error == nil {
-					out.Error = new(map[string]interface{})
-				}
-				if in.IsNull() {
-					in.Skip()
-				} else {
-					in.Delim('{')
-					if !in.IsDelim('}') {
-						*out.Error = make(map[string]interface{})
-					} else {
-						*out.Error = nil
-					}
-					for !in.IsDelim('}') {
-						key := string(in.String())
-						in.WantColon()
-						var v8 interface{}
-						if m, ok := v8.(easyjson.Unmarshaler); ok {
-							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v8.(json.Unmarshaler); ok {
-							_ = m.UnmarshalJSON(in.Raw())
-						} else {
-							v8 = in.Interface()
-						}
-						(*out.Error)[key] = v8
-						in.WantComma()
-					}
-					in.Delim('}')
-				}
-			}
-		case "result":
-			if in.IsNull() {
-				in.Skip()
-				out.Result = nil
-			} else {
-				if out.Result == nil {
-					out.Result = new(map[string]interface{})
-				}
-				if in.IsNull() {
-					in.Skip()
-				} else {
-					in.Delim('{')
-					if !in.IsDelim('}') {
-						*out.Result = make(map[string]interface{})
-					} else {
-						*out.Result = nil
-					}
-					for !in.IsDelim('}') {
-						key := string(in.String())
-						in.WantColon()
-						var v9 interface{}
-						if m, ok := v9.(easyjson.Unmarshaler); ok {
-							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v9.(json.Unmarshaler); ok {
-							_ = m.UnmarshalJSON(in.Raw())
-						} else {
-							v9 = in.Interface()
-						}
-						(*out.Result)[key] = v9
-						in.WantComma()
-					}
-					in.Delim('}')
-				}
-			}
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjsonF0e85041EncodeMevericcoreMcws2(out *jwriter.Writer, in WsResActionArrErrorMsg) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if len(in.Errors) != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"errors\":")
-		if in.Errors == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v10, v11 := range in.Errors {
-				if v10 > 0 {
-					out.RawByte(',')
-				}
-				out.String(string(v11))
-			}
-			out.RawByte(']')
-		}
-	}
-	if in.Status != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"status\":")
-		out.String(string(in.Status))
-	}
-	if in.Src != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"src\":")
-		out.String(string(in.Src))
-	}
-	if in.Dst != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"dst\":")
-		out.String(string(in.Dst))
-	}
-	if in.Method != "" {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"method\":")
-		out.String(string(in.Method))
-	}
-	if in.Id != 0 {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"id\":")
-		out.Int(int(in.Id))
-	}
-	if in.Args != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"args\":")
-		if m, ok := in.Args.(easyjson.Marshaler); ok {
-			m.MarshalEasyJSON(out)
-		} else if m, ok := in.Args.(json.Marshaler); ok {
-			out.Raw(m.MarshalJSON())
-		} else {
-			out.Raw(json.Marshal(in.Args))
-		}
-	}
-	if in.Error != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"error\":")
-		if in.Error == nil {
-			out.RawString("null")
-		} else {
-			if *in.Error == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-				out.RawString(`null`)
-			} else {
-				out.RawByte('{')
-				v12First := true
-				for v12Name, v12Value := range *in.Error {
-					if !v12First {
-						out.RawByte(',')
-					}
-					v12First = false
-					out.String(string(v12Name))
-					out.RawByte(':')
-					if m, ok := v12Value.(easyjson.Marshaler); ok {
-						m.MarshalEasyJSON(out)
-					} else if m, ok := v12Value.(json.Marshaler); ok {
-						out.Raw(m.MarshalJSON())
-					} else {
-						out.Raw(json.Marshal(v12Value))
-					}
-				}
-				out.RawByte('}')
-			}
-		}
-	}
-	if in.Result != nil {
-		if !first {
-			out.RawByte(',')
-		}
-		first = false
-		out.RawString("\"result\":")
-		if in.Result == nil {
-			out.RawString("null")
-		} else {
-			if *in.Result == nil && (out.Flags&jwriter.NilMapAsEmpty) == 0 {
-				out.RawString(`null`)
-			} else {
-				out.RawByte('{')
-				v13First := true
-				for v13Name, v13Value := range *in.Result {
-					if !v13First {
-						out.RawByte(',')
-					}
-					v13First = false
-					out.String(string(v13Name))
-					out.RawByte(':')
-					if m, ok := v13Value.(easyjson.Marshaler); ok {
-						m.MarshalEasyJSON(out)
-					} else if m, ok := v13Value.(json.Marshaler); ok {
-						out.Raw(m.MarshalJSON())
-					} else {
-						out.Raw(json.Marshal(v13Value))
-					}
-				}
-				out.RawByte('}')
-			}
-		}
-	}
-	out.RawByte('}')
-}
-
-// MarshalJSON supports json.Marshaler interface
-func (v WsResActionArrErrorMsg) MarshalJSON() ([]byte, error) {
-	w := jwriter.Writer{}
-	easyjsonF0e85041EncodeMevericcoreMcws2(&w, v)
-	return w.Buffer.BuildBytes(), w.Error
-}
-
-// MarshalEasyJSON supports easyjson.Marshaler interface
-func (v WsResActionArrErrorMsg) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF0e85041EncodeMevericcoreMcws2(w, v)
-}
-
-// UnmarshalJSON supports json.Unmarshaler interface
-func (v *WsResActionArrErrorMsg) UnmarshalJSON(data []byte) error {
-	r := jlexer.Lexer{Data: data}
-	easyjsonF0e85041DecodeMevericcoreMcws2(&r, v)
-	return r.Error()
-}
-
-// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *WsResActionArrErrorMsg) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF0e85041DecodeMevericcoreMcws2(l, v)
-}
-func easyjsonF0e85041DecodeMevericcoreMcws3(in *jlexer.Lexer, out *WsRPCMsgBaseSt) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "src":
-			out.Src = string(in.String())
-		case "dst":
-			out.Dst = string(in.String())
-		case "method":
-			out.Method = string(in.String())
-		case "id":
-			out.Id = int(in.Int())
-		case "args":
-			if m, ok := out.Args.(easyjson.Unmarshaler); ok {
-				m.UnmarshalEasyJSON(in)
-			} else if m, ok := out.Args.(json.Unmarshaler); ok {
-				_ = m.UnmarshalJSON(in.Raw())
-			} else {
-				out.Args = in.Interface()
-			}
-		case "error":
-			if in.IsNull() {
-				in.Skip()
-				out.Error = nil
-			} else {
-				if out.Error == nil {
-					out.Error = new(map[string]interface{})
-				}
-				if in.IsNull() {
-					in.Skip()
-				} else {
-					in.Delim('{')
-					if !in.IsDelim('}') {
-						*out.Error = make(map[string]interface{})
-					} else {
-						*out.Error = nil
-					}
-					for !in.IsDelim('}') {
-						key := string(in.String())
-						in.WantColon()
-						var v14 interface{}
-						if m, ok := v14.(easyjson.Unmarshaler); ok {
-							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v14.(json.Unmarshaler); ok {
-							_ = m.UnmarshalJSON(in.Raw())
-						} else {
-							v14 = in.Interface()
-						}
-						(*out.Error)[key] = v14
-						in.WantComma()
-					}
-					in.Delim('}')
-				}
-			}
-		case "result":
-			if in.IsNull() {
-				in.Skip()
-				out.Result = nil
-			} else {
-				if out.Result == nil {
-					out.Result = new(map[string]interface{})
-				}
-				if in.IsNull() {
-					in.Skip()
-				} else {
-					in.Delim('{')
-					if !in.IsDelim('}') {
-						*out.Result = make(map[string]interface{})
-					} else {
-						*out.Result = nil
-					}
-					for !in.IsDelim('}') {
-						key := string(in.String())
-						in.WantColon()
-						var v15 interface{}
-						if m, ok := v15.(easyjson.Unmarshaler); ok {
-							m.UnmarshalEasyJSON(in)
-						} else if m, ok := v15.(json.Unmarshaler); ok {
-							_ = m.UnmarshalJSON(in.Raw())
-						} else {
-							v15 = in.Interface()
-						}
-						(*out.Result)[key] = v15
-						in.WantComma()
-					}
-					in.Delim('}')
-				}
-			}
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjsonF0e85041EncodeMevericcoreMcws3(out *jwriter.Writer, in WsRPCMsgBaseSt) {
+func easyjsonF0e85041EncodeMevericcoreMcws(out *jwriter.Writer, in WsRPCMsgBaseSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -983,20 +193,20 @@ func easyjsonF0e85041EncodeMevericcoreMcws3(out *jwriter.Writer, in WsRPCMsgBase
 				out.RawString(`null`)
 			} else {
 				out.RawByte('{')
-				v16First := true
-				for v16Name, v16Value := range *in.Error {
-					if !v16First {
+				v3First := true
+				for v3Name, v3Value := range *in.Error {
+					if !v3First {
 						out.RawByte(',')
 					}
-					v16First = false
-					out.String(string(v16Name))
+					v3First = false
+					out.String(string(v3Name))
 					out.RawByte(':')
-					if m, ok := v16Value.(easyjson.Marshaler); ok {
+					if m, ok := v3Value.(easyjson.Marshaler); ok {
 						m.MarshalEasyJSON(out)
-					} else if m, ok := v16Value.(json.Marshaler); ok {
+					} else if m, ok := v3Value.(json.Marshaler); ok {
 						out.Raw(m.MarshalJSON())
 					} else {
-						out.Raw(json.Marshal(v16Value))
+						out.Raw(json.Marshal(v3Value))
 					}
 				}
 				out.RawByte('}')
@@ -1016,20 +226,20 @@ func easyjsonF0e85041EncodeMevericcoreMcws3(out *jwriter.Writer, in WsRPCMsgBase
 				out.RawString(`null`)
 			} else {
 				out.RawByte('{')
-				v17First := true
-				for v17Name, v17Value := range *in.Result {
-					if !v17First {
+				v4First := true
+				for v4Name, v4Value := range *in.Result {
+					if !v4First {
 						out.RawByte(',')
 					}
-					v17First = false
-					out.String(string(v17Name))
+					v4First = false
+					out.String(string(v4Name))
 					out.RawByte(':')
-					if m, ok := v17Value.(easyjson.Marshaler); ok {
+					if m, ok := v4Value.(easyjson.Marshaler); ok {
 						m.MarshalEasyJSON(out)
-					} else if m, ok := v17Value.(json.Marshaler); ok {
+					} else if m, ok := v4Value.(json.Marshaler); ok {
 						out.Raw(m.MarshalJSON())
 					} else {
-						out.Raw(json.Marshal(v17Value))
+						out.Raw(json.Marshal(v4Value))
 					}
 				}
 				out.RawByte('}')
@@ -1042,23 +252,23 @@ func easyjsonF0e85041EncodeMevericcoreMcws3(out *jwriter.Writer, in WsRPCMsgBase
 // MarshalJSON supports json.Marshaler interface
 func (v WsRPCMsgBaseSt) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonF0e85041EncodeMevericcoreMcws3(&w, v)
+	easyjsonF0e85041EncodeMevericcoreMcws(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v WsRPCMsgBaseSt) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonF0e85041EncodeMevericcoreMcws3(w, v)
+	easyjsonF0e85041EncodeMevericcoreMcws(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *WsRPCMsgBaseSt) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonF0e85041DecodeMevericcoreMcws3(&r, v)
+	easyjsonF0e85041DecodeMevericcoreMcws(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *WsRPCMsgBaseSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonF0e85041DecodeMevericcoreMcws3(l, v)
+	easyjsonF0e85041DecodeMevericcoreMcws(l, v)
 }

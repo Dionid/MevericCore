@@ -19,47 +19,47 @@ type WsRPCMsgBaseSt struct {
 	mccommon.RPCMsg
 }
 
-type WsResActionStatusesSt struct {
-	Success string
-	Error string
-}
+//type WsResActionStatusesSt struct {
+//	Success string
+//	Error string
+//}
 
-var WsResActionStatuses = WsResActionStatusesSt{
-	"success",
-	"error",
-}
+//var WsResActionStatuses = WsResActionStatusesSt{
+//	"success",
+//	"error",
+//}
 
-//easyjson:json
-type WsResActionMsg struct {
-	WsRPCMsgBaseSt
-	Status string
-}
+////easyjson:json
+//type WsResActionMsg struct {
+//	WsRPCMsgBaseSt
+//	Status string
+//}
+//
+////easyjson:json
+//type WsResActionSingleErrorMsg struct {
+//	WsResActionMsg
+//	Error string
+//	ErrorCode int
+//}
+//
+//func CreateWsResActionSingleErrorMsg(err string, action string, errorCode int, reqId int) *WsResActionSingleErrorMsg {
+//	return &WsResActionSingleErrorMsg{
+//		WsResActionMsg: WsResActionMsg{
+//			WsRPCMsgBaseSt: WsRPCMsgBaseSt{
+//				RPCMsg: mccommon.RPCMsg{
+//					Method: action,
+//					Id:     reqId,
+//				},
+//			},
+//			Status: WsResActionStatuses.Error,
+//		},
+//		Error: err,
+//		ErrorCode: errorCode,
+//	}
+//}
 
-//easyjson:json
-type WsResActionSingleErrorMsg struct {
-	WsResActionMsg
-	Error string
-	ErrorCode int
-}
-
-func CreateWsResActionSingleErrorMsg(err string, action string, errorCode int, reqId int) *WsResActionSingleErrorMsg {
-	return &WsResActionSingleErrorMsg{
-		WsResActionMsg: WsResActionMsg{
-			WsRPCMsgBaseSt: WsRPCMsgBaseSt{
-				RPCMsg: mccommon.RPCMsg{
-					Method: action,
-					Id:     reqId,
-				},
-			},
-			Status: WsResActionStatuses.Error,
-		},
-		Error: err,
-		ErrorCode: errorCode,
-	}
-}
-
-//easyjson:json
-type WsResActionArrErrorMsg struct {
-	WsResActionMsg
-	Errors []string
-}
+////easyjson:json
+//type WsResActionArrErrorMsg struct {
+//	WsResActionMsg
+//	Errors []string
+//}
