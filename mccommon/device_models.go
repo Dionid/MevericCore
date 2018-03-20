@@ -30,6 +30,7 @@ type DeviceBaseModel struct {
 type DeviceBaseModelInterface interface {
 	mcmongo.ModelBaseInterface
 	GetShadow() ShadowModelInterface
+	GetShadowId() string
 	ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesCollectionManagerInterface) error
 	IsOwnerStringId(ownerId string) (bool, error)
 	IsOwner(ownerId bson.ObjectId) (bool, error)
@@ -39,6 +40,10 @@ type DeviceBaseModelInterface interface {
 
 func (this *DeviceBaseModel) GetShadow() ShadowModelInterface {
 	return &this.Shadow
+}
+
+func (this *DeviceBaseModel) GetShadowId() string {
+	return this.Shadow.Id
 }
 
 func (this *DeviceBaseModel) CreateShadowStateMetadata(reported *map[string]interface{}) *ShadowStateMetadataSt {
@@ -109,7 +114,7 @@ func (this *DeviceBaseModel) IsOwnerStringId(ownerId string) (bool, error) {
 
 //easyjson:json
 type DeviceWithCustomDataBaseModel struct {
-	DeviceBaseModel
+	DeviceBaseModel `bson:",inline"`
 
 	CustomData      map[string]interface{} `json:"customData" bson:"customData"`
 	CustomAdminData map[string]interface{} `json:"customAdminData" bson:"customAdminData"`
