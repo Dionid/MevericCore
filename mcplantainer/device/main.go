@@ -1,4 +1,4 @@
-package mcplantainer
+package device
 
 import (
 	"github.com/eclipse/paho.mqtt.golang"
@@ -7,28 +7,23 @@ import (
 	"mevericcore/mcdevicemqttmanager"
 	"gopkg.in/mgo.v2"
 	"mevericcore/mcdevicerpcmanager"
-	"mevericcore/mcecho"
-	"github.com/labstack/echo"
-	"mevericcore/mccommon"
+	"mevericcore/mcplantainer/common"
 )
 
 var (
 	PlantainerTypeName = "plantainer"
 	DeviceMQTTManager = &mcdevicemqttmanager.DeviceMQTTManagerSt{}
-	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", DevicesCollectionManager, DeviceMQTTManager)
+	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", common.DevicesCollectionManager, DeviceMQTTManager)
 )
 
-func Init(userColMan *mccommon.UsersCollectionManagerSt, dbsession *mgo.Session, dbName string, e *echo.Group) {
+func Init(dbsession *mgo.Session, dbName string) {
 
 	InitMainModules(dbsession, dbName)
 	InitRPCManager()
 	InitMQTT()
-
-	InitModelHttp(e)
 }
 
 func InitMQTT() {
-	//opts := mcmqttrouter.CreateConnOpts("tcp://iot.eclipse.org:1883", "randomString123qweasd", true)
 	opts := mcmqttrouter.CreateConnOpts("tcp://localhost:1883", "randomString123qweasd", true)
 
 	opts.OnConnectionLost = func(c mqtt.Client, err error) {
@@ -49,14 +44,10 @@ func InitMQTT() {
 }
 
 func InitMainModules(dbsession *mgo.Session, dbName string) {
-	initDeviceColManager(dbsession, dbName)
+	common.InitDeviceColManager(dbsession, dbName)
 }
 
 func InitRPCManager() {
 	DeviceRPCManager.AddDeviceCtrl(PlantainerTypeName, CreateNewPlantainerCtrl(PlantainerTypeName))
 }
 
-func InitModelHttp(e *echo.Group) {
-	UserPlantainerController := &UserPlantainerControllerSt{}
-	mcecho.CreateModelControllerRoutes(e, "/plantainer", UserPlantainerController)
-}

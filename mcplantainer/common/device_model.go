@@ -1,4 +1,4 @@
-package mcplantainer
+package common
 
 import (
 	"mevericcore/mccommon"
@@ -121,7 +121,6 @@ func (this *PlantainersList) GetBaseQuery() *bson.M {
 		"deletedAt": nil,
 	}
 }
-
 
 func (this *PlantainersList) GetTypeName() string {
 	return "plantainer"

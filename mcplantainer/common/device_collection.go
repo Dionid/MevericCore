@@ -1,4 +1,4 @@
-package mcplantainer
+package common
 
 import (
 	"mevericcore/mccommon"
@@ -29,7 +29,7 @@ var (
 	DevicesCollectionManager = CreateNewDevicesCollectionManager(DataCollectionManager)
 )
 
-func initDeviceColManager(dbsession *mgo.Session, dbName string) {
+func InitDeviceColManager(dbsession *mgo.Session, dbName string) {
 	if !DevicesCollectionManager.Inited {
 		DevicesCollectionManager.AddModel(&PlantainerModelSt{})
 		DevicesCollectionManager.InitManager(dbsession, dbName, "devices")

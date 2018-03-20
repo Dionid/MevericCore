@@ -1,4 +1,4 @@
-package mcplantainer
+package dashboard
 
 import (
 	"mevericcore/mcecho"
@@ -7,6 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"mevericcore/mccommon"
 	"tztatom/tztcore"
+	"mevericcore/mcplantainer/common"
 )
 
 type UserPlantainerControllerSt struct {
@@ -23,7 +24,7 @@ func (this *UserPlantainerControllerSt) Create(c echo.Context) error {
 
 	deviceShadowId := mccommon.RandString(13)
 
-	device := &PlantainerModelSt{
+	device := &common.PlantainerModelSt{
 		DeviceBaseModel: mccommon.DeviceBaseModel{
 			Shadow: mccommon.ShadowModelSt{
 				Id: deviceShadowId,
@@ -32,12 +33,12 @@ func (this *UserPlantainerControllerSt) Create(c echo.Context) error {
 		},
 	}
 
-	if err := DevicesCollectionManager.SaveModel(device); err != nil {
+	if err := common.DevicesCollectionManager.SaveModel(device); err != nil {
 		// TODO: Must check if problem with shadowId
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	if err := DevicesCollectionManager.FindModelById(device.ID, device); err != nil {
+	if err := common.DevicesCollectionManager.FindModelById(device.ID, device); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, "Product not found")
 	}
 
