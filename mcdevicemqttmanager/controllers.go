@@ -88,8 +88,8 @@ func (this *DeviceMQTTManagerSt) DeviceToServerRPCSub() {
 					this.Publish(deviceId+"/rpc", bData)
 				}
 			}
-			if resultSt.Resp != nil {
-				if bData, err := resultSt.Resp.MarshalJSON(); err != nil {
+			if resultSt.Res != nil {
+				if bData, err := resultSt.Res.MarshalJSON(); err != nil {
 					// ToDo: Change err to RPCMsg
 					this.Publish(deviceId+"/rpc", []byte(err.Error()))
 				} else {
@@ -97,30 +97,6 @@ func (this *DeviceMQTTManagerSt) DeviceToServerRPCSub() {
 				}
 			}
 		}
-
-		//res, sendBack, err := this.HandleReq(handleMsg)
-
-		//if err != nil {
-		//	// LOG
-		//	b, jerr := err.MarshalJSON()
-		//	if jerr != nil {
-		//		// TODO: LOG
-		//		// TODO: Try to send back an error
-		//		return
-		//	}
-		//	this.Publish(deviceId+"/rpc", b)
-		//	return
-		//}
-		//
-		//if sendBack && res != nil {
-		//	b, jerr := res.MarshalJSON()
-		//	if jerr != nil {
-		//		// TODO: LOG
-		//		// TODO: Try to send back an error
-		//		return
-		//	}
-		//	this.Publish(deviceId+"/rpc", b)
-		//}
 	})
 }
 

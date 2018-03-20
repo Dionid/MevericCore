@@ -19,22 +19,22 @@ type DeviceRPCCtrlSt struct{
 }
 
 type DeviceRPCCtrlInterface interface {
+	GetType() string
 	HandleReq(resource string, c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error
-	SetManagers(mqttMan ProtocolManagerInterface)
 }
 
-func CreateNewDeviceRPCCtrl(serverId string, typeName string, deviceCreator DeviceCreatorFn, mqttMan ProtocolManagerInterface, SendToUser func(msg *mccommon.RPCMsg) error) *DeviceRPCCtrlSt {
+func CreateNewDeviceRPCCtrl(serverId string, typeName string, deviceColMan mccommon.DevicesCollectionManagerInterface, deviceCreator DeviceCreatorFn, SendToUser func(msg *mccommon.RPCMsg) error) *DeviceRPCCtrlSt {
 	router := CreateNewDeviceRPCRouter()
 
 	res := &DeviceRPCCtrlSt{
 		DeviceResponseServiceSt: DeviceResponseServiceSt{
-			DeviceMQTTManager: mqttMan,
-			SendToUser: SendToUser,
-			ServerId: serverId,
+			SendRPCMsgToUser: SendToUser,
+			ServerId:         serverId,
 		},
 		Type: typeName,
 		Router: router,
 		DeviceCreator: deviceCreator,
+		DevicesCollectionManager: deviceColMan,
 	}
 
 	res.InitShadowRoutes()
@@ -55,7 +55,7 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 		state.FillDelta()
 
 		if len(state.Delta.State) != 0 {
-			thisR.PublishDelta(req.Channel, req.Msg.Protocol, req.Msg.ClientId, req.DeviceId, req.RPCData.Id, state.Delta)
+			thisR.SendRPCShadowDelta(req.Channel, req.Msg.Protocol, req.Msg.ClientId, req.DeviceId, req.RPCData.Id, state.Delta)
 		}
 
 		thisR.SendRPCSuccessRes(req.Channel, req.Msg.Protocol, req.DeviceId + ".Shadow.Get", req.Msg.ClientId, req.RPCData.Id, &map[string]interface{}{
@@ -119,7 +119,7 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 		deviceState.FillDelta()
 
 		if len(deviceState.Delta.State) != 0 {
-			thisR.PublishDelta(req.Channel, req.Msg.Protocol, req.Msg.ClientId, req.DeviceId, req.RPCData.Id, deviceState.Delta)
+			thisR.SendRPCShadowDelta(req.Channel, req.Msg.Protocol, req.Msg.ClientId, req.DeviceId, req.RPCData.Id, deviceState.Delta)
 		}
 
 		if !somethingNew {
@@ -143,18 +143,18 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 			},
 		}
 
-		thisR.SendToUser(rpcData)
+		thisR.SendRPCMsgToUser(rpcData)
 
 		return nil
 	})
 }
 
-func (this *DeviceRPCCtrlSt) HandleReq(resource string, c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
-	return this.Router.Handle(resource, c, msg, rpcData)
+func (this *DeviceRPCCtrlSt) GetType() string {
+	return this.Type
 }
 
-func (this *DeviceRPCCtrlSt) SetManagers(mqttMan ProtocolManagerInterface) {
-	this.DeviceMQTTManager = mqttMan
+func (this *DeviceRPCCtrlSt) HandleReq(resource string, c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
+	return this.Router.Handle(resource, c, msg, rpcData)
 }
 
 

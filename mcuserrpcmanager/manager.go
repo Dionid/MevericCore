@@ -10,7 +10,7 @@ import (
 )
 
 //type UserRPCManagerHandleResult struct {
-//	Resp mccommon.JSONData
+//	Res mccommon.JSONData
 //	Error mccommon.JSONData
 //}
 

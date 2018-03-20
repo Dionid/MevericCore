@@ -1,7 +1,7 @@
 package mccommon
 
 type ClientToServerHandleRes struct {
-	Resp JSONData
+	Res   JSONData
 	Error JSONData
 }
 
@@ -19,6 +19,8 @@ type ClientToServerReqSt struct {
 	Msg       *[]byte
 }
 
+type SendRPCMsgFn func(msg *RPCMsg) error
+
 //easyjson:json
 type RPCMsg struct {
 	Src string
@@ -35,3 +37,4 @@ type RPCWithShadowUpdateMsg struct {
 	RPCMsg
 	Args DeviceShadowUpdateMsg
 }
+

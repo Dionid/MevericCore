@@ -128,8 +128,8 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 					userWS.SendMsg(bData)
 				}
 			}
-			if resultSt.Resp != nil {
-				if bData, err := resultSt.Resp.MarshalJSON(); err != nil {
+			if resultSt.Res != nil {
+				if bData, err := resultSt.Res.MarshalJSON(); err != nil {
 					userWS.SendMsg([]byte(err.Error()))
 				} else {
 					if msg.Method == "Auth.Auth" {

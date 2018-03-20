@@ -9,9 +9,14 @@ type PlantainerCtrlSt struct {
 	mcdevicerpcmanager.DeviceRPCCtrlSt
 }
 
-func CreateNewPlantainerCtrl(typeName string) *PlantainerCtrlSt {
-	bR := mcdevicerpcmanager.CreateNewDeviceRPCCtrl("plantainerServerId", typeName, common.CreateNewPlantainerModelSt, DeviceMQTTManager, SendToUser)
-	bR.DevicesCollectionManager = common.PlantainerCollectionManager
+func CreateNewPlantainerCtrl() *PlantainerCtrlSt {
+	bR := mcdevicerpcmanager.CreateNewDeviceRPCCtrl(
+		PlantainerServerId,
+		"plantainer",
+		common.PlantainerCollectionManager,
+		common.CreateNewPlantainerModelSt,
+		InnerRPCMan.SendRPCMsgToUser,
+	)
 
 	res := &PlantainerCtrlSt{
 		*bR,

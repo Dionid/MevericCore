@@ -7,6 +7,7 @@ import (
 
 var (
 	IsDrop = false
+	MainDBName = "tztatom"
 )
 
 func InitMongoDbConnection() *mgo.Session {
@@ -18,7 +19,7 @@ func InitMongoDbConnection() *mgo.Session {
 	session.SetMode(mgo.Monotonic, true)
 
 	if IsDrop {
-		err = session.DB("tztatom").DropDatabase()
+		err = session.DB(MainDBName).DropDatabase()
 		if err != nil {
 			panic(err)
 		}
@@ -27,10 +28,6 @@ func InitMongoDbConnection() *mgo.Session {
 	return session
 }
 
-var (
-	MainDBName = "tztatom"
-)
-
 func main() {
 	// 1. Init MongoDB session
 	session := InitMongoDbConnection()
@@ -38,6 +35,8 @@ func main() {
 
 	// 4. Init modules
 	device.Init(session, MainDBName)
+
+	println("App activated")
 
 	select {}
 }
