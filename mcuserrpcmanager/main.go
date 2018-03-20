@@ -4,10 +4,13 @@ import (
 	"mevericcore/mcws"
 	"github.com/labstack/echo"
 	"mevericcore/mccommon"
+	"github.com/nats-io/go-nats"
 )
 
 var (
 	WSManager = mcws.NewWSocketsManager()
+
+	NATSCon *nats.Conn = nil
 
 	UserRPCManager = CreateNewUserRPCManagerSt("plantainerServerId")
 
@@ -16,6 +19,9 @@ var (
 )
 
 func InitMain(deviceCr DeviceCreatorFn, userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesCollectionManagerInterface, e *echo.Group) {
+	nc, _ := nats.Connect(nats.DefaultURL)
+	NATSCon = nc
+
 	InitRPCManager(deviceCr)
 	InitColManagers(userColMan, devicesColMan)
 	InitHttp(e)

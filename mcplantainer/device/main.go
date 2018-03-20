@@ -8,10 +8,13 @@ import (
 	"gopkg.in/mgo.v2"
 	"mevericcore/mcdevicerpcmanager"
 	"mevericcore/mcplantainer/common"
+	"github.com/nats-io/go-nats"
+	"mevericcore/mccommon"
 )
 
 var (
 	PlantainerTypeName = "plantainer"
+	NATSCon *nats.Conn = nil
 	DeviceMQTTManager = &mcdevicemqttmanager.DeviceMQTTManagerSt{}
 	DeviceRPCManager = mcdevicerpcmanager.CreateDeviceRPCManager("plantainerServerId", common.PlantainerCollectionManager, DeviceMQTTManager)
 )
@@ -20,6 +23,20 @@ func Init(dbsession *mgo.Session, dbName string) {
 	InitMainModules(dbsession, dbName)
 	InitRPCManager()
 	InitMQTT()
+
+	nc, _ := nats.Connect(nats.DefaultURL)
+	NATSCon = nc
+
+	NATSCon.Subscribe("Device.RPC.Send", func(msg *nats.Msg) {
+		rpcData := mccommon.RPCMsg{}
+
+		if err := rpcData.UnmarshalJSON(msg.Data); err != nil {
+			return
+		}
+
+		//fmt.Printf("%+v\n", rpcData)
+		DeviceMQTTManager.PublishJSON(rpcData.Dst + "/rpc", rpcData)
+	})
 }
 
 func InitMQTT() {

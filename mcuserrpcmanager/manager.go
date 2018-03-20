@@ -22,6 +22,7 @@ type UserRPCManagerSt struct {
 	Router *UserRPCRouterSt
 	ServerId string
 	DeviceCreator DeviceCreatorFn
+	SendToDevice func(msg *mccommon.RPCMsg) error
 }
 
 func CreateNewUserRPCManagerSt(serverId string) *UserRPCManagerSt {
@@ -29,6 +30,15 @@ func CreateNewUserRPCManagerSt(serverId string) *UserRPCManagerSt {
 		CreateNewDeviceRPCRouter(),
 		serverId,
 		nil,
+		func(msg *mccommon.RPCMsg) error {
+			if bData, err := msg.MarshalJSON(); err != nil {
+				return err
+			} else {
+				NATSCon.Publish("Device.RPC.Send", bData)
+			}
+
+			return nil
+		},
 	}
 }
 
@@ -76,7 +86,7 @@ func (thisR *UserRPCManagerSt) SendSuccessResp(c mccommon.ClientToServerHandleRe
 	return nil
 }
 
-func (thisR *UserRPCManagerSt) SendReq(c mccommon.ClientToServerHandleResChannel, protocol string, methodName string, srcDeviceId string, reqId int, args *map[string]interface{}) error {
+func (thisR *UserRPCManagerSt) SendReq(c mccommon.ClientToServerHandleResChannel, methodName string, srcDeviceId string, reqId int, args *map[string]interface{}) error {
 	data := mccommon.RPCMsg{
 		Method: methodName,
 		Id: reqId,
@@ -241,7 +251,16 @@ func (thisR *UserRPCManagerSt) initDeviceResource() {
 
 		if len(state.Delta.State) != 0 {
 			// TODO: SEND TO DEVICE
-			//return thisR.SendReq(req.Channel, req.Msg.Protocol, "Device.Shadow.Delta", deviceId, req.RPCData.Id, &map[string]interface{}{"state": state.Delta.State, "version": state.Delta.Version})
+			data := &mccommon.RPCMsg{
+				Method: "Device.Shadow.Delta",
+				//Id: reqId,
+				Src: thisR.ServerId,
+				Dst: deviceId,
+				Args: &map[string]interface{}{"state": state.Delta.State, "version": state.Delta.Version, "timestamp": time.Now()},
+			}
+			thisR.SendToDevice(data)
+			//return thisR.SendReq(req.Channel, "Device.Shadow.Delta", deviceId, req.RPCData.Id, &map[string]interface{}{"state": state.Delta.State, "version": state.Delta.Version})
+
 		}
 
 		return nil
