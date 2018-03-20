@@ -122,6 +122,7 @@ func (this *PlantainersList) GetBaseQuery() *bson.M {
 	}
 }
 
+
 func (this *PlantainersList) GetTypeName() string {
 	return "plantainer"
 }
