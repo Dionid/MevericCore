@@ -19,7 +19,13 @@ func (this *DeviceMQTTManagerSt) SetReqHandler(handler mccommon.ClientToServerRe
 
 func (this *DeviceMQTTManagerSt) HandleReq(c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt) error {
 	// ToDo: Check if this close must be somewhere else
-	close(c)
+	defer func() {
+		close(c)
+		if recover() != nil {
+			fmt.Println("Recovered")
+			return
+		}
+	}()
 
 	if this.reqHandler != nil {
 		return this.reqHandler(c, msg)
