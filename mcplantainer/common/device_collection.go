@@ -36,7 +36,7 @@ func InitDeviceColManager(dbsession *mgo.Session, dbName string) {
 		PlantainerCollectionManager.Inited = true
 	}
 	if !PlantainerDataCollectionManager.Inited {
-		PlantainerDataCollectionManager.InitManager(dbsession, dbName, "plantainerdata")
+		PlantainerDataCollectionManager.InitManager(dbsession, dbName, "devicesData")
 		PlantainerCollectionManager.Inited = true
 	}
 }

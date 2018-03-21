@@ -12,16 +12,17 @@ var (
 
 	InnerRPCMan                                          = mcinnerrpc.NewInnerRPCMan()
 
+	// ToDo: "plantainerServerId" can't be here
 	UserRPCManager = CreateNewUserRPCManagerSt("plantainerServerId")
 
 	DevicesCollectionManager mccommon.DevicesCollectionManagerInterface = nil
 	UsersCollectionManager *mccommon.UsersCollectionManagerSt = nil
 )
 
-func InitMain(deviceCr mccommon.DeviceCreatorFn, userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesCollectionManagerInterface, e *echo.Group) {
+func InitMain(deviceCr mccommon.DeviceCreatorFn, devicesLCr mccommon.DevicesListCreatorFn, userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesCollectionManagerInterface, e *echo.Group) {
 	InitInnerRPCManager()
 
-	InitRPCManager(deviceCr)
+	InitRPCManager(deviceCr, devicesLCr)
 	InitColManagers(userColMan, devicesColMan)
 	InitHttp(e)
 }
@@ -39,14 +40,14 @@ func InitInnerRPCManager() {
 	})
 }
 
-func InitRPCManager(deviceCr mccommon.DeviceCreatorFn) {
-	UserRPCManager.Init(deviceCr)
-	UserRPCManager.InitRoutes()
-}
-
 func InitColManagers(userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesCollectionManagerInterface) {
 	UsersCollectionManager = userColMan
 	DevicesCollectionManager = devicesColMan
+}
+
+func InitRPCManager(deviceCr mccommon.DeviceCreatorFn, devicesLCr mccommon.DevicesListCreatorFn) {
+	UserRPCManager.Init(deviceCr, devicesLCr)
+	UserRPCManager.InitRoutes()
 }
 
 func InitHttp(e *echo.Group) {

@@ -62,7 +62,13 @@ func (this *UserRPCRouterSt) Use(handler MiddlewareFunc) {
 }
 
 func (this *UserRPCRouterSt) AddHandler(resource string, handler HandlerFunc) {
-	(*this.handlersByResource)[this.prefix + "." + resource] = handler
+	prefix := resource
+
+	if this.prefix != ""{
+		prefix = this.prefix + "." + resource
+	}
+
+	(*this.handlersByResource)[prefix] = handler
 }
 
 func (this *UserRPCRouterSt) ChangeAnyHandler(resource string, handler HandlerFunc) {

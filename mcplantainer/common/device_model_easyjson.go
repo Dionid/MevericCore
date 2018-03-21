@@ -19,7 +19,73 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjson8042eaf4DecodeMevericcoreMcplantainer(in *jlexer.Lexer, out *PlantainerModelSt) {
+func easyjson8042eaf4DecodeMevericcoreMcplantainerCommon(in *jlexer.Lexer, out *PlantainersList) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		in.Skip()
+		*out = nil
+	} else {
+		in.Delim('[')
+		if *out == nil {
+			if !in.IsDelim(']') {
+				*out = make(PlantainersList, 0, 1)
+			} else {
+				*out = PlantainersList{}
+			}
+		} else {
+			*out = (*out)[:0]
+		}
+		for !in.IsDelim(']') {
+			var v1 PlantainerModelSt
+			(v1).UnmarshalEasyJSON(in)
+			*out = append(*out, v1)
+			in.WantComma()
+		}
+		in.Delim(']')
+	}
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson8042eaf4EncodeMevericcoreMcplantainerCommon(out *jwriter.Writer, in PlantainersList) {
+	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+		out.RawString("null")
+	} else {
+		out.RawByte('[')
+		for v2, v3 := range in {
+			if v2 > 0 {
+				out.RawByte(',')
+			}
+			(v3).MarshalEasyJSON(out)
+		}
+		out.RawByte(']')
+	}
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v PlantainersList) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjson8042eaf4EncodeMevericcoreMcplantainerCommon(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v PlantainersList) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjson8042eaf4EncodeMevericcoreMcplantainerCommon(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *PlantainersList) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjson8042eaf4DecodeMevericcoreMcplantainerCommon(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *PlantainersList) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjson8042eaf4DecodeMevericcoreMcplantainerCommon(l, v)
+}
+func easyjson8042eaf4DecodeMevericcoreMcplantainerCommon1(in *jlexer.Lexer, out *PlantainerModelSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -39,9 +105,9 @@ func easyjson8042eaf4DecodeMevericcoreMcplantainer(in *jlexer.Lexer, out *Planta
 		}
 		switch key {
 		case "customData":
-			easyjson8042eaf4DecodeMevericcoreMcplantainer1(in, &out.CustomData)
+			easyjson8042eaf4DecodeMevericcoreMcplantainerCommon2(in, &out.CustomData)
 		case "customAdminData":
-			easyjson8042eaf4DecodeMevericcoreMcplantainer2(in, &out.CustomAdminData)
+			easyjson8042eaf4DecodeMevericcoreMcplantainerCommon3(in, &out.CustomAdminData)
 		case "shadow":
 			(out.Shadow).UnmarshalEasyJSON(in)
 		case "srcId":
@@ -98,11 +164,11 @@ func easyjson8042eaf4DecodeMevericcoreMcplantainer(in *jlexer.Lexer, out *Planta
 					out.OwnersIds = (out.OwnersIds)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v1 bson.ObjectId
+					var v4 bson.ObjectId
 					if data := in.Raw(); in.Ok() {
-						in.AddError((v1).UnmarshalJSON(data))
+						in.AddError((v4).UnmarshalJSON(data))
 					}
-					out.OwnersIds = append(out.OwnersIds, v1)
+					out.OwnersIds = append(out.OwnersIds, v4)
 					in.WantComma()
 				}
 				in.Delim(']')
@@ -137,7 +203,7 @@ func easyjson8042eaf4DecodeMevericcoreMcplantainer(in *jlexer.Lexer, out *Planta
 		in.Consumed()
 	}
 }
-func easyjson8042eaf4EncodeMevericcoreMcplantainer(out *jwriter.Writer, in PlantainerModelSt) {
+func easyjson8042eaf4EncodeMevericcoreMcplantainerCommon1(out *jwriter.Writer, in PlantainerModelSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -147,7 +213,7 @@ func easyjson8042eaf4EncodeMevericcoreMcplantainer(out *jwriter.Writer, in Plant
 		}
 		first = false
 		out.RawString("\"customData\":")
-		easyjson8042eaf4EncodeMevericcoreMcplantainer1(out, in.CustomData)
+		easyjson8042eaf4EncodeMevericcoreMcplantainerCommon2(out, in.CustomData)
 	}
 	if true {
 		if !first {
@@ -155,7 +221,7 @@ func easyjson8042eaf4EncodeMevericcoreMcplantainer(out *jwriter.Writer, in Plant
 		}
 		first = false
 		out.RawString("\"customAdminData\":")
-		easyjson8042eaf4EncodeMevericcoreMcplantainer2(out, in.CustomAdminData)
+		easyjson8042eaf4EncodeMevericcoreMcplantainerCommon3(out, in.CustomAdminData)
 	}
 	if true {
 		if !first {
@@ -227,11 +293,11 @@ func easyjson8042eaf4EncodeMevericcoreMcplantainer(out *jwriter.Writer, in Plant
 			out.RawString("null")
 		} else {
 			out.RawByte('[')
-			for v2, v3 := range in.OwnersIds {
-				if v2 > 0 {
+			for v5, v6 := range in.OwnersIds {
+				if v5 > 0 {
 					out.RawByte(',')
 				}
-				out.Raw((v3).MarshalJSON())
+				out.Raw((v6).MarshalJSON())
 			}
 			out.RawByte(']')
 		}
@@ -270,27 +336,27 @@ func easyjson8042eaf4EncodeMevericcoreMcplantainer(out *jwriter.Writer, in Plant
 // MarshalJSON supports json.Marshaler interface
 func (v PlantainerModelSt) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson8042eaf4EncodeMevericcoreMcplantainer(&w, v)
+	easyjson8042eaf4EncodeMevericcoreMcplantainerCommon1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v PlantainerModelSt) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson8042eaf4EncodeMevericcoreMcplantainer(w, v)
+	easyjson8042eaf4EncodeMevericcoreMcplantainerCommon1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *PlantainerModelSt) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson8042eaf4DecodeMevericcoreMcplantainer(&r, v)
+	easyjson8042eaf4DecodeMevericcoreMcplantainerCommon1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *PlantainerModelSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson8042eaf4DecodeMevericcoreMcplantainer(l, v)
+	easyjson8042eaf4DecodeMevericcoreMcplantainerCommon1(l, v)
 }
-func easyjson8042eaf4DecodeMevericcoreMcplantainer2(in *jlexer.Lexer, out *PlantainerCustomAdminData) {
+func easyjson8042eaf4DecodeMevericcoreMcplantainerCommon3(in *jlexer.Lexer, out *PlantainerCustomAdminData) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -319,13 +385,13 @@ func easyjson8042eaf4DecodeMevericcoreMcplantainer2(in *jlexer.Lexer, out *Plant
 		in.Consumed()
 	}
 }
-func easyjson8042eaf4EncodeMevericcoreMcplantainer2(out *jwriter.Writer, in PlantainerCustomAdminData) {
+func easyjson8042eaf4EncodeMevericcoreMcplantainerCommon3(out *jwriter.Writer, in PlantainerCustomAdminData) {
 	out.RawByte('{')
 	first := true
 	_ = first
 	out.RawByte('}')
 }
-func easyjson8042eaf4DecodeMevericcoreMcplantainer1(in *jlexer.Lexer, out *PlantainerCustomData) {
+func easyjson8042eaf4DecodeMevericcoreMcplantainerCommon2(in *jlexer.Lexer, out *PlantainerCustomData) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -344,6 +410,8 @@ func easyjson8042eaf4DecodeMevericcoreMcplantainer1(in *jlexer.Lexer, out *Plant
 			continue
 		}
 		switch key {
+		case "name":
+			out.Name = string(in.String())
 		default:
 			in.SkipRecursive()
 		}
@@ -354,9 +422,17 @@ func easyjson8042eaf4DecodeMevericcoreMcplantainer1(in *jlexer.Lexer, out *Plant
 		in.Consumed()
 	}
 }
-func easyjson8042eaf4EncodeMevericcoreMcplantainer1(out *jwriter.Writer, in PlantainerCustomData) {
+func easyjson8042eaf4EncodeMevericcoreMcplantainerCommon2(out *jwriter.Writer, in PlantainerCustomData) {
 	out.RawByte('{')
 	first := true
 	_ = first
+	if in.Name != "" {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"name\":")
+		out.String(string(in.Name))
+	}
 	out.RawByte('}')
 }

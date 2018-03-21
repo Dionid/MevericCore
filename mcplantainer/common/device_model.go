@@ -7,8 +7,6 @@ import (
 	"tztatom/tztcore"
 	"time"
 	"strconv"
-	"fmt"
-	"mevericcore/mcmongo"
 )
 
 type PlantainerDataValuesIrrigationModuleSt struct {
@@ -26,17 +24,27 @@ func NewPlantainerDataValuesSt() *PlantainerDataValuesSt {
 }
 
 type PlantainerDataSt struct {
-	mcmongo.ModelBase `bson:",inline"`
-	TS                   time.Time `json:",omitempty" bson:"ts"`
-	PeriodInSec          int       `json:"period" bson:"period"`
-	DeviceShadowId       string    `json:"deviceShadowId,omitempty" bson:"deviceShadowId"`
+	mccommon.DeviceDataBaseSt `bson:",inline"`
+	//TS                   time.Time `json:",omitempty" bson:"ts"`
+	//PeriodInSec          int       `json:"period" bson:"period"`
+	//DeviceShadowId       string    `json:"deviceShadowId,omitempty" bson:"deviceShadowId"`
 	Values               map[string]map[string]PlantainerDataValuesSt
 }
 
 func NewPlantainerData() *PlantainerDataSt {
 	return &PlantainerDataSt{
-		PeriodInSec: 10000,
+		mccommon.DeviceDataBaseSt{
+			PeriodInSec: 10000,
+		},
+		nil,
 	}
+}
+
+//easyjson:json
+type PlantainerDataListSt []PlantainerDataSt
+
+func (this *PlantainerDataListSt) GetBaseQuery() *bson.M {
+	return nil
 }
 
 type PlantainerCustomData struct {
@@ -53,6 +61,21 @@ type PlantainerModelSt struct {
 
 	CustomData      PlantainerCustomData `json:"customData" bson:"customData"`
 	CustomAdminData PlantainerCustomAdminData `json:"customAdminData" bson:"customAdminData"`
+}
+
+func (this *PlantainerModelSt) Update(data *map[string]interface{}) error {
+	print("Update")
+
+	customDataUpdate := (*data)["customData"].(map[string]interface{})
+
+	if customDataUpdate != nil {
+		name := customDataUpdate["name"].(string)
+		if name != "" {
+			this.CustomData.Name = name
+		}
+	}
+
+	return nil
 }
 
 func CreateNewPlantainerModelSt() mccommon.DeviceBaseModelInterface {
@@ -137,19 +160,6 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 	return nil
 }
 
-//easyjson:json
-type PlantainersList []PlantainerModelSt
-
-func (this *PlantainersList) GetBaseQuery() *bson.M {
-	return &bson.M{
-		"deletedAt": nil,
-	}
-}
-
-func (this *PlantainersList) GetTypeName() string {
-	return "plantainer"
-}
-
 func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.DevicesCollectionManagerInterface, updateData *mccommon.DeviceShadowUpdateMsg, values *PlantainerDataValuesSt) error {
 	data := NewPlantainerData()
 
@@ -208,4 +218,21 @@ func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadow
 	}
 
 	return nil
+}
+
+//easyjson:json
+type PlantainersList []PlantainerModelSt
+
+func (this *PlantainersList) GetBaseQuery() *bson.M {
+	return &bson.M{
+		"deletedAt": nil,
+	}
+}
+
+func (this *PlantainersList) GetTypeName() string {
+	return "plantainer"
+}
+
+func NewPlantainersList() mccommon.DevicesListBaseModelInterface {
+	return &PlantainersList{}
 }

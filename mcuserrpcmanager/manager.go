@@ -13,6 +13,7 @@ type UserRPCManagerSt struct {
 	Router *UserRPCRouterSt
 	ServerId string
 	DeviceCreator mccommon.DeviceCreatorFn
+	DevicesListCreator mccommon.DevicesListCreatorFn
 	SendToDevice func(msg *mccommon.RPCMsg) error
 }
 
@@ -20,6 +21,7 @@ func CreateNewUserRPCManagerSt(serverId string) *UserRPCManagerSt {
 	return &UserRPCManagerSt{
 		CreateNewDeviceRPCRouter(),
 		serverId,
+		nil,
 		nil,
 		func(msg *mccommon.RPCMsg) error {
 			if bData, err := msg.MarshalJSON(); err != nil {
@@ -92,8 +94,9 @@ func (thisR *UserRPCManagerSt) SendReq(c mccommon.ClientToServerHandleResChannel
 	return nil
 }
 
-func (thisRPCMan *UserRPCManagerSt) Init(deviceCr mccommon.DeviceCreatorFn) {
+func (thisRPCMan *UserRPCManagerSt) Init(deviceCr mccommon.DeviceCreatorFn, devicesLCr mccommon.DevicesListCreatorFn) {
 	thisRPCMan.DeviceCreator = deviceCr
+	thisRPCMan.DevicesListCreator = devicesLCr
 }
 
 func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
@@ -212,9 +215,48 @@ func (thisR *UserRPCManagerSt) initDeviceResource() {
 	deviceG := thisR.Router.Group("Device")
 	deviceG.Use(userWsMiddleware)
 	deviceG.AddHandler("List", func(req *ReqSt) error {
+		devices := thisR.DevicesListCreator()
+		if err := DevicesCollectionManager.FindByOwnerId(req.Msg.ClientId, devices); err != nil {
+			return err
+		}
+		thisR.SendSuccessResp(req.Channel, req.RPCData, &map[string]interface{}{"data": devices})
 		return nil
 	})
 	deviceG.AddHandler("Get", func(req *ReqSt) error {
+		device := thisR.DeviceCreator()
+		args := req.RPCData.Args.(map[string]interface{})
+		deviceId := args["deviceId"].(string)
+		if err := DevicesCollectionManager.FindByShadowId(deviceId, device); err != nil {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+		if isOwner, err := device.IsOwnerStringId(req.Msg.ClientId); !isOwner {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "It's not your device", 403)
+		} else if err != nil {
+			print(err.Error())
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+		thisR.SendSuccessResp(req.Channel, req.RPCData, &map[string]interface{}{deviceId: device})
+		return nil
+	})
+	deviceG.AddHandler("Update", func(req *ReqSt) error {
+		device := thisR.DeviceCreator()
+		args := req.RPCData.Args.(map[string]interface{})
+		deviceId := args["deviceId"].(string)
+		if err := DevicesCollectionManager.FindByShadowId(deviceId, device); err != nil {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+		if isOwner, err := device.IsOwnerStringId(req.Msg.ClientId); !isOwner {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "It's not your device", 403)
+		} else if err != nil {
+			print(err.Error())
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+
+		device.Update(&args)
+
+		DevicesCollectionManager.SaveModel(device)
+
+		thisR.SendSuccessResp(req.Channel, req.RPCData, &map[string]interface{}{deviceId: device})
 		return nil
 	})
 	shadowG := deviceG.Group("Shadow")

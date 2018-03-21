@@ -71,6 +71,8 @@ func (thisR *DeviceRPCCtrlSt) InitShadowRoutes() {
 			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
 		}
 
+		// TODO: Can be Update result
+
 		updateRpcMsg := &mccommon.RPCWithShadowUpdateMsg{}
 
 		if err := updateRpcMsg.UnmarshalJSON(*req.Msg.Msg); err != nil {

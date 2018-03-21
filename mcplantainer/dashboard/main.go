@@ -8,6 +8,12 @@ import (
 	"mevericcore/mccommon"
 	"mevericcore/mcusers"
 	"gopkg.in/mgo.v2"
+	"mevericcore/mcinnerrpc"
+)
+
+var (
+	InnerRPCMan                                          = mcinnerrpc.NewInnerRPCMan()
+
 )
 
 func Init(session *mgo.Session, dbName string, e *echo.Echo) {
@@ -20,7 +26,34 @@ func Init(session *mgo.Session, dbName string, e *echo.Echo) {
 	initDeviceModules(usersColMan, e)
 
 	appG := e.Group("/app")
-	mcuserrpcmanager.InitMain(common.CreateNewPlantainerModelSt, usersColMan, plantainerColMan, appG)
+	mcuserrpcmanager.InitMain(common.CreateNewPlantainerModelSt, common.NewPlantainersList, usersColMan, plantainerColMan, appG)
+
+	mcuserrpcmanager.UserRPCManager.Router.AddHandler("Device.Data", func(req *mcuserrpcmanager.ReqSt) error {
+		println("data in plantainer")
+		device := &common.PlantainerModelSt{}
+		args := req.RPCData.Args.(map[string]interface{})
+		deviceId := args["deviceId"].(string)
+
+		if err := common.PlantainerCollectionManager.FindByShadowId(deviceId, device); err != nil {
+			return mcuserrpcmanager.UserRPCManager.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+		if isOwner, err := device.IsOwnerStringId(req.Msg.ClientId); !isOwner {
+			return mcuserrpcmanager.UserRPCManager.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "It's not your device", 403)
+		} else if err != nil {
+			print(err.Error())
+			return mcuserrpcmanager.UserRPCManager.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+
+		dataList := &common.PlantainerDataListSt{}
+
+		if err := common.PlantainerDataCollectionManager.FindByDeviceShadowId(deviceId, dataList); err != nil {
+			return nil
+		}
+
+		mcuserrpcmanager.UserRPCManager.SendSuccessResp(req.Channel, req.RPCData, &map[string]interface{}{"data": dataList})
+
+		return nil
+	})
 }
 
 func initUserModules(usersColMan *mccommon.UsersCollectionManagerSt, e *echo.Echo) {

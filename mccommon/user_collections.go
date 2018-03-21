@@ -8,6 +8,7 @@ import (
 
 type UsersCollectionManagerSt struct {
 	mcmongo.CollectionManagerBaseSt
+	Inited bool
 }
 
 func (this *UsersCollectionManagerSt) FindModelByLogin(login string, model mcmongo.ModelBaseInterface) error {
@@ -36,8 +37,11 @@ func createUserAdmin() {
 var UsersCollectionManager = &UsersCollectionManagerSt{}
 
 func InitUserColManager(dbsession *mgo.Session, dbName string) *UsersCollectionManagerSt {
-	UsersCollectionManager.AddModel(&UserModel{})
-	UsersCollectionManager.InitManager(dbsession, dbName, "users")
-	createUserAdmin()
+	if !UsersCollectionManager.Inited {
+		UsersCollectionManager.AddModel(&UserModel{})
+		UsersCollectionManager.InitManager(dbsession, dbName, "users")
+		createUserAdmin()
+		UsersCollectionManager.Inited = true
+	}
 	return UsersCollectionManager
 }

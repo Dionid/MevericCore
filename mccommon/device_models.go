@@ -9,6 +9,7 @@ import (
 )
 
 type DeviceCreatorFn func() DeviceBaseModelInterface
+type DevicesListCreatorFn func() DevicesListBaseModelInterface
 
 //easyjson:json
 type DeviceBaseModel struct {
@@ -38,10 +39,15 @@ type DeviceBaseModelInterface interface {
 	IsOwner(ownerId bson.ObjectId) (bool, error)
 	MarshalJSON() ([]byte, error)
 	GetTypeName() string
+	Update(*map[string]interface{}) error
 }
 
 func (this *DeviceBaseModel) GetShadow() ShadowModelInterface {
 	return &this.Shadow
+}
+
+func (this *DeviceBaseModel) Update(data *map[string]interface{}) error {
+	return nil
 }
 
 func (this *DeviceBaseModel) GetShadowId() string {
