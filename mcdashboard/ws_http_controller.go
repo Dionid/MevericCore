@@ -1,13 +1,14 @@
-package mcuserrpcmanager
+package mcdashboard
 
 import (
+	"net/http"
 	"mevericcore/mcecho"
+	"github.com/gorilla/websocket"
 	"mevericcore/mcws"
 	"mevericcore/mccommon"
 	"github.com/labstack/echo"
-	"net/http"
 	"fmt"
-	"github.com/gorilla/websocket"
+	"mevericcore/mccommunication"
 )
 
 var (
@@ -16,10 +17,12 @@ var (
 			return true
 		},
 	}
+	WSManager = mcws.NewWSocketsManager()
 )
 
 type WSHttpControllerSt struct {
 	mcecho.ModelControllerBase
+
 }
 
 func (this *WSHttpControllerSt) createAllWSRooms(userId string, userWS *mcws.WSocket) error {
@@ -29,7 +32,7 @@ func (this *WSHttpControllerSt) createAllWSRooms(userId string, userWS *mcws.WSo
 	// Find all devices
 	devices := &mccommon.DevicesWithCustomDataListBaseModel{}
 
-	if err := DevicesCollectionManager.FindByOwnerId(userId, devices); err != nil {
+	if err := devicesCollectionManager.FindByOwnerId(userId, devices); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
@@ -80,12 +83,12 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 
 		msg := &mcws.WsRPCMsgBaseSt{}
 		if err := msg.UnmarshalJSON(byteMsg); err != nil {
+			fmt.Println("msg.UnmarshalJSON error: " + err.Error())
 			continue
 		}
 
 		if !userWS.Authorized {
 			if msg.Method != "Auth.Auth" && msg.Method != "Auth.Login" {
-				//userWS.SendErrorMsg("Forbidden", msg.Method, 503, msg.Id)
 				r := mccommon.RPCMsg{
 					Method: msg.Method,
 					Id: msg.Id,
@@ -97,6 +100,7 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 					},
 				}
 				if bData, err := r.MarshalJSON(); err != nil {
+					// ToDo: change to send error
 					userWS.SendMsg([]byte(err.Error()))
 				} else {
 					userWS.SendMsg(bData)
@@ -105,14 +109,16 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 			}
 		}
 
-		handleMsg := &mccommon.ClientToServerReqSt{
-			ClientId:  userId,
-			ChannelId: "",
-			Protocol:  "WS",
-			Msg:       &byteMsg,
+		handleMsg := &mccommunication.ClientToServerRPCReqSt{
+			ClientToServerReqSt: mccommunication.ClientToServerReqSt{
+				ClientId:  userId,
+				Protocol:  "WS",
+				Msg:       &byteMsg,
+			},
+			RPCMsg: &msg.RPCMsg,
 		}
 
-		respChan := make(mccommon.ClientToServerHandleResultChannel)
+		respChan := make(mccommunication.ClientToServerHandleResultChannel)
 
 		go func() {
 			if err := UserRPCManager.Handle(respChan, handleMsg); err != nil {

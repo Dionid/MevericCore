@@ -36,7 +36,7 @@ func CreateNewUserRPCManagerSt(serverId string) *UserRPCManagerSt {
 	}
 }
 
-func (thisR *UserRPCManagerSt) Handle(c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt) error {
+func (thisR *UserRPCManagerSt) Handle(c mccommon.ClientToServerHandleResultChannel, msg *mccommon.ClientToServerReqSt) error {
 	rpcData := &mccommon.RPCMsg{}
 	if err := rpcData.UnmarshalJSON(*msg.Msg); err != nil {
 		return thisR.SendRPCErrorRes(c, msg.Protocol, "", msg.ClientId, 0, err.Error(), 422)
@@ -47,7 +47,7 @@ func (thisR *UserRPCManagerSt) Handle(c mccommon.ClientToServerHandleResChannel,
 	return nil
 }
 
-func (thisR *UserRPCManagerSt) SendRPCErrorRes(c mccommon.ClientToServerHandleResChannel, protocol string, methodName string, srcDeviceId string, reqId int, errMessage string, errCode int) error {
+func (thisR *UserRPCManagerSt) SendRPCErrorRes(c mccommon.ClientToServerHandleResultChannel, protocol string, methodName string, srcDeviceId string, reqId int, errMessage string, errCode int) error {
 	data := mccommon.RPCMsg{
 		Method: methodName,
 		Id: reqId,
@@ -58,14 +58,14 @@ func (thisR *UserRPCManagerSt) SendRPCErrorRes(c mccommon.ClientToServerHandleRe
 			"code": errCode,
 		},
 	}
-	c <- mccommon.ClientToServerHandleRes{
+	c <- mccommon.ClientToServerHandleResult{
 		nil,
 		data,
 	}
 	return nil
 }
 
-func (thisR *UserRPCManagerSt) SendSuccessResp(c mccommon.ClientToServerHandleResChannel, msg *mccommon.RPCMsg, result *map[string]interface{}) error {
+func (thisR *UserRPCManagerSt) SendSuccessResp(c mccommon.ClientToServerHandleResultChannel, msg *mccommon.RPCMsg, result *map[string]interface{}) error {
 	data := mccommon.RPCMsg{
 		Method: msg.Method,
 		Id: msg.Id,
@@ -73,14 +73,14 @@ func (thisR *UserRPCManagerSt) SendSuccessResp(c mccommon.ClientToServerHandleRe
 		Dst: msg.Src,
 		Result: result,
 	}
-	c <- mccommon.ClientToServerHandleRes{
+	c <- mccommon.ClientToServerHandleResult{
 		data,
 		nil,
 	}
 	return nil
 }
 
-func (thisR *UserRPCManagerSt) SendReq(c mccommon.ClientToServerHandleResChannel, methodName string, srcDeviceId string, reqId int, args *map[string]interface{}) error {
+func (thisR *UserRPCManagerSt) SendReq(c mccommon.ClientToServerHandleResultChannel, methodName string, srcDeviceId string, reqId int, args *map[string]interface{}) error {
 	data := mccommon.RPCMsg{
 		Method: methodName,
 		Id: reqId,
@@ -88,7 +88,7 @@ func (thisR *UserRPCManagerSt) SendReq(c mccommon.ClientToServerHandleResChannel
 		Dst: srcDeviceId,
 		Args: args,
 	}
-	c <- mccommon.ClientToServerHandleRes{
+	c <- mccommon.ClientToServerHandleResult{
 		data,
 		nil,
 	}
@@ -152,7 +152,7 @@ func (thisRPCMan *UserRPCManagerSt) InitRoutes() {
 			Result: struct{Token string}{t},
 		}
 
-		req.Channel <- mccommon.ClientToServerHandleRes{
+		req.Channel <- mccommon.ClientToServerHandleResult{
 			rpcResData,
 			nil,
 		}

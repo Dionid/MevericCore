@@ -1,15 +1,13 @@
 package mccommon
 
-type ClientToServerHandleRes struct {
+type ClientToServerHandleResult struct {
 	Res   JSONData
 	Error JSONData
 }
 
-type ClientToServerHandleResChannel chan ClientToServerHandleRes
+type ClientToServerHandleResultChannel chan ClientToServerHandleResult
 
-type ClientToServerReqHandler func(c ClientToServerHandleResChannel, msg *ClientToServerReqSt) error
-//type ClientToServerRPCReqHandler func(c *ClientToServerHandleResChannel, msg *ClientToServerRPCReqSt) error
-
+type ClientToServerReqHandler func(c ClientToServerHandleResultChannel, msg *ClientToServerReqSt) error
 
 type ClientToServerReqSt struct {
 	ClientId  string

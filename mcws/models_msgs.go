@@ -1,6 +1,8 @@
 package mcws
 
-import "mevericcore/mccommon"
+import (
+	"mevericcore/mccommunication"
+)
 
 type WsMsgBase struct {}
 
@@ -16,50 +18,30 @@ type WSocketMsgBaseI interface {
 //easyjson:json
 type WsRPCMsgBaseSt struct {
 	WsMsgBase
-	mccommon.RPCMsg
+	mccommunication.RPCMsg
 }
 
-//type WsResActionStatusesSt struct {
-//	Success string
-//	Error string
-//}
+// easyjson:json
+type WsAuthRPCReqSt struct {
+	WsRPCMsgBaseSt
+	Args struct {
+		Login string `json:"login"`
+		Password string `json:"password"`
+	}
+}
 
-//var WsResActionStatuses = WsResActionStatusesSt{
-//	"success",
-//	"error",
-//}
+// easyjson:json
+type WsAuthRPCResSt struct {
+	WsRPCMsgBaseSt
+	Result struct{
+		Token string
+	}
+}
 
-////easyjson:json
-//type WsResActionMsg struct {
-//	WsRPCMsgBaseSt
-//	Status string
-//}
-//
-////easyjson:json
-//type WsResActionSingleErrorMsg struct {
-//	WsResActionMsg
-//	Error string
-//	ErrorCode int
-//}
-//
-//func CreateWsResActionSingleErrorMsg(err string, action string, errorCode int, reqId int) *WsResActionSingleErrorMsg {
-//	return &WsResActionSingleErrorMsg{
-//		WsResActionMsg: WsResActionMsg{
-//			WsRPCMsgBaseSt: WsRPCMsgBaseSt{
-//				RPCMsg: mccommon.RPCMsg{
-//					Method: action,
-//					Id:     reqId,
-//				},
-//			},
-//			Status: WsResActionStatuses.Error,
-//		},
-//		Error: err,
-//		ErrorCode: errorCode,
-//	}
-//}
-
-////easyjson:json
-//type WsResActionArrErrorMsg struct {
-//	WsResActionMsg
-//	Errors []string
-//}
+// easyjson:json
+type WsTokenRPCReqSt struct {
+	WsRPCMsgBaseSt
+	Args struct {
+		Token string
+	}
+}

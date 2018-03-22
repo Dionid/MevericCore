@@ -17,7 +17,7 @@ func (this *DeviceMQTTManagerSt) SetReqHandler(handler mccommon.ClientToServerRe
 	this.reqHandler = handler
 }
 
-func (this *DeviceMQTTManagerSt) HandleReq(c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt) error {
+func (this *DeviceMQTTManagerSt) HandleReq(c mccommon.ClientToServerHandleResultChannel, msg *mccommon.ClientToServerReqSt) error {
 	// ToDo: Check if this close must be somewhere else
 	defer func() {
 		close(c)
@@ -70,7 +70,7 @@ func (this *DeviceMQTTManagerSt) DeviceToServerRPCSub() {
 			Resource: &msgTopic,
 		}
 
-		respChan := make(mccommon.ClientToServerHandleResChannel)
+		respChan := make(mccommon.ClientToServerHandleResultChannel)
 
 		go func() {
 			err := this.HandleReq(respChan, handleMsg)

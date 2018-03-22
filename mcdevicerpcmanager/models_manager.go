@@ -28,7 +28,7 @@ func (thisR *DeviceRPCManagerSt) AddDeviceCtrl(ctrls DeviceRPCCtrlInterface) {
 	thisR.DeviceReqControllersByType[ctrls.GetType()] = ctrls
 }
 
-func (this *DeviceRPCManagerSt) RPCReqHandler(c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt) error {
+func (this *DeviceRPCManagerSt) RPCReqHandler(c mccommon.ClientToServerHandleResultChannel, msg *mccommon.ClientToServerReqSt) error {
 	session, col := this.DevicesCollectionManager.GetSesAndCol()
 	defer session.Close()
 

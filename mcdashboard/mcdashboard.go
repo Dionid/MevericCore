@@ -3,30 +3,16 @@ package mcdashboard
 import (
 	"gopkg.in/mgo.v2"
 	"github.com/labstack/echo"
-	"fmt"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/middleware"
 	"mevericcore/mcecho"
+	"mevericcore/mccommon"
+	"mevericcore/mcinnerrpc"
+	"mevericcore/mcws"
 )
 
 var (
 	isDBDrop = false
 	mainDBName = "tztatom"
-	wsSkipperFn = func(c echo.Context) bool {
-		fmt.Println(c.Path())
-		if c.Path() == "/app/ws" {
-			return true
-		}
-		return false
-	}
-	jwtMdlw = middleware.JWTWithConfig(middleware.JWTConfig{
-		Skipper:     wsSkipperFn,
-		SigningKey:  []byte("secret"),
-		ContextKey:  "client",
-		TokenLookup: "header:" + echo.HeaderAuthorization,
-		AuthScheme:  "JWT",
-		Claims:      jwt.MapClaims{},
-	})
 )
 
 func initMongoDbConnection() *mgo.Session {
@@ -65,6 +51,21 @@ func initEcho() *echo.Echo {
 }
 
 var (
+	innerRPCMan = mcinnerrpc.New()
+)
+
+func initInnerRPCMan() {
+	innerRPCMan.Init()
+	innerRPCMan.Service.Subscribe("User.RPC.Send", func(msg *mcinnerrpc.Msg) {
+		rpcData := &mcws.WsRPCMsgBaseSt{}
+		if err := rpcData.UnmarshalJSON(msg.Data); err != nil {
+			return
+		}
+		WSManager.SendWsMsgByRoomName(rpcData.Dst, rpcData)
+	})
+}
+
+var (
 	usersCollectionManager = NewUsersCollectionManagerSt()
 	devicesDataCollectionManager = NewDeviceDataCollectionManager()
 	devicesCollectionManager = NewDeviceCollectionManager(devicesDataCollectionManager)
@@ -80,8 +81,11 @@ func initRoutes(e *echo.Echo) {
 	authG := e.Group("/auth")
 	initAuthRoutes(authG)
 
+	WSController := WSHttpControllerSt{}
+	e.GET("/ws", WSController.WSHandler)
+
 	appG := e.Group("/app")
-	appG.Use(jwtMdlw)
+	appG.Use(mccommon.JwtMdlw)
 
 	meG := appG.Group("/me")
 	initMeRoutes(meG)
@@ -102,6 +106,10 @@ func Init() {
 
 	// 4. Init Routes
 	initRoutes(e)
+
+	initInnerRPCMan()
+
+	InitUserRPCManager()
 
 	e.Logger.Fatal(e.Start("localhost:3000"))
 }

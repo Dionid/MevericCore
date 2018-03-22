@@ -4,6 +4,9 @@ package mccommon
 import (
 	"math/rand"
 	"time"
+	"github.com/labstack/echo"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo/middleware"
 )
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -32,3 +35,13 @@ func RandString(n int) string {
 
 	return string(b)
 }
+
+var (
+	JwtMdlw = middleware.JWTWithConfig(middleware.JWTConfig{
+		SigningKey:  []byte("secret"),
+		ContextKey:  "client",
+		TokenLookup: "header:" + echo.HeaderAuthorization,
+		AuthScheme:  "JWT",
+		Claims:      jwt.MapClaims{},
+	})
+)

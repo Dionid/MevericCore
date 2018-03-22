@@ -9,7 +9,7 @@ type DeviceResponseServiceSt struct {
 	ServerId         string
 }
 
-func (this *DeviceResponseServiceSt) SendRPCErrorRes(c mccommon.ClientToServerHandleResChannel, protocol string, methodName string, srcDeviceId string, reqId int, errMessage string, errCode int) error {
+func (this *DeviceResponseServiceSt) SendRPCErrorRes(c mccommon.ClientToServerHandleResultChannel, protocol string, methodName string, srcDeviceId string, reqId int, errMessage string, errCode int) error {
 	data := mccommon.RPCMsg{
 		Src: this.ServerId,
 		Dst: srcDeviceId,
@@ -21,7 +21,7 @@ func (this *DeviceResponseServiceSt) SendRPCErrorRes(c mccommon.ClientToServerHa
 		},
 	}
 
-	c <- mccommon.ClientToServerHandleRes{
+	c <- mccommon.ClientToServerHandleResult{
 		nil,
 		data,
 	}
@@ -29,7 +29,7 @@ func (this *DeviceResponseServiceSt) SendRPCErrorRes(c mccommon.ClientToServerHa
 	return nil
 }
 
-func (this *DeviceResponseServiceSt) SendRPCSuccessRes(c mccommon.ClientToServerHandleResChannel, protocol string, methodName string, srcDeviceId string, reqId int, result *map[string]interface{}) error {
+func (this *DeviceResponseServiceSt) SendRPCSuccessRes(c mccommon.ClientToServerHandleResultChannel, protocol string, methodName string, srcDeviceId string, reqId int, result *map[string]interface{}) error {
 	data := mccommon.RPCMsg{
 		Src: this.ServerId,
 		Dst: srcDeviceId,
@@ -38,7 +38,7 @@ func (this *DeviceResponseServiceSt) SendRPCSuccessRes(c mccommon.ClientToServer
 		Result: result,
 	}
 
-	c <- mccommon.ClientToServerHandleRes{
+	c <- mccommon.ClientToServerHandleResult{
 		data,
 		nil,
 	}
@@ -46,7 +46,7 @@ func (this *DeviceResponseServiceSt) SendRPCSuccessRes(c mccommon.ClientToServer
 	return nil
 }
 
-func (this *DeviceResponseServiceSt) SendRPCShadowDelta(c mccommon.ClientToServerHandleResChannel, protocol string, srcDeviceId string, deviceId string, reqId int, delta *mccommon.ShadowStateDeltaSt) error {
+func (this *DeviceResponseServiceSt) SendRPCShadowDelta(c mccommon.ClientToServerHandleResultChannel, protocol string, srcDeviceId string, deviceId string, reqId int, delta *mccommon.ShadowStateDeltaSt) error {
 	data := mccommon.RPCMsg{
 		Src: this.ServerId,
 		Dst: srcDeviceId,
@@ -55,7 +55,7 @@ func (this *DeviceResponseServiceSt) SendRPCShadowDelta(c mccommon.ClientToServe
 		Args: delta,
 	}
 
-	c <- mccommon.ClientToServerHandleRes{
+	c <- mccommon.ClientToServerHandleResult{
 		nil,
 		data,
 	}

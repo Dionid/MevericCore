@@ -20,7 +20,7 @@ type DeviceRPCCtrlSt struct{
 
 type DeviceRPCCtrlInterface interface {
 	GetType() string
-	HandleReq(resource string, c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error
+	HandleReq(resource string, c mccommon.ClientToServerHandleResultChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error
 }
 
 func CreateNewDeviceRPCCtrl(serverId string, typeName string, deviceColMan mccommon.DevicesCollectionManagerInterface, deviceCreator DeviceCreatorFn, SendToUser func(msg *mccommon.RPCMsg) error) *DeviceRPCCtrlSt {
@@ -155,7 +155,7 @@ func (this *DeviceRPCCtrlSt) GetType() string {
 	return this.Type
 }
 
-func (this *DeviceRPCCtrlSt) HandleReq(resource string, c mccommon.ClientToServerHandleResChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
+func (this *DeviceRPCCtrlSt) HandleReq(resource string, c mccommon.ClientToServerHandleResultChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
 	return this.Router.Handle(resource, c, msg, rpcData)
 }
 

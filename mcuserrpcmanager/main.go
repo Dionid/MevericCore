@@ -10,7 +10,7 @@ import (
 var (
 	WSManager = mcws.NewWSocketsManager()
 
-	InnerRPCMan                                          = mcinnerrpc.NewInnerRPCMan()
+	InnerRPCMan                                          = mcinnerrpc.New()
 
 	// ToDo: "plantainerServerId" can't be here
 	UserRPCManager = CreateNewUserRPCManagerSt("plantainerServerId")

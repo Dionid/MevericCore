@@ -15,7 +15,7 @@ import (
 var (
 	PlantainerServerId = "plantainerServerId"
 
-	InnerRPCMan                                          = mcinnerrpc.NewInnerRPCMan()
+	InnerRPCMan                                          = mcinnerrpc.New()
 	DeviceMQTTMan                                        = &mcdevicemqttmanager.DeviceMQTTManagerSt{}
 	DeviceRPCMan  *mcdevicerpcmanager.DeviceRPCManagerSt = nil
 )

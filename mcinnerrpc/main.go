@@ -44,7 +44,7 @@ type InnerRPCManSt struct {
 	Service InnerRPCServiceInterface
 }
 
-func NewInnerRPCMan() *InnerRPCManSt {
+func New() *InnerRPCManSt {
 	return &InnerRPCManSt{}
 }
 
