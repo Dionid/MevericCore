@@ -25,9 +25,6 @@ func NewPlantainerDataValuesSt() *PlantainerDataValuesSt {
 
 type PlantainerDataSt struct {
 	mccommon.DeviceDataBaseSt `bson:",inline"`
-	//TS                   time.Time `json:",omitempty" bson:"ts"`
-	//PeriodInSec          int       `json:"period" bson:"period"`
-	//DeviceShadowId       string    `json:"deviceShadowId,omitempty" bson:"deviceShadowId"`
 	Values               map[string]map[string]PlantainerDataValuesSt
 }
 

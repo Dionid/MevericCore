@@ -8,11 +8,10 @@ import (
 	"mevericcore/mccommon"
 	"mevericcore/mcusers"
 	"gopkg.in/mgo.v2"
-	"mevericcore/mcinnerrpc"
 )
 
 var (
-	InnerRPCMan                                          = mcinnerrpc.NewInnerRPCMan()
+	//InnerRPCMan                                          = mcinnerrpc.NewInnerRPCMan()
 
 )
 

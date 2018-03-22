@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"github.com/dgrijalva/jwt-go"
 	"time"
+	"errors"
 )
 
 type UserRPCManagerSt struct {
@@ -283,7 +284,6 @@ func (thisR *UserRPCManagerSt) initDeviceResource() {
 		state.FillDelta()
 
 		if len(state.Delta.State) != 0 {
-			// TODO: SEND TO DEVICE
 			data := &mccommon.RPCMsg{
 				Method: "Device.Shadow.Delta",
 				//Id: reqId,
@@ -293,6 +293,103 @@ func (thisR *UserRPCManagerSt) initDeviceResource() {
 			}
 			thisR.SendToDevice(data)
 		}
+
+		return nil
+	})
+	shadowG.AddHandler("Update", func(req *ReqSt) error {
+		device := thisR.DeviceCreator()
+		args := req.RPCData.Args.(map[string]interface{})
+		deviceId := args["deviceId"].(string)
+
+		if err := DevicesCollectionManager.FindByShadowId(deviceId, device); err != nil {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+
+		if isOwner, err := device.IsOwnerStringId(req.Msg.ClientId); !isOwner {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, "It's not your device", 403)
+		} else if err != nil {
+			print(err.Error())
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 404)
+		}
+
+		somethingNew := false
+		deviceState := device.GetShadow().GetState()
+
+		updateRpcMsg := &mccommon.RPCWithShadowUpdateMsg{}
+
+		if err := updateRpcMsg.UnmarshalJSON(*req.Msg.Msg); err != nil {
+			return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
+		}
+
+		updateData := updateRpcMsg.Args
+
+		device.ActionsOnUpdate(&updateData, DevicesCollectionManager)
+
+		if updateData.State.Reported != nil && updateData.State.Desired != nil {
+			deviceState.SetReportedState(updateData.State.Reported)
+			deviceState.SetDesiredState(updateData.State.Desired)
+			deviceState.IncrementVersion()
+			if err := DevicesCollectionManager.SaveModel(device); err != nil {
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
+			}
+			// PUB /update/accepted with Desire and Reported
+			somethingNew = true
+		} else if updateData.State.Reported != nil {
+			deviceState.SetReportedState(updateData.State.Reported)
+			deviceState.IncrementVersion()
+			if err := DevicesCollectionManager.SaveModel(device); err != nil {
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
+			}
+			// PUB /update/accepted with Reported
+			somethingNew = true
+		} else if updateData.State.Desired != nil {
+			if !deviceState.CheckVersion(updateData.Version) {
+				// PUB /update/rejected with Desired and Reported
+				err := errors.New("version wrong")
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
+			}
+			deviceState.SetDesiredState(updateData.State.Desired)
+			deviceState.IncrementVersion()
+			if err := DevicesCollectionManager.SaveModel(device); err != nil {
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
+			}
+			// PUB /update/accepted with Desired
+			somethingNew = true
+		}
+
+		deviceState.FillDelta()
+
+		if len(deviceState.Delta.State) != 0 {
+			data := &mccommon.RPCMsg{
+				Method: "Device.Shadow.Delta",
+				//Id: reqId,
+				Src: thisR.ServerId,
+				Dst: deviceId,
+				Args: &map[string]interface{}{"state": deviceState.Delta.State, "version": deviceState.Delta.Version, "timestamp": time.Now()},
+			}
+			thisR.SendToDevice(data)
+		}
+
+		if !somethingNew {
+			// In this case SetIsActivated haven't been saved
+			if err := DevicesCollectionManager.SaveModel(device); err != nil {
+				return thisR.SendRPCErrorRes(req.Channel, req.Msg.Protocol, req.RPCData.Method, req.Msg.ClientId, req.RPCData.Id, err.Error(), 500)
+			}
+		}
+
+		thisR.SendSuccessResp(req.Channel, req.RPCData, &map[string]interface{}{"state": deviceState})
+
+		rpcData := &mccommon.RPCMsg{
+			Dst: device.GetShadowId(),
+			Src: thisR.ServerId,
+			Method: "Device.Shadow.Update.Accepted",
+			Args: &map[string]interface{}{
+				"state": updateData.State,
+				"version": deviceState.Metadata.Version,
+			},
+		}
+
+		thisR.SendToDevice(rpcData)
 
 		return nil
 	})
