@@ -10,7 +10,6 @@ import (
 )
 
 var (
-	WSManager = mcws.NewWSocketsManager()
 	WSSkipperFn = func(c echo.Context) bool {
 		fmt.Println(c.Path())
 		if c.Path() == "/app/ws" {

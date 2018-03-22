@@ -1,4 +1,4 @@
-package mcdashboard
+package mcdashboard_old
 
 import "github.com/labstack/echo"
 

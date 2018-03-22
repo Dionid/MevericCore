@@ -4,7 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"mevericcore/mcdashboard"
+	"mevericcore/mcdashboard_old"
 )
 
 var (
@@ -56,7 +56,7 @@ func main() {
 		return c.File("./public/index.html")
 	})
 
-	mcdashboard.Init(session, MainDBName, e)
+	mcdashboard_old.Init(session, MainDBName, e)
 
 	e.Logger.Fatal(e.Start("localhost:3000"))
 }

@@ -19,6 +19,10 @@ func (this *UsersCollectionManagerSt) FindModelByEmail(email string, model mcmon
 	return this.FindModel(&bson.M{"email": email}, model)
 }
 
+func (this *UsersCollectionManagerSt) InitBase(dbsession *mgo.Session, dbName string) {
+	this.InitManager(dbsession, dbName, "users")
+}
+
 func createUserAdmin() {
 	email := "diodos@yandex.ru"
 	admin := &UserModel{

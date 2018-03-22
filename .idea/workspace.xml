@@ -2,20 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="881e5201-14e1-4691-ab10-7c4b95d047ed" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/mccommon/data_models.go" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/mccommon/data_collection.go" afterPath="$PROJECT_DIR$/mccommon/data_collection.go" />
-      <change beforePath="$PROJECT_DIR$/mccommon/device_models.go" afterPath="$PROJECT_DIR$/mccommon/device_models.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/mcdashboard/index.html" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/mcdashboard/main/main.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/mcdashboard/mcdashboard.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/mcdashboard/users_collection.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/mcdashboard/users_controllers.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/mcdashboard/users_models.go" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/mcdashboard_old/user_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/apps/dashboard/main.go" afterPath="$PROJECT_DIR$/apps/dashboard/main.go" />
       <change beforePath="$PROJECT_DIR$/mccommon/user_collections.go" afterPath="$PROJECT_DIR$/mccommon/user_collections.go" />
-      <change beforePath="$PROJECT_DIR$/mcdevicerpcmanager/ctrl.go" afterPath="$PROJECT_DIR$/mcdevicerpcmanager/ctrl.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/common/device_collection.go" afterPath="$PROJECT_DIR$/mcplantainer/common/device_collection.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/common/device_model.go" afterPath="$PROJECT_DIR$/mcplantainer/common/device_model.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/common/device_model_easyjson.go" afterPath="$PROJECT_DIR$/mcplantainer/common/device_model_easyjson.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/dashboard/main.go" afterPath="$PROJECT_DIR$/mcplantainer/dashboard/main.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/device/device_init.go" afterPath="$PROJECT_DIR$/mcplantainer/device/device_init.go" />
-      <change beforePath="$PROJECT_DIR$/mcuserrpcmanager/main.go" afterPath="$PROJECT_DIR$/mcuserrpcmanager/main.go" />
-      <change beforePath="$PROJECT_DIR$/mcuserrpcmanager/manager.go" afterPath="$PROJECT_DIR$/mcuserrpcmanager/manager.go" />
-      <change beforePath="$PROJECT_DIR$/mcuserrpcmanager/router.go" afterPath="$PROJECT_DIR$/mcuserrpcmanager/router.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/device_collection.go" afterPath="$PROJECT_DIR$/mcdashboard_old/device_collection.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/device_controllers.go" afterPath="$PROJECT_DIR$/mcdashboard_old/device_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/device_init.go" afterPath="$PROJECT_DIR$/mcdashboard_old/device_init.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/device_routes_http.go" afterPath="$PROJECT_DIR$/mcdashboard_old/device_routes_http.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/main.go" afterPath="$PROJECT_DIR$/mcdashboard_old/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/me_controllers.go" afterPath="$PROJECT_DIR$/mcdashboard_old/me_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/me_init.go" afterPath="$PROJECT_DIR$/mcdashboard_old/me_init.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/me_models.go" afterPath="$PROJECT_DIR$/mcdashboard_old/me_models.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/me_models_easyjson.go" afterPath="$PROJECT_DIR$/mcdashboard_old/me_models_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/me_routes_http.go" afterPath="$PROJECT_DIR$/mcdashboard_old/me_routes_http.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/user_collection.go" afterPath="$PROJECT_DIR$/mcdashboard_old/user_collection.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/user_controllers.go" afterPath="$PROJECT_DIR$/mcdashboard_old/user_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/user_init.go" afterPath="$PROJECT_DIR$/mcdashboard_old/user_init.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/user_middlewares_http.go" afterPath="$PROJECT_DIR$/mcdashboard_old/user_middlewares_http.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/user_routes_http.go" afterPath="$PROJECT_DIR$/mcdashboard_old/user_routes_http.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/ws.go" afterPath="$PROJECT_DIR$/mcdashboard_old/ws.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/ws_manager.go" afterPath="$PROJECT_DIR$/mcdashboard_old/ws_manager.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/ws_msg_models.go" afterPath="$PROJECT_DIR$/mcdashboard_old/ws_msg_models.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/ws_msg_models_easyjson.go" afterPath="$PROJECT_DIR$/mcdashboard_old/ws_msg_models_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/main.go" afterPath="$PROJECT_DIR$/mcusers/main.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,36 +44,58 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="device_model.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mcplantainer/common/device_model.go">
+      <file leaf-file-name="mcdashboard.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcdashboard/mcdashboard.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1881">
-              <caret line="26" column="46" lean-forward="false" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+            <state relative-caret-position="152">
+              <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
               <folding>
-                <element signature="e#16#131#0" expanded="true" />
+                <element signature="e#21#155#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mcplantainer/dashboard/main.go">
+      <file leaf-file-name="users_collection.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mcdashboard/users_collection.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-296">
-              <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+            <state relative-caret-position="330">
+              <caret line="40" column="26" lean-forward="false" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
               <folding>
-                <element signature="e#19#212#0" expanded="true" />
+                <element signature="e#21#74#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controller_http.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mcplantainer/dashboard/controller_http.go">
+      <file leaf-file-name="session.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../gopkg.in/mgo.v2/session.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="12" column="5" lean-forward="false" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
+            <state relative-caret-position="159">
+              <caret line="1588" column="0" lean-forward="false" selection-start-line="1588" selection-start-column="0" selection-end-line="1588" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="collections.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcmongo/collections.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="152">
+              <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcdashboard/main/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding>
+                <element signature="e#14#46#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -122,18 +159,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mcusers/user_init.go" />
-        <option value="$PROJECT_DIR$/mcuserrpcmanager/models.go" />
-        <option value="$PROJECT_DIR$/apps/plantainer/main.go" />
-        <option value="$PROJECT_DIR$/mcusers/user_routes_http.go" />
-        <option value="$PROJECT_DIR$/mcmqttrouter/mcmqttrouter.go" />
-        <option value="$PROJECT_DIR$/mcmqttrouter/models.go" />
-        <option value="$PROJECT_DIR$/mcdevicemqttmanager/models.go" />
-        <option value="$PROJECT_DIR$/mccommon/models_device_msgs.go" />
-        <option value="$PROJECT_DIR$/mcdevicemqttmanager/main.go" />
-        <option value="$PROJECT_DIR$/mcplantainer/mcplainter.go" />
-        <option value="$PROJECT_DIR$/mcplantainer/main.go" />
-        <option value="$PROJECT_DIR$/mcplantainer/device_model.go" />
         <option value="$PROJECT_DIR$/mcplantainer/device_collection.go" />
         <option value="$PROJECT_DIR$/mcplantainer/device_init.go" />
         <option value="$PROJECT_DIR$/mcplantainer/controller_http.go" />
@@ -152,7 +177,6 @@
         <option value="$PROJECT_DIR$/mcdevicerpcmanager/models_manager.go" />
         <option value="$PROJECT_DIR$/mcplantainer/apps/devices/main.go" />
         <option value="$PROJECT_DIR$/mcplantainer/device/main.go" />
-        <option value="$PROJECT_DIR$/mcusers/main.go" />
         <option value="$PROJECT_DIR$/mcws/controller.go" />
         <option value="$PROJECT_DIR$/mcws/models_room.go" />
         <option value="$PROJECT_DIR$/mcws/models_msgs.go" />
@@ -168,11 +192,24 @@
         <option value="$PROJECT_DIR$/mccommon/data_collection.go" />
         <option value="$PROJECT_DIR$/mcplantainer/common/device_collection.go" />
         <option value="$PROJECT_DIR$/mcplantainer/device/device_init.go" />
-        <option value="$PROJECT_DIR$/mccommon/user_collections.go" />
         <option value="$PROJECT_DIR$/mcuserrpcmanager/controller_http.go" />
         <option value="$PROJECT_DIR$/mcuserrpcmanager/manager.go" />
         <option value="$PROJECT_DIR$/mcplantainer/common/device_model.go" />
         <option value="$PROJECT_DIR$/mcplantainer/dashboard/main.go" />
+        <option value="$PROJECT_DIR$/mcusers/main.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/user_controllers.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/users_models.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/users_controllers.go" />
+        <option value="$PROJECT_DIR$/mccommon/user_collections.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/me_controllers.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/me_init.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/me_models.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/me_routes_http.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/me_models_easyjson.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/user_routes_http.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/mcdashboard.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/main/main.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/users_collection.go" />
       </list>
     </option>
   </component>
@@ -244,30 +281,18 @@
             <path>
               <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
               <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-              <item name="mcplantainer" type="462c0819:PsiDirectoryNode" />
+              <item name="mcdashboard" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
               <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-              <item name="mcplantainer" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
+              <item name="mcdashboard" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
               <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-              <item name="mcplantainer" type="462c0819:PsiDirectoryNode" />
-              <item name="dashboard" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-              <item name="mcplantainer" type="462c0819:PsiDirectoryNode" />
-              <item name="device" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-              <item name="mcuserrpcmanager" type="462c0819:PsiDirectoryNode" />
+              <item name="mcusers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -284,16 +309,17 @@
     <property name="DefaultGoTemplateProperty" value="Go File" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/mcplantainer/apps/dashboard" />
-      <recent name="$PROJECT_DIR$/apps/plantainer" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/mcplantainer/dashboard" />
       <recent name="$PROJECT_DIR$/mcplantainer/device" />
       <recent name="$PROJECT_DIR$/mcplantainer/common" />
       <recent name="$PROJECT_DIR$/apps/dashboard/public" />
       <recent name="$PROJECT_DIR$/apps/dashboard" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/mcdashboard" />
+      <recent name="$PROJECT_DIR$/mcplantainer/apps/dashboard" />
+      <recent name="$PROJECT_DIR$/apps/plantainer" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -308,7 +334,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.Dashboard McPlantainer">
+  <component name="RunManager" selected="Go Build.McDashboard">
     <configuration name="Dashboard McPlantainer" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="mevericcore" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -331,7 +357,7 @@
       <module name="mevericcore" />
       <working_directory value="$PROJECT_DIR$/" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/apps/dashboard/main.go" />
+      <filePath value="$PROJECT_DIR$/mcdashboard/main/main.go" />
       <package value="mevericcore" />
       <directory value="$PROJECT_DIR$/" />
     </configuration>
@@ -362,11 +388,11 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24421594" sideWeight="0.50858366" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904884" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35347044" sideWeight="0.49427754" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35347044" sideWeight="0.49427754" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18766066" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.15522175" sideWeight="0.5063291" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24421594" sideWeight="0.4914163" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24421594" sideWeight="0.4914163" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -431,7 +457,7 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/user_controllers.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/user_controllers.go</url>
           <line>28</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
@@ -446,57 +472,57 @@
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/user_controllers.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/user_controllers.go</url>
           <line>27</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/ws.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/ws.go</url>
           <line>82</line>
           <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/ws.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/ws.go</url>
           <line>87</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/ws.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/ws.go</url>
           <line>76</line>
           <option name="timeStamp" value="28" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/ws_manager.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/ws_manager.go</url>
           <line>130</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/ws_manager.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/ws_manager.go</url>
           <line>133</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/main.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/main.go</url>
           <line>6</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/device_controllers.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/device_controllers.go</url>
           <line>36</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/device_controllers.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/device_controllers.go</url>
           <line>42</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/device_controllers.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/device_controllers.go</url>
           <line>46</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/me_controllers.go</url>
+          <url>file://$PROJECT_DIR$/mcdashboard_old/me_controllers.go</url>
           <line>14</line>
           <option name="timeStamp" value="49" />
         </line-breakpoint>
@@ -920,166 +946,22 @@
           <properties />
           <option name="timeStamp" value="379" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcmongo/collections.go</url>
+          <line>255</line>
+          <properties />
+          <option name="timeStamp" value="384" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="384" />
+      <option name="time" value="385" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mcdevicemqttmanager/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcws/controller.go" />
-    <entry file="file://$PROJECT_DIR$/mcdashboard/ws_manager.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1134">
-          <caret line="70" column="19" lean-forward="false" selection-start-line="70" selection-start-column="19" selection-end-line="70" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcws/router.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcws/models_socket.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="2" selection-end-line="26" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcws/models_room.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="718">
-          <caret line="59" column="27" lean-forward="false" selection-start-line="59" selection-start-column="27" selection-end-line="59" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcws/models_msgs.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="19" column="1" lean-forward="true" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcusers/models.go" />
-    <entry file="file://$PROJECT_DIR$/mcusers/user_collection.go" />
-    <entry file="file://$PROJECT_DIR$/mcusers/user_controllers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcusers/me_routes_http.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcusers/me_models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcusers/me_init.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcusers/me_controllers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcusers/user_init.go" />
-    <entry file="file://$PROJECT_DIR$/mcusers/user_middlewares_http.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcusers/user_routes_http.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcusers/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="31" column="73" lean-forward="true" selection-start-line="31" selection-start-column="73" selection-end-line="31" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcuserrpcmanager/models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="21" lean-forward="false" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mccommon/user_models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcws/models_msgs_easyjson.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="22" column="23" lean-forward="true" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../gopkg.in/mgo.v2/bson/bson.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="110" column="5" lean-forward="false" selection-start-line="110" selection-start-column="5" selection-end-line="110" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcdevicemqttmanager/controllers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="15" column="33" lean-forward="false" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/apps/devices/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="517">
           <caret line="36" column="13" lean-forward="true" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/apps/dashboard/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1100,14 +982,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcmongo/collections.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="156" column="98" lean-forward="true" selection-start-line="156" selection-start-column="98" selection-end-line="156" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mcmongo/models.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1121,7 +995,7 @@
         <state relative-caret-position="209">
           <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
           <folding>
-            <element signature="e#18#59#0" expanded="true" />
+            <element signature="e#18#59#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1170,22 +1044,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="26" lean-forward="false" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/common/device_collection.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="31" column="5" lean-forward="false" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mccommon/user_collections.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="381">
-          <caret line="43" column="44" lean-forward="false" selection-start-line="43" selection-start-column="44" selection-end-line="43" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -1253,16 +1111,8 @@
         <state relative-caret-position="250">
           <caret line="325" column="23" lean-forward="false" selection-start-line="325" selection-start-column="23" selection-end-line="325" selection-end-column="23" />
           <folding>
-            <element signature="e#26#169#0" expanded="true" />
+            <element signature="e#26#169#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcuserrpcmanager/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-331">
-          <caret line="10" column="31" lean-forward="false" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1274,12 +1124,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mcuserrpcmanager/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="21" column="5" lean-forward="false" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/common/device_model.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1881">
           <caret line="26" column="46" lean-forward="false" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
           <folding>
-            <element signature="e#16#131#0" expanded="true" />
+            <element signature="e#16#131#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1292,12 +1150,241 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/dashboard/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-31">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="7" lean-forward="true" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/apps/dashboard/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="77" column="17" lean-forward="false" selection-start-line="77" selection-start-column="17" selection-end-line="77" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/common/device_collection.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="31" column="5" lean-forward="false" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/dashboard/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-296">
-          <caret line="10" column="1" lean-forward="true" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+        <state relative-caret-position="324">
+          <caret line="18" column="19" lean-forward="true" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
           <folding>
-            <element signature="e#19#212#0" expanded="true" />
+            <element signature="e#19#212#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcusers/user_middlewares_http.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mccommon/user_models.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="14" column="38" lean-forward="true" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcusers/user_controllers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" column="29" lean-forward="true" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+          <folding>
+            <element signature="e#17#152#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mccommon/user_collections.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="22" column="14" lean-forward="false" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcusers/me_init.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcusers/me_models.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcusers/me_controllers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcusers/me_routes_http.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/me_models_easyjson.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/me_controllers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcusers/user_routes_http.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcusers/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="353">
+          <caret line="40" column="11" lean-forward="true" selection-start-line="40" selection-start-column="11" selection-end-line="40" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/me_init.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="4" lean-forward="false" selection-start-line="5" selection-start-column="4" selection-end-line="7" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/me_models.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/me_routes_http.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/user_routes_http.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/users_controllers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="26" column="15" lean-forward="false" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
+          <caret line="27" column="19" lean-forward="false" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
+          <folding>
+            <element signature="e#21#156#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/users_models.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+          <folding>
+            <element signature="e#21#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../gopkg.in/mgo.v2/session.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="1588" column="0" lean-forward="false" selection-start-line="1588" selection-start-column="0" selection-end-line="1588" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcmongo/collections.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="88" column="0" lean-forward="false" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/main/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/mcdashboard.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding>
+            <element signature="e#21#155#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/users_collection.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="40" column="26" lean-forward="false" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+          <folding>
+            <element signature="e#21#74#0" expanded="true" />
           </folding>
         </state>
       </provider>

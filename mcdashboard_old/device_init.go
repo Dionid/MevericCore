@@ -1,4 +1,4 @@
-package mcdashboard
+package mcdashboard_old
 
 import (
 	"gopkg.in/mgo.v2"

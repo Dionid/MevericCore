@@ -1,4 +1,4 @@
-package mcdashboard
+package mcdashboard_old
 
 import (
 	"mevericcore/mcecho"
@@ -17,7 +17,7 @@ func (this *MeController) Me(c echo.Context) error {
 	userId := claims["id"].(string)
 
 	userM := new(MeModel)
-	if err := usersCollectionManager.FindModelByStringId(userId, userM); err != nil {
+	if err := UsersCollectionManager.FindModelByStringId(userId, userM); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, "User not found")
 	}
 
