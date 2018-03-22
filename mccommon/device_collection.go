@@ -3,6 +3,7 @@ package mccommon
 import (
 	"gopkg.in/mgo.v2/bson"
 	"mevericcore/mcmongo"
+	"gopkg.in/mgo.v2"
 )
 
 type DevicesCollectionManagerSt struct {
@@ -17,6 +18,10 @@ type DevicesCollectionManagerInterface interface {
 	FindByShadowId(shadowId string, model DeviceBaseModelInterface) error
 	DestroyByShadowId(shadowId string) error
 	DeleteByShadowId(shadowId string) error
+}
+
+func (this *DevicesCollectionManagerSt) InitBase(dbsession *mgo.Session, dbName string) {
+	this.InitManager(dbsession, dbName, "devices")
 }
 
 func (this *DevicesCollectionManagerSt) SaveData(model mcmongo.ModelBaseInterface, colQuerier map[string]interface{}, data map[string]interface{}, colName string) error {

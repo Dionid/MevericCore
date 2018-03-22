@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/middleware"
+	"mevericcore/mcecho"
 )
 
 var (
@@ -65,20 +66,27 @@ func initEcho() *echo.Echo {
 
 var (
 	usersCollectionManager = NewUsersCollectionManagerSt()
+	devicesDataCollectionManager = NewDeviceDataCollectionManager()
+	devicesCollectionManager = NewDeviceCollectionManager(devicesDataCollectionManager)
 )
 
 func initCollections(session *mgo.Session) {
 	usersCollectionManager.Init(session, mainDBName)
-
+	devicesDataCollectionManager.Init(session, mainDBName)
+	devicesCollectionManager.Init(session, mainDBName)
 }
 
 func initRoutes(e *echo.Echo) {
-	meG := e.Group("/me")
-	meG.Use(jwtMdlw)
-	initMeRoutes(meG)
-
 	authG := e.Group("/auth")
 	initAuthRoutes(authG)
+
+	appG := e.Group("/app")
+	appG.Use(jwtMdlw)
+
+	meG := appG.Group("/me")
+	initMeRoutes(meG)
+
+	mcecho.CreateModelControllerRoutes(appG, "/devices", &UserDevicesControllerSt{})
 }
 
 func Init() {
