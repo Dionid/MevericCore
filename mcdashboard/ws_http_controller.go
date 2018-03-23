@@ -109,6 +109,14 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 			}
 		}
 
+		if msg.RPCMsg.Src == "" {
+			msg.RPCMsg.Src = userId
+		}
+
+		//if msg.RPCMsg.Dst == "" {
+		//	msg.RPCMsg.Dst = this.
+		//}
+
 		handleMsg := &mccommunication.ClientToServerRPCReqSt{
 			ClientToServerReqSt: mccommunication.ClientToServerReqSt{
 				ClientId:  userId,

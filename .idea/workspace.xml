@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="881e5201-14e1-4691-ab10-7c4b95d047ed" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/apps/main.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/mcplantainer.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_collections.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_data_collections.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_data_models.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_models.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/user_rpc_manager.go" />
-      <change beforePath="$PROJECT_DIR$/mccommunication/clientToServer.go" afterPath="$PROJECT_DIR$/mccommunication/clientToServer.go" />
-      <change beforePath="$PROJECT_DIR$/mcdashboard/user_rpc_manager.go" afterPath="$PROJECT_DIR$/mcdashboard/user_rpc_manager.go" />
-      <change beforePath="$PROJECT_DIR$/mcinnerrpc/main.go" afterPath="$PROJECT_DIR$/mcinnerrpc/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" afterPath="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/mcplantainer.go" afterPath="$PROJECT_DIR$/mcplantainer/mcplantainer.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/user_rpc_manager.go" afterPath="$PROJECT_DIR$/mcplantainer/user_rpc_manager.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -25,31 +18,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="user_rpc_manager.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ws_http_controller.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mcdashboard/ws_http_controller.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="312">
+              <caret line="115" column="35" lean-forward="true" selection-start-line="115" selection-start-column="35" selection-end-line="117" selection-end-column="11" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="user_rpc_manager.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mcdashboard/user_rpc_manager.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
+            <state relative-caret-position="489">
+              <caret line="49" column="41" lean-forward="true" selection-start-line="49" selection-start-column="41" selection-end-line="49" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mccommunitaioncommon.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mccommunication/mccommunitaioncommon.go">
+      <file leaf-file-name="mcuserrpcmanager.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcuserrpcmanager2/mcuserrpcmanager.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="14" column="24" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="clientToServer.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mccommunication/clientToServer.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+            <state relative-caret-position="188">
+              <caret line="29" column="35" lean-forward="false" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -153,7 +146,6 @@
         <option value="$PROJECT_DIR$/mcdashboard/userrpcmanager.go" />
         <option value="$PROJECT_DIR$/mcws/models_msgs.go" />
         <option value="$PROJECT_DIR$/mcuserrpcmanager2/mcuserrpcmanager.go" />
-        <option value="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" />
         <option value="$PROJECT_DIR$/mcuserrpcrouter/mcuserrpcrouter.go" />
         <option value="$PROJECT_DIR$/mcdashboard/devices_controllers.go" />
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_models.go" />
@@ -163,9 +155,10 @@
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_data_models.go" />
         <option value="$PROJECT_DIR$/mcinnerrpc/main.go" />
         <option value="$PROJECT_DIR$/mccommunication/clientToServer.go" />
-        <option value="$PROJECT_DIR$/mcplantainer/mcplantainer.go" />
-        <option value="$PROJECT_DIR$/mcplantainer/user_rpc_manager.go" />
         <option value="$PROJECT_DIR$/mcdashboard/user_rpc_manager.go" />
+        <option value="$PROJECT_DIR$/mcplantainer/user_rpc_manager.go" />
+        <option value="$PROJECT_DIR$/mcplantainer/mcplantainer.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" />
       </list>
     </option>
   </component>
@@ -233,17 +226,6 @@
             <path>
               <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
               <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-              <item name="mccommunication" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-              <item name="mccommunication" type="462c0819:PsiDirectoryNode" />
-              <item name="clientToServer.go" type="620a8d5e:NestingTreeNode" />
             </path>
             <path>
               <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
@@ -936,27 +918,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/mcplantainer.go</url>
-          <line>104</line>
-          <properties />
-          <option name="timeStamp" value="432" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/mcplantainer.go</url>
           <line>59</line>
           <properties />
           <option name="timeStamp" value="433" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdashboard/user_rpc_manager.go</url>
-          <line>58</line>
-          <properties />
-          <option name="timeStamp" value="436" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/user_rpc_manager.go</url>
-          <line>19</line>
-          <properties />
-          <option name="timeStamp" value="437" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/mcplantainer.go</url>
@@ -1000,20 +964,36 @@
           <properties />
           <option name="timeStamp" value="446" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/mcplantainer.go</url>
+          <line>138</line>
+          <properties />
+          <option name="timeStamp" value="447" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/mcplantainer.go</url>
+          <line>120</line>
+          <properties />
+          <option name="timeStamp" value="448" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcdashboard/mcdashboard.go</url>
+          <line>59</line>
+          <properties />
+          <option name="timeStamp" value="449" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcdashboard/mcdashboard.go</url>
+          <line>63</line>
+          <properties />
+          <option name="timeStamp" value="450" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="447" />
+      <option name="time" value="451" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../gopkg.in/mgo.v2/session.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1416">
-          <caret line="3790" column="0" lean-forward="false" selection-start-line="3790" selection-start-column="0" selection-end-line="3790" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mcdashboard/devices_models.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -1222,16 +1202,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcdashboard/mcdashboard.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="114" selection-end-column="1" />
-          <folding>
-            <element signature="e#21#209#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/apps/devices/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-41">
@@ -1364,22 +1334,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mccommunication/clientToServer_easyjson.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2347">
-          <caret line="12" column="5" lean-forward="true" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcuserrpcmanager2/mcuserrpcmanager.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="59" column="60" lean-forward="true" selection-start-line="59" selection-start-column="60" selection-end-line="59" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/Cellar/go/1.9/libexec/src/runtime/panic.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="188">
@@ -1388,54 +1342,86 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcdashboard/ws_http_controller.go">
+    <entry file="file://$PROJECT_DIR$/mccommunication/clientToServer_easyjson.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="81" column="32" lean-forward="false" selection-start-line="81" selection-start-column="32" selection-end-line="81" selection-end-column="32" />
+        <state relative-caret-position="144">
+          <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/user_rpc_manager.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="26" lean-forward="false" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-          <folding>
-            <element signature="e#22#96#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/mcplantainer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-          <folding>
-            <element signature="e#23#183#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mccommunication/clientToServer.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
+        <state relative-caret-position="181">
+          <caret line="11" column="5" lean-forward="false" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mccommunication/mccommunitaioncommon.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
+        <state relative-caret-position="3">
           <caret line="14" column="24" lean-forward="true" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/user_routes_http.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/mcdashboard.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/mcplantainer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1253">
+          <caret line="138" column="0" lean-forward="false" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
+          <folding>
+            <element signature="e#23#183#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/user_rpc_manager.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="36" column="6" lean-forward="true" selection-start-line="36" selection-start-column="6" selection-end-line="36" selection-end-column="6" />
+          <folding>
+            <element signature="e#22#96#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcuserrpcmanager2/mcuserrpcmanager.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="29" column="35" lean-forward="false" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mcdashboard/user_rpc_manager.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
+        <state relative-caret-position="489">
+          <caret line="49" column="41" lean-forward="true" selection-start-line="49" selection-start-column="41" selection-end-line="49" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/ws_http_controller.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="115" column="35" lean-forward="true" selection-start-line="115" selection-start-column="35" selection-end-line="117" selection-end-column="11" />
           <folding />
         </state>
       </provider>
