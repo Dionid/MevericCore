@@ -19,6 +19,7 @@ func NewPlantainerDataValuesSt() *PlantainerDataValuesSt {
 	}
 }
 
+//easyjson:json
 type PlantainerDataSt struct {
 	mccommon.DeviceDataBaseSt `bson:",inline"`
 	Values               map[string]map[string]PlantainerDataValuesSt

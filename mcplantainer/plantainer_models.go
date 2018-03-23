@@ -25,7 +25,7 @@ type PlantainerModelSt struct {
 	CustomAdminData PlantainerCustomAdminData `json:"customAdminData" bson:"customAdminData"`
 }
 
-func NewPlantainerModelSt() mccommon.DeviceBaseModelInterface {
+func NewPlantainerModel() *PlantainerModelSt {
 	return &PlantainerModelSt{}
 }
 
@@ -91,7 +91,7 @@ func (this *PlantainerModelSt) CreateReported() *map[string]interface{} {
 }
 
 func (this *PlantainerModelSt) Update(data *map[string]interface{}) error {
-	print("Update")
+	println("Update")
 
 	customDataUpdate := (*data)["customData"].(map[string]interface{})
 

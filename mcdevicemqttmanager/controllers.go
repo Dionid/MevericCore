@@ -2,22 +2,26 @@ package mcdevicemqttmanager
 
 import (
 	"mevericcore/mcmqttrouter"
-	"mevericcore/mccommon"
 	"strings"
 	"github.com/eclipse/paho.mqtt.golang"
 	"fmt"
+	"mevericcore/mccommunication"
 )
 
 type DeviceMQTTManagerSt struct {
 	router     *mcmqttrouter.MQTTRouter
-	reqHandler mccommon.ClientToServerReqHandler
+	reqHandler mccommunication.ClientToServerReqHandler
 }
 
-func (this *DeviceMQTTManagerSt) SetReqHandler(handler mccommon.ClientToServerReqHandler) {
+func New() *DeviceMQTTManagerSt {
+	return &DeviceMQTTManagerSt{}
+}
+
+func (this *DeviceMQTTManagerSt) SetReqHandler(handler mccommunication.ClientToServerReqHandler) {
 	this.reqHandler = handler
 }
 
-func (this *DeviceMQTTManagerSt) HandleReq(c mccommon.ClientToServerHandleResultChannel, msg *mccommon.ClientToServerReqSt) error {
+func (this *DeviceMQTTManagerSt) HandleReq(c mccommunication.ClientToServerHandleResultChannel, msg *mccommunication.ClientToServerReqSt) error {
 	// ToDo: Check if this close must be somewhere else
 	defer func() {
 		close(c)
@@ -30,8 +34,6 @@ func (this *DeviceMQTTManagerSt) HandleReq(c mccommon.ClientToServerHandleResult
 	if this.reqHandler != nil {
 		return this.reqHandler(c, msg)
 	}
-
-	// ToDo: Send req to QueueManager and return
 
 	return nil
 }
@@ -46,6 +48,10 @@ func (this *DeviceMQTTManagerSt) GetDeviceIdFromTopicName(topicName string) stri
 	return splitedTopicName[4]
 }
 
+func (this *DeviceMQTTManagerSt) Subscribe(topicName string, reqFn mqtt.MessageHandler) {
+	this.router.Subscribe(topicName, reqFn)
+}
+
 func (this *DeviceMQTTManagerSt) DeviceToServerRPCSub() {
 	this.router.Subscribe("/rpc", func(client mqtt.Client, msg mqtt.Message) {
 		msgPayload := msg.Payload()
@@ -54,7 +60,7 @@ func (this *DeviceMQTTManagerSt) DeviceToServerRPCSub() {
 		fmt.Printf("Product RPC topic: %s\n", msgTopic)
 		fmt.Printf("Product RPC payload: %s\n", msgPayload)
 
-		rpcData := mccommon.RPCMsg{}
+		rpcData := mccommunication.RPCMsg{}
 		if err := rpcData.UnmarshalJSON(msgPayload); err != nil {
 			// TODO: Try to send back an error
 			return
@@ -62,15 +68,14 @@ func (this *DeviceMQTTManagerSt) DeviceToServerRPCSub() {
 
 		deviceId := rpcData.Src
 
-		handleMsg := &mccommon.ClientToServerReqSt{
+		handleMsg := &mccommunication.ClientToServerReqSt{
 			ClientId:  deviceId,
-			ChannelId: "",
 			Protocol:  "MQTT",
 			Msg:       &msgPayload,
 			Resource: &msgTopic,
 		}
 
-		respChan := make(mccommon.ClientToServerHandleResultChannel)
+		respChan := make(mccommunication.ClientToServerHandleResultChannel)
 
 		go func() {
 			err := this.HandleReq(respChan, handleMsg)
@@ -117,7 +122,7 @@ func (this *DeviceMQTTManagerSt) Publish(topic string, msg []byte) error {
 	return nil
 }
 
-func (this *DeviceMQTTManagerSt) PublishJSON(topic string, jsonData mccommon.JSONData) error {
+func (this *DeviceMQTTManagerSt) PublishJSON(topic string, jsonData mccommunication.JSONData) error {
 	defer func() {
 		if recover() != nil {
 			fmt.Println("Recovered")
@@ -139,7 +144,7 @@ func (this *DeviceMQTTManagerSt) PublishJSON(topic string, jsonData mccommon.JSO
 	return nil
 }
 
-func (this *DeviceMQTTManagerSt) SendJSON(topic string, jsonData mccommon.JSONData) error {
+func (this *DeviceMQTTManagerSt) SendJSON(topic string, jsonData mccommunication.JSONData) error {
 	return this.PublishJSON(topic, jsonData)
 }
 
@@ -148,5 +153,5 @@ func (this *DeviceMQTTManagerSt) UnSubscribeFromAll() {
 }
 
 func (this *DeviceMQTTManagerSt) SubscribeMainRoutes() {
-	this.DeviceToServerRPCSub()
+	//this.DeviceToServerRPCSub()
 }
