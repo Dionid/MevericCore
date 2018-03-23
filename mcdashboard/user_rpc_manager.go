@@ -50,8 +50,13 @@ func initUserRPCManDeviceRoutes() {
 		return UserRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
 	})
 	deviceG.AddHandler("*", func(req *mccommunication.RPCReqSt) error {
+		bData, err := req.Msg.MarshalJSON()
 
-		innerRPCMan.Service.Publish("User." + req.Msg.RPCMsg.Method, *req.Msg.Msg)
+		if err != nil {
+			return nil
+		}
+
+		innerRPCMan.Service.Publish("User.RPC." + req.Msg.RPCMsg.Method, bData)
 
 		return nil
 	})

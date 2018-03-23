@@ -19,6 +19,7 @@ type ClientToServerReqSt struct {
 	Msg       *[]byte
 }
 
+//easyjson:json
 type ClientToServerRPCReqSt struct {
 	ClientToServerReqSt
 	RPCMsg *RPCMsg

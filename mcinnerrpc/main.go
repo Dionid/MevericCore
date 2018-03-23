@@ -5,6 +5,7 @@ import (
 )
 
 type Msg struct {
+	Subject string
 	Data []byte
 }
 
@@ -24,6 +25,7 @@ func NewInnerRPCService() *InnerRPCServiceSt {
 func (this *InnerRPCServiceSt) Subscribe(subj string, cb MsgHandler) (interface{}, error) {
 	return this.OriginalService.Subscribe(subj, func(msg *nats.Msg) {
 		newMsg := &Msg{
+			msg.Subject,
 			msg.Data,
 		}
 		cb(newMsg)
