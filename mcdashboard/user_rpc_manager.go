@@ -18,8 +18,13 @@ func InitUserRPCManager() {
 }
 
 func initUserRPCManDeviceRoutes() {
-	//deviceG := UserRPCManager.Router.Group("Device")
+	deviceG := UserRPCManager.Router.Group("Device")
+	deviceG.AddHandler("*", func(req *mccommunication.RPCReqSt) error {
 
+
+
+		return nil
+	})
 }
 
 func initUserRPCManAuthRoutes() {

@@ -122,21 +122,68 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 
 		go func() {
 			if err := UserRPCManager.Handle(respChan, handleMsg); err != nil {
-				userWS.SendMsg([]byte(err.Error()))
+				data := &mccommunication.RPCMsg{
+					Method: msg.Method,
+					Id: msg.Id,
+					Src: msg.Dst,
+					Dst: msg.Src,
+					Error: &map[string]interface{}{
+						"message": err.Error(),
+						"code": 500,
+					},
+				}
+				if bData, err := data.MarshalJSON(); err != nil {
+					data := &mccommunication.RPCMsg{
+						Method: msg.Method,
+						Id: msg.Id,
+						Src: msg.Dst,
+						Dst: msg.Src,
+						Error: &map[string]interface{}{
+							"message": "Marshaling error problem",
+							"code": 500,
+						},
+					}
+					ebData, _ := data.MarshalJSON()
+					userWS.SendMsg(ebData)
+				} else {
+					userWS.SendMsg(bData)
+				}
 			}
 		}()
 
 		for resultSt := range respChan {
 			if resultSt.Error != nil {
 				if bData, err := resultSt.Error.MarshalJSON(); err != nil {
-					userWS.SendMsg([]byte(err.Error()))
+					data := &mccommunication.RPCMsg{
+						Method: msg.Method,
+						Id: msg.Id,
+						Src: msg.Dst,
+						Dst: msg.Src,
+						Error: &map[string]interface{}{
+							"message": "Marshaling error problem",
+							"code": 500,
+						},
+					}
+					ebData, _ := data.MarshalJSON()
+					userWS.SendMsg(ebData)
 				} else {
 					userWS.SendMsg(bData)
 				}
 			}
 			if resultSt.Res != nil {
 				if bData, err := resultSt.Res.MarshalJSON(); err != nil {
-					userWS.SendMsg([]byte(err.Error()))
+					data := &mccommunication.RPCMsg{
+						Method: msg.Method,
+						Id: msg.Id,
+						Src: msg.Dst,
+						Dst: msg.Src,
+						Error: &map[string]interface{}{
+							"message": "Marshaling error problem",
+							"code": 500,
+						},
+					}
+					ebData, _ := data.MarshalJSON()
+					userWS.SendMsg(ebData)
 				} else {
 					if msg.Method == "Auth.Auth" {
 						userWS.Authorized = true
