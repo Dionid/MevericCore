@@ -21,7 +21,7 @@ func initUserRPCManDeviceRoutes() {
 	deviceG := UserRPCManager.Router.Group("Device")
 	deviceG.AddHandler("*", func(req *mccommunication.RPCReqSt) error {
 
-
+		innerRPCMan.Service.Publish("User." + req.Msg.RPCMsg.Method, *req.Msg.Msg)
 
 		return nil
 	})
