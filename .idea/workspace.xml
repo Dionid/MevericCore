@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="881e5201-14e1-4691-ab10-7c4b95d047ed" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/mcdashboard/devices_controllers.go" afterPath="$PROJECT_DIR$/mcdashboard/devices_controllers.go" />
       <change beforePath="$PROJECT_DIR$/mcdashboard/user_rpc_manager.go" afterPath="$PROJECT_DIR$/mcdashboard/user_rpc_manager.go" />
       <change beforePath="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" afterPath="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" />
       <change beforePath="$PROJECT_DIR$/mcinnerrpc/main.go" afterPath="$PROJECT_DIR$/mcinnerrpc/main.go" />
@@ -22,10 +23,20 @@
       <file leaf-file-name="user_rpc_manager.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mcdashboard/user_rpc_manager.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="23" column="67" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="67" />
+            <state relative-caret-position="-129">
+              <caret line="8" column="23" lean-forward="false" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="devices_controllers.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcdashboard/devices_controllers.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
               <folding>
-                <element signature="e#21#154#0" expanded="true" />
+                <element signature="e#21#93#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,7 +79,7 @@
       <file leaf-file-name="mcuserrpcrouter.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mcuserrpcrouter/mcuserrpcrouter.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="927">
+            <state relative-caret-position="804">
               <caret line="108" column="0" lean-forward="false" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
               <folding>
                 <element signature="e#25#94#0" expanded="true" />
@@ -169,7 +180,6 @@
         <option value="$PROJECT_DIR$/mccommon/data_collection.go" />
         <option value="$PROJECT_DIR$/mcdashboard/users_middleware.go" />
         <option value="$PROJECT_DIR$/mcdashboard/devices_models.go" />
-        <option value="$PROJECT_DIR$/mcdashboard/devices_controllers.go" />
         <option value="$PROJECT_DIR$/mccommon/models_rpc_msgs.go" />
         <option value="$PROJECT_DIR$/mcdashboard/ws.go" />
         <option value="$PROJECT_DIR$/mcecho/utils.go" />
@@ -187,6 +197,7 @@
         <option value="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" />
         <option value="$PROJECT_DIR$/mcuserrpcrouter/mcuserrpcrouter.go" />
         <option value="$PROJECT_DIR$/mcinnerrpc/main.go" />
+        <option value="$PROJECT_DIR$/mcdashboard/devices_controllers.go" />
         <option value="$PROJECT_DIR$/mcdashboard/user_rpc_manager.go" />
       </list>
     </option>
@@ -937,18 +948,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcdashboard/user_rpc_manager.go</url>
-          <line>25</line>
+          <line>38</line>
           <properties />
           <option name="timeStamp" value="427" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcdashboard/user_rpc_manager.go</url>
-          <line>23</line>
+          <line>26</line>
           <properties />
-          <option name="timeStamp" value="428" />
+          <option name="timeStamp" value="430" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="429" />
+      <option name="time" value="431" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1134,16 +1145,6 @@
         <state relative-caret-position="216">
           <caret line="20" column="40" lean-forward="false" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcdashboard/devices_controllers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-77">
-          <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="e#21#93#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1344,6 +1345,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mcdashboard/mcdashboard.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="53" column="31" lean-forward="true" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
+          <folding>
+            <element signature="e#21#209#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mcinnerrpc/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
@@ -1356,7 +1367,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mcuserrpcrouter/mcuserrpcrouter.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="927">
+        <state relative-caret-position="804">
           <caret line="108" column="0" lean-forward="false" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
           <folding>
             <element signature="e#25#94#0" expanded="true" />
@@ -1364,23 +1375,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcdashboard/mcdashboard.go">
+    <entry file="file://$PROJECT_DIR$/mcdashboard/devices_controllers.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="53" column="31" lean-forward="true" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
+        <state relative-caret-position="360">
+          <caret line="22" column="5" lean-forward="false" selection-start-line="22" selection-start-column="5" selection-end-line="22" selection-end-column="5" />
           <folding>
-            <element signature="e#21#209#0" expanded="true" />
+            <element signature="e#21#93#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mcdashboard/user_rpc_manager.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="23" column="67" lean-forward="false" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="67" />
-          <folding>
-            <element signature="e#21#154#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-129">
+          <caret line="8" column="23" lean-forward="false" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>

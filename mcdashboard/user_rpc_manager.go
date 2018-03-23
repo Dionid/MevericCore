@@ -6,6 +6,8 @@ import (
 	"time"
 	"mevericcore/mcws"
 	"mevericcore/mccommunication"
+	"github.com/labstack/echo"
+	"net/http"
 )
 
 var (
@@ -18,7 +20,18 @@ func InitUserRPCManager() {
 }
 
 func initUserRPCManDeviceRoutes() {
-	deviceG := UserRPCManager.Router.Group("Device")
+	deviceG := UserRPCManager.Router.Group("Devices")
+	deviceG.AddHandler("List", func(req *mccommunication.RPCReqSt) error {
+		devices := &DevicesListModelSt{}
+
+		if err := devicesCollectionManager.FindByOwnerId(req.Msg.ClientId, devices); err != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		}
+
+		res := &map[string]interface{}{"data": devices}
+
+		return UserRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
+	})
 	deviceG.AddHandler("*", func(req *mccommunication.RPCReqSt) error {
 
 		innerRPCMan.Service.Publish("User." + req.Msg.RPCMsg.Method, *req.Msg.Msg)

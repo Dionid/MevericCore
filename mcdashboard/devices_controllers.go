@@ -22,10 +22,6 @@ func (this *UserDevicesControllerSt) List(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-	}
-
 	return mcecho.SendJSON(devices, &c)
 }
 
