@@ -6,8 +6,6 @@ import (
 	"time"
 	"mevericcore/mcws"
 	"mevericcore/mccommunication"
-	"github.com/labstack/echo"
-	"net/http"
 )
 
 var (
@@ -25,10 +23,29 @@ func initUserRPCManDeviceRoutes() {
 		devices := &DevicesListModelSt{}
 
 		if err := devicesCollectionManager.FindByOwnerId(req.Msg.ClientId, devices); err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+			return UserRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 503)
 		}
 
 		res := &map[string]interface{}{"data": devices}
+
+		return UserRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
+	})
+	deviceG.AddHandler("Get", func(req *mccommunication.RPCReqSt) error {
+		device := &DeviceModelSt{}
+		args := req.Msg.RPCMsg.Args.(map[string]interface{})
+		deviceShadowId := args["deviceId"].(string)
+
+		if err := devicesCollectionManager.FindByShadowId(deviceShadowId, device); err != nil {
+			return UserRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Device not found", 503)
+		}
+
+		if isOwner, err := device.IsOwnerStringId(req.Msg.ClientId); err != nil {
+			return UserRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Try again", 503)
+		} else if !isOwner {
+			return UserRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "You can use only your own devices", 503)
+		}
+
+		res := &map[string]interface{}{deviceShadowId: device}
 
 		return UserRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
 	})
