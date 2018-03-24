@@ -7,15 +7,22 @@ import (
 
 type PlantainerDataValuesIrrigationModuleSt struct {
 	Humidity int
+	Temperature int
+}
+
+type PlantainerDataValuesLightModuleSt struct {
+	LightLvl int
 }
 
 type PlantainerDataValuesSt struct {
 	IrrigationModule *PlantainerDataValuesIrrigationModuleSt
+	LightModule *PlantainerDataValuesLightModuleSt
 }
 
 func NewPlantainerDataValuesSt() *PlantainerDataValuesSt {
 	return &PlantainerDataValuesSt{
 		&PlantainerDataValuesIrrigationModuleSt{},
+		&PlantainerDataValuesLightModuleSt{},
 	}
 }
 

@@ -6,7 +6,7 @@ import (
 	"mevericcore/mcmqttrouter"
 	"mevericcore/mcdevicemqttmanager"
 	"gopkg.in/mgo.v2"
-	"mevericcore/mcdevicerpcmanager"
+	"mevericcore/mcdevicerpcmanager_old"
 	"mevericcore/mcplantainer/common"
 	"mevericcore/mccommon"
 	"mevericcore/mcinnerrpc"
@@ -15,9 +15,9 @@ import (
 var (
 	PlantainerServerId = "plantainerServerId"
 
-	InnerRPCMan                                          = mcinnerrpc.New()
-	DeviceMQTTMan                                        = &mcdevicemqttmanager.DeviceMQTTManagerSt{}
-	DeviceRPCMan  *mcdevicerpcmanager.DeviceRPCManagerSt = nil
+	InnerRPCMan                                              = mcinnerrpc.New()
+	DeviceMQTTMan                                            = &mcdevicemqttmanager.DeviceMQTTManagerSt{}
+	DeviceRPCMan  *mcdevicerpcmanager_old.DeviceRPCManagerSt = nil
 )
 
 func Init(dbsession *mgo.Session, dbName string) {
@@ -48,7 +48,7 @@ func InitMainModules(dbsession *mgo.Session, dbName string) {
 }
 
 func InitRPCManager() {
-	DeviceRPCMan = mcdevicerpcmanager.CreateDeviceRPCManager(PlantainerServerId, common.PlantainerCollectionManager, InnerRPCMan.SendRPCMsgToUser)
+	DeviceRPCMan = mcdevicerpcmanager_old.CreateDeviceRPCManager(PlantainerServerId, common.PlantainerCollectionManager, InnerRPCMan.SendRPCMsgToUser)
 	DeviceRPCMan.AddDeviceCtrl(CreateNewPlantainerCtrl())
 }
 

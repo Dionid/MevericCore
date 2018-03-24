@@ -1,4 +1,4 @@
-package mcuserrpcmanager2
+package mcuserrpcmanager
 
 import (
 	"mevericcore/mcuserrpcrouter"

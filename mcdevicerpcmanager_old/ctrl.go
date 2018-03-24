@@ -1,4 +1,4 @@
-package mcdevicerpcmanager
+package mcdevicerpcmanager_old
 
 import (
 	"mevericcore/mccommon"

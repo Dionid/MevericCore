@@ -21,12 +21,16 @@ type PlantainerCustomAdminData struct {
 type PlantainerModelSt struct {
 	mccommon.DeviceBaseModel `bson:",inline"`
 
+	LightModule *LightModuleSt `bson:"-"`
+
 	CustomData      PlantainerCustomData `json:"customData" bson:"customData"`
 	CustomAdminData PlantainerCustomAdminData `json:"customAdminData" bson:"customAdminData"`
 }
 
 func NewPlantainerModel() *PlantainerModelSt {
-	return &PlantainerModelSt{}
+	return &PlantainerModelSt{
+		LightModule: NewLightModule(),
+	}
 }
 
 func (this *PlantainerModelSt) EnsureIndexes(collection *mgo.Collection) error {
@@ -45,6 +49,7 @@ func (this *PlantainerModelSt) CreateReported() *map[string]interface{} {
 	return &map[string]interface{}{
 		"lightModule": map[string]interface{}{
 			"mode": "manual",
+			"lightTurnedOn": false,
 			"lightLvl": 0,
 			"lightLvlCheckActive": false,
 			"lightLvlCheckInterval": 5100,
@@ -57,6 +62,7 @@ func (this *PlantainerModelSt) CreateReported() *map[string]interface{} {
 			"mode": "manual",
 			"irrigationTurnedOn": false,
 			"humidity": 0,
+			"temperature": 0,
 
 			// humidityCheck
 			"humidityCheckActive": false,
@@ -86,6 +92,8 @@ func (this *PlantainerModelSt) CreateReported() *map[string]interface{} {
 		},
 		"meteoStationModule": map[string]interface{}{
 			"interval": 6100,
+			"humidity": 0,
+			"temperature": 0,
 		},
 	}
 }
@@ -166,15 +174,57 @@ func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadow
 	println("Plantainer ActionsOnUpdate: ")
 
 	if updateData.State.Reported != nil {
+		if (*updateData.State.Reported)["lightModule"] != nil {
+			lightModuleData := (*updateData.State.Reported)["lightModule"].(map[string]interface{})
+			this.LightModule.SetState(
+				NewLightModuleState(
+					this.Shadow.State.Reported["mode"].(string),
+					this.Shadow.State.Reported["lightLvlCheckActive"].(bool),
+					int(this.Shadow.State.Reported["lightLvlCheckInterval"].(float64)),
+					this.Shadow.State.Reported["lightIntervalsRestTimeTurnedOn"].(bool),
+					int(this.Shadow.State.Reported["lightIntervalsCheckingInterval"].(float64)),
+					this.Shadow.State.Reported["lightIntervalsArr"].([]LightModuleInterval),
+				),
+			)
+			this.LightModule.CheckOnStateUpdate(
+				this.Shadow.Id,
+				NewLightModuleState(
+					lightModuleData["mode"].(string),
+					lightModuleData["lightLvlCheckActive"].(bool),
+					int(lightModuleData["lightLvlCheckInterval"].(float64)),
+					lightModuleData["lightIntervalsRestTimeTurnedOn"].(bool),
+					int(lightModuleData["lightIntervalsCheckingInterval"].(float64)),
+					lightModuleData["lightIntervalsArr"].([]LightModuleInterval),
+				),
+			)
+		}
+	}
+
+	if updateData.State.Reported != nil {
 		values := NewPlantainerDataValuesSt()
+		changed := false
 		if (*updateData.State.Reported)["irrigationModule"] != nil {
 			irrigationModuleData := (*updateData.State.Reported)["irrigationModule"].(map[string]interface{})
 			if hum, ok := irrigationModuleData["humidity"].(float64); ok == true {
 				hum := int(hum)
 				values.IrrigationModule.Humidity = hum
+				changed = true
+			}
+			if temperature, ok := irrigationModuleData["temperature"].(float64); ok == true {
+				temperature := int(temperature)
+				values.IrrigationModule.Temperature = temperature
+				changed = true
 			}
 		}
-		if *values != (PlantainerDataValuesSt{}) {
+		if (*updateData.State.Reported)["lightModule"] != nil {
+			lightModuleData := (*updateData.State.Reported)["lightModule"].(map[string]interface{})
+			if lightLvl, ok := lightModuleData["lightLvl"].(float64); ok == true {
+				lightLvl := int(lightLvl)
+				values.LightModule.LightLvl = lightLvl
+				changed = true
+			}
+		}
+		if changed {
 			this.CreateAndSaveData(deviceDataColMan, updateData, values)
 		}
 	}

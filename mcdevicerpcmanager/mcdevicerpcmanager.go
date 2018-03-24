@@ -1,4 +1,4 @@
-package mcdevicerpcmanager2
+package mcdevicerpcmanager
 
 import (
 	"mevericcore/mccommunication"

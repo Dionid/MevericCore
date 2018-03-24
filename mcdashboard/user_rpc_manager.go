@@ -1,7 +1,7 @@
 package mcdashboard
 
 import (
-	"mevericcore/mcuserrpcmanager2"
+	"mevericcore/mcuserrpcmanager"
 	"github.com/dgrijalva/jwt-go"
 	"time"
 	"mevericcore/mcws"
@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	UserRPCManager = mcuserrpcmanager2.New()
+	UserRPCManager = mcuserrpcmanager.New()
 )
 
 func InitUserRPCManager() {

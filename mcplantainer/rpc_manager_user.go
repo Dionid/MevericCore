@@ -1,12 +1,12 @@
 package mcplantainer
 
 import (
-	"mevericcore/mcuserrpcmanager2"
+	"mevericcore/mcuserrpcmanager"
 	"mevericcore/mccommunication"
 )
 
 var (
-	userRPCManager = mcuserrpcmanager2.New()
+	userRPCManager = mcuserrpcmanager.New()
 )
 
 func initUserRPCManager() {

@@ -1,4 +1,4 @@
-package mcuserrpcmanager
+package mcuserrpcmanager_old
 
 import (
 	"mevericcore/mcws"
