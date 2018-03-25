@@ -8,7 +8,7 @@ import (
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"
 	bson "gopkg.in/mgo.v2/bson"
-	mclightmodule "mevericcore/mclightmodule"
+	mclightmodule "mevericcore/mcmodules/mclightmodule"
 	time "time"
 )
 

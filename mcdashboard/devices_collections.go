@@ -13,7 +13,9 @@ type DevicesCollectionManagerSt struct {
 func NewDeviceCollectionManager(colMan mccommon.DataCollectionManagerInt) *DevicesCollectionManagerSt {
 	return &DevicesCollectionManagerSt{
 		mccommon.DevicesWithShadowCollectionManagerSt{
-			DataCollectionManager: colMan,
+			DevicesCollectionManagerSt: mccommon.DevicesCollectionManagerSt{
+				DataCollectionManager: colMan,
+			},
 		},
 		false,
 	}

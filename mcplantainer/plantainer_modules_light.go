@@ -1,6 +1,6 @@
 package mcplantainer
 
-import "mevericcore/mclightmodule"
+import "mevericcore/mcmodules/mclightmodule"
 
 type PlantainerLightModuleStateSt struct {
 	mclightmodule.LightModuleStateSt `bson:",inline"`

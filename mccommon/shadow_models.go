@@ -159,6 +159,7 @@ type ShadowStateInterface interface {
 type ShadowModelSt struct {
 	Id    string `json:"id,omitempty" bson:"id"` // Id that will be stored on Device
 	State ShadowStateSt
+	Metadata ShadowStateMetadataSt
 }
 
 func (this *ShadowModelSt) GetState() *ShadowStateSt {

@@ -1,7 +1,7 @@
 package device
 
 import (
-	"mevericcore/mcdevicerpcmanager_old"
+	"mevericcore/old/mcdevicerpcmanager_old"
 	"mevericcore/mcplantainer/common"
 )
 

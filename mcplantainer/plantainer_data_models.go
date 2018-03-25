@@ -3,7 +3,7 @@ package mcplantainer
 import (
 	"mevericcore/mccommon"
 	"gopkg.in/mgo.v2"
-	"mevericcore/mclightmodule"
+	"mevericcore/mcmodules/mclightmodule"
 )
 
 type PlantainerDataValuesIrrigationModuleSt struct {

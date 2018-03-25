@@ -3,7 +3,7 @@ package dashboard
 import (
 	"github.com/labstack/echo"
 	"mevericcore/mcecho"
-	"mevericcore/mcuserrpcmanager_old"
+	"mevericcore/old/mcuserrpcmanager_old"
 	"mevericcore/mcplantainer/common"
 	"mevericcore/mccommon"
 	"mevericcore/mcusers"

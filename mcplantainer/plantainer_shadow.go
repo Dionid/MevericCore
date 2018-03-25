@@ -3,8 +3,8 @@ package mcplantainer
 import "mevericcore/mccommunication"
 
 type PlantainerShadowRPCMsgArgsStateSt struct {
-	Reported *PlantainerShadowStatePieceSt
-	Desired *PlantainerShadowStatePieceSt
+	Reported *PlantainerShadowStatePieceSt `json:"reported"`
+	Desired *PlantainerShadowStatePieceSt `json:"desired"`
 }
 
 type PlantainerShadowRPCMsgArgsSt struct {

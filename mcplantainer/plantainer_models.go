@@ -9,7 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"fmt"
 	"encoding/json"
-	"mevericcore/mclightmodule"
+	"mevericcore/mcmodules/mclightmodule"
 )
 
 type PlantainerCustomData struct {
@@ -88,7 +88,7 @@ func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 			fmt.Printf("bData err: %+v\n", err.Error())
 			return nil
 		}
-		fmt.Printf("desMap: %+v\n", desMap)
+		//fmt.Printf("desMap: %+v\n", desMap)
 	}
 
 	bResData, err := this.Reported.MarshalJSON()
@@ -101,13 +101,13 @@ func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 			fmt.Printf("bResData err: %+v\n", err.Error())
 			return nil
 		}
-		fmt.Printf("repMap: %+v\n", repMap)
+		//fmt.Printf("repMap: %+v\n", repMap)
 	}
 	deltaMap := map[string]interface{}{}
-	fmt.Printf("deltaMap : %+v\n", deltaMap)
+	//fmt.Printf("deltaMap : %+v\n", deltaMap)
 	this.fillDelta(&repMap, &desMap, &deltaMap)
-	fmt.Printf("deltaMap : %+v\n", deltaMap)
-	fmt.Printf("Delta: %+v\n", this.Delta)
+	//fmt.Printf("deltaMap : %+v\n", deltaMap)
+	//fmt.Printf("Delta: %+v\n", this.Delta)
 
 	if len(deltaMap) == 0 {
 		return nil
@@ -118,13 +118,13 @@ func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 		return nil
 	} else {
 		this.Delta = &PlantainerShadowStatePieceSt{}
-		fmt.Printf("dBData: %+v\n", dBData)
+		//fmt.Printf("dBData: %+v\n", dBData)
 		if err := json.Unmarshal(dBData, &this.Delta); err != nil {
-			fmt.Printf("bData err: %+v\n", err.Error())
+			//fmt.Printf("bData err: %+v\n", err.Error())
 			return nil
 		}
-		fmt.Printf("Success\n")
-		fmt.Printf("Delta: %+v\n", this.Delta)
+		//fmt.Printf("Success\n")
+		//fmt.Printf("Delta: %+v\n", this.Delta)
 	}
 
 	return nil

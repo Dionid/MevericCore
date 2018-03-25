@@ -6,7 +6,7 @@ import (
 	"mevericcore/mcmqttrouter"
 	"mevericcore/mcdevicemqttmanager"
 	"gopkg.in/mgo.v2"
-	"mevericcore/mcdevicerpcmanager_old"
+	"mevericcore/old/mcdevicerpcmanager_old"
 	"mevericcore/mcplantainer/common"
 	"mevericcore/mccommon"
 	"mevericcore/mcinnerrpc"
