@@ -8,11 +8,11 @@ import (
 
 type DeviceRPCManagerSt struct {
 	DeviceResponseServiceSt
-	DevicesCollectionManager   mccommon.DevicesCollectionManagerInterface
+	DevicesCollectionManager   mccommon.DevicesWithShadowCollectionManagerInterface
 	DeviceReqControllersByType map[string]DeviceRPCCtrlInterface
 }
 
-func CreateDeviceRPCManager(serverId string, devicesColManager mccommon.DevicesCollectionManagerInterface,  SendToUser mccommon.SendRPCMsgFn) *DeviceRPCManagerSt {
+func CreateDeviceRPCManager(serverId string, devicesColManager mccommon.DevicesWithShadowCollectionManagerInterface,  SendToUser mccommon.SendRPCMsgFn) *DeviceRPCManagerSt {
 	dev := &DeviceRPCManagerSt{
 		DevicesCollectionManager: devicesColManager,
 		DeviceResponseServiceSt: DeviceResponseServiceSt{

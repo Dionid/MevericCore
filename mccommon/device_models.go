@@ -16,7 +16,7 @@ type DeviceWithShadowBaseModelInterface interface {
 	DeviceBaseModelInterface
 	GetShadow() ShadowModelInterface
 	GetShadowId() string
-	ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesCollectionManagerInterface) error
+	ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesWithShadowCollectionManagerInterface) error
 }
 
 type DeviceCreatorFn func() DeviceWithShadowBaseModelInterface
@@ -53,7 +53,7 @@ func (this *DeviceWithShadowBaseModel) CreateShadowState(reported *map[string]in
 	}
 }
 
-func (this *DeviceWithShadowBaseModel) ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesCollectionManagerInterface) error {
+func (this *DeviceWithShadowBaseModel) ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesWithShadowCollectionManagerInterface) error {
 	return nil
 }
 

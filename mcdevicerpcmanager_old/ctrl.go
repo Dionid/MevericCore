@@ -10,7 +10,7 @@ type DeviceCreatorFn func() mccommon.DeviceWithShadowBaseModelInterface
 type DeviceRPCCtrlSt struct{
 	DeviceResponseServiceSt
 
-	DevicesCollectionManager mccommon.DevicesCollectionManagerInterface
+	DevicesCollectionManager mccommon.DevicesWithShadowCollectionManagerInterface
 
 	Type string
 	Router *DeviceRPCRouterSt
@@ -23,7 +23,7 @@ type DeviceRPCCtrlInterface interface {
 	HandleReq(resource string, c mccommon.ClientToServerHandleResultChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error
 }
 
-func CreateNewDeviceRPCCtrl(serverId string, typeName string, deviceColMan mccommon.DevicesCollectionManagerInterface, deviceCreator DeviceCreatorFn, SendToUser func(msg *mccommon.RPCMsg) error) *DeviceRPCCtrlSt {
+func CreateNewDeviceRPCCtrl(serverId string, typeName string, deviceColMan mccommon.DevicesWithShadowCollectionManagerInterface, deviceCreator DeviceCreatorFn, SendToUser func(msg *mccommon.RPCMsg) error) *DeviceRPCCtrlSt {
 	router := CreateNewDeviceRPCRouter()
 
 	res := &DeviceRPCCtrlSt{

@@ -6,13 +6,13 @@ import (
 )
 
 type DevicesCollectionManagerSt struct {
-	mccommon.DevicesCollectionManagerSt
+	mccommon.DevicesWithShadowCollectionManagerSt
 	Inited bool
 }
 
 func NewDeviceCollectionManager(colMan mccommon.DataCollectionManagerInt) *DevicesCollectionManagerSt {
 	return &DevicesCollectionManagerSt{
-		mccommon.DevicesCollectionManagerSt{
+		mccommon.DevicesWithShadowCollectionManagerSt{
 			DataCollectionManager: colMan,
 		},
 		false,

@@ -6,7 +6,7 @@ import (
 )
 
 type PlantainerCollectionManagerSt struct {
-	mccommon.DevicesCollectionManagerSt
+	mccommon.DevicesWithShadowCollectionManagerSt
 	Inited bool
 }
 
@@ -17,7 +17,7 @@ type PlantainerDataCollectionManagerSt struct {
 
 func CreateNewPlantainerCollectionManager(colMan mccommon.DataCollectionManagerInt) *PlantainerCollectionManagerSt {
 	return &PlantainerCollectionManagerSt{
-		mccommon.DevicesCollectionManagerSt{
+		mccommon.DevicesWithShadowCollectionManagerSt{
 			DataCollectionManager: colMan,
 		},
 		false,

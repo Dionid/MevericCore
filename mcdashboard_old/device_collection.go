@@ -6,7 +6,7 @@ import (
 )
 
 type DevicesCollectionManagerSt struct {
-	mccommon.DevicesCollectionManagerSt
+	mccommon.DevicesWithShadowCollectionManagerSt
 }
 
 var (

@@ -166,8 +166,8 @@ func (this *ShadowModelSt) GetState() *ShadowStateSt {
 }
 
 type ShadowModelInterface interface{
-	//ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesCollectionManagerInterface) error
+	//ActionsOnUpdate(updateData *DeviceShadowUpdateMsg, deviceDataColMan DevicesWithShadowCollectionManagerInterface) error
 	GetState() *ShadowStateSt
 	//NotifyOwners(msg string, handler func(userId string, msg string) (success bool))
-	//SetIsActivated(colMan DevicesCollectionManagerInterface) error
+	//SetIsActivated(colMan DevicesWithShadowCollectionManagerInterface) error
 }

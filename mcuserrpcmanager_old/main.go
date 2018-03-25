@@ -15,11 +15,11 @@ var (
 	// ToDo: "plantainerServerId" can't be here
 	UserRPCManager = CreateNewUserRPCManagerSt("plantainerServerId")
 
-	DevicesCollectionManager mccommon.DevicesCollectionManagerInterface = nil
-	UsersCollectionManager *mccommon.UsersCollectionManagerSt = nil
+	DevicesCollectionManager mccommon.DevicesWithShadowCollectionManagerInterface = nil
+	UsersCollectionManager *mccommon.UsersCollectionManagerSt                     = nil
 )
 
-func InitMain(deviceCr mccommon.DeviceCreatorFn, devicesLCr mccommon.DevicesListCreatorFn, userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesCollectionManagerInterface, e *echo.Group) {
+func InitMain(deviceCr mccommon.DeviceCreatorFn, devicesLCr mccommon.DevicesListCreatorFn, userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesWithShadowCollectionManagerInterface, e *echo.Group) {
 	InitInnerRPCManager()
 
 	InitRPCManager(deviceCr, devicesLCr)
@@ -40,7 +40,7 @@ func InitInnerRPCManager() {
 	})
 }
 
-func InitColManagers(userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesCollectionManagerInterface) {
+func InitColManagers(userColMan *mccommon.UsersCollectionManagerSt, devicesColMan mccommon.DevicesWithShadowCollectionManagerInterface) {
 	UsersCollectionManager = userColMan
 	DevicesCollectionManager = devicesColMan
 }

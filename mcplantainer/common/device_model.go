@@ -157,7 +157,7 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 	return nil
 }
 
-func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.DevicesCollectionManagerInterface, updateData *mccommon.DeviceShadowUpdateMsg, values *PlantainerDataValuesSt) error {
+func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.DevicesWithShadowCollectionManagerInterface, updateData *mccommon.DeviceShadowUpdateMsg, values *PlantainerDataValuesSt) error {
 	data := NewPlantainerData()
 
 	t := time.Now()
@@ -197,7 +197,7 @@ func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.Devic
 	return nil
 }
 
-func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadowUpdateMsg, deviceDataColMan mccommon.DevicesCollectionManagerInterface) error {
+func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadowUpdateMsg, deviceDataColMan mccommon.DevicesWithShadowCollectionManagerInterface) error {
 	println("Plantainer ActionsOnUpdate: ")
 
 	if updateData.State.Reported != nil {

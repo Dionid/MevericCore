@@ -29,6 +29,9 @@ func NewPlantainerLightModuleStateSt() *PlantainerLightModuleStateSt {
 
 
 func (this *PlantainerLightModuleStateSt) ReportedUpdate(newState *PlantainerLightModuleStateSt) {
+	if newState.LightLvl != nil{
+		this.LightLvl = newState.LightLvl
+	}
 	if newState.LightIntervalsCheckingInterval != nil {
 		this.LightIntervalsCheckingInterval = newState.LightIntervalsCheckingInterval
 		// Reset timers

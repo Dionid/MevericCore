@@ -72,11 +72,11 @@ func initDeviceRPCManMainRoutes() {
 			state.Reported.LightModule.ReportedUpdate(&updateData.State.Reported.LightModule)
 			shadow.IncrementVersion()
 		} else if updateData.State.Reported != nil {
-			state.Reported.LightModule.ReportedUpdate(&updateData.State.Reported.LightModule)
+			//state.Reported.LightModule.ReportedUpdate(&updateData.State.Reported.LightModule)
+			device.ReportedUpdate(updateData.State.Reported, plantainerCollectionManager)
 			shadow.IncrementVersion()
 		} else if updateData.State.Desired != nil {
 			if !shadow.CheckVersion(updateData.Version) {
-				// PUB /update/rejected with Desired and Reported
 				err := errors.New("version wrong")
 				return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
 			}
@@ -106,13 +106,6 @@ func initDeviceRPCManMainRoutes() {
 				"version": device.Shadow.Metadata.Version,
 			})
 		}
-
-		//if !somethingNew {
-		//	// In this case SetIsActivated haven't been saved
-		//	if err := plantainerCollectionManager.SaveModel(device); err != nil {
-		//		return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
-		//	}
-		//}
 
 		rpcData := &mccommon.RPCMsg{
 			Dst: req.Msg.RPCMsg.Src,

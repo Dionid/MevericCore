@@ -9,6 +9,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"fmt"
 	"encoding/json"
+	"mevericcore/mclightmodule"
 )
 
 type PlantainerCustomData struct {
@@ -37,8 +38,6 @@ type PlantainerShadowStateSt struct {
 	Delta *PlantainerShadowStatePieceSt `bson:"-"`
 }
 
-
-
 func NewPlantainerShadowState() *PlantainerShadowStateSt {
 	return &PlantainerShadowStateSt{
 		*NewPlantainerShadowStatePiece(),
@@ -63,11 +62,6 @@ func (this *PlantainerShadowStateSt) fillDelta(reported *map[string]interface{},
 					(*delta)[key] = val
 				}
 			default:
-				//fmt.Printf("val : %+v\n", val)
-				////isPtr := reflect.ValueOf(val).Kind() == reflect.Ptr
-				//fmt.Printf("type : %+v\n", reflect.ValueOf(val).Kind())
-				//fmt.Printf("type : %+v\n", reflect.ValueOf(val).Type())
-				//fmt.Printf("reported : %+v\n", (*reported)[key])
 				if (*reported)[key] != val && val != nil {
 					(*delta)[key] = val
 				}
@@ -133,116 +127,6 @@ func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 		fmt.Printf("Delta: %+v\n", this.Delta)
 	}
 
-	//desMap := structs.Map(des)
-	//repMap := structs.Map(this.Reported)
-	//deltaMap := map[string]interface{}{}
-	//fmt.Printf("desMap : %+v\n", desMap)
-	//fmt.Printf("repMap : %+v\n", repMap)
-	//fmt.Printf("deltaMap : %+v\n", deltaMap)
-	//this.fillDelta(&repMap, &desMap, &deltaMap)
-	//fmt.Printf("deltaMap : %+v\n", deltaMap)
-	//
-	//if bData, err := json.Marshal(deltaMap); err != nil {
-	//	fmt.Printf("bData err: %+v\n", err.Error())
-	//	return nil
-	//} else {
-	//	if err := this.Delta.UnmarshalJSON(bData); err != nil {
-	//		fmt.Printf("bData err: %+v\n", err.Error())
-	//		return nil
-	//	}
-	//	fmt.Printf("Delta: %+v\n", this.Delta)
-	//}
-	//
-	//if err := mapstructure.Decode(&deltaMap, &this.Delta); err != nil {
-	//	fmt.Printf("err: %+v\n", err.Error())
-	//	return nil
-	//}
-
-	//_______
-
-	//rep := this.Reported
-
-	//if this.Delta == nil {
-	//	this.Delta = &PlantainerShadowStatePieceSt{}
-	//}
-	//
-	//if rep.LightModule.LightTurnedOn != des.LightModule.LightTurnedOn {
-	//	this.Delta.LightModule.LightTurnedOn = des.LightModule.LightTurnedOn
-	//}
-	//
-	//if rep.LightModule.LightIntervalsCheckingInterval != des.LightModule.LightIntervalsCheckingInterval {
-	//	this.Delta.LightModule.LightIntervalsCheckingInterval = des.LightModule.LightIntervalsCheckingInterval
-	//}
-
-	//_______
-
-	//v := reflect.ValueOf(des)
-	//values := make([]interface{}, v.NumField())
-	//for i := 0; i < v.NumField(); i++ {
-	//	values[i] = v.Field(i).Interface()
-	//}
-
-	//_______
-
-	//desMap := structs.Map(des)
-	//repMap := structs.Map(this.Reported)
-	//delta := map[string]interface{}{}
-	//this.fillDelta(&repMap, &desMap, &delta)
-	//if len(delta) != 0 {
-	//	if this.Delta == nil {
-	//		this.Delta = &PlantainerShadowStatePieceSt{}
-	//	}
-	//	return &delta
-	//	//if err := mapstructure.Decode(delta, this.Delta); err != nil {
-	//	//	return
-	//	//}
-	//}
-	//return nil
-
-	//_______
-
-	//desS := structs.New(des)
-	//repS := structs.New(&this.Reported)
-	//delS := structs.New(this.Delta)
-	//
-	//for _, f := range desS.Fields() {
-	//	fmt.Printf("f name: %+v\n", f.Name())
-	//	if f.IsExported() {
-	//		fmt.Printf("kind : %+v\n", f.Kind())
-	//		if f.Kind() == reflect.Struct {
-	//			fmt.Printf("It is struct!\n")
-	//			for _, ff := range f.Fields() {
-	//				fmt.Printf("ff name: %+v\n", ff.Name())
-	//				for _, fff := range ff.Fields() {
-	//					if fff.IsExported() {
-	//						if !fff.IsZero() {
-	//							//fmt.Printf("field name: %+v\n", fff.Name())
-	//							//fmt.Printf("value   : %+v\n", fff.Value())
-	//							resF := repS.Field(f.Name()).Field(ff.Name()).Field(fff.Name())
-	//							//fmt.Printf("field name: %+v\n", resF.Name())
-	//							//fmt.Printf("field kind: %+v\n", resF.Kind())
-	//							//fmt.Printf("value   : %+v\n", resF.Value())
-	//							if resF.Kind() == reflect.Ptr {
-	//								resFV := reflect.ValueOf(resF.Value()).Elem()
-	//								fffFV := reflect.ValueOf(fff.Value()).Elem()
-	//								fmt.Printf("%+v\n", resFV)
-	//								fmt.Printf("%+v\n", fffFV)
-	//								if resFV != fffFV {
-	//									if _, ok := delS.Field(f.Name()); !ok {
-	//
-	//									}
-	//								}
-	//							}
-	//						}
-	//					}
-	//				}
-	//			}
-	//		}
-	//		//if f.Kind()
-	//		//for f.Fields()
-	//	}
-	//}
-
 	return nil
 }
 
@@ -287,6 +171,26 @@ func NewPlantainerModel() *PlantainerModelSt {
 	return &PlantainerModelSt{
 		//Shadow: PlantainerShadowSt{},
 	}
+}
+
+func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStatePieceSt, deviceDataColMan mccommon.DevicesCollectionManagerInterface) error {
+	values := &PlantainerDataValuesSt{}
+	addedValues := false
+
+	if updateData.LightModule.LightLvl != nil{
+		if values.LightModule == nil {
+			values.LightModule = &mclightmodule.LightModuleStateDataSt{}
+		}
+		values.LightModule.LightLvl = updateData.LightModule.LightLvl
+		addedValues = true
+	}
+
+	if addedValues {
+		this.CreateAndSaveData(deviceDataColMan, time.Now(), values)
+	}
+
+	this.Shadow.State.Reported.LightModule.ReportedUpdate(&updateData.LightModule)
+	return nil
 }
 
 func (this *PlantainerModelSt) EnsureIndexes(collection *mgo.Collection) error {
@@ -390,7 +294,7 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 	return nil
 }
 
-func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.DevicesCollectionManagerInterface, updateData *mccommon.DeviceShadowUpdateMsg, values *PlantainerDataValuesSt) error {
+func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.DevicesCollectionManagerInterface, timestamp time.Time, values *PlantainerDataValuesSt) error {
 	data := NewPlantainerData()
 
 	t := time.Now()
@@ -399,8 +303,8 @@ func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.Devic
 	ts := time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute()-t.Minute()%(data.PeriodInSec/1000), 0, 0, t.Location())
 	updDataTS := t
 
-	if !updateData.Timestamp.IsZero() {
-		updDataTS = updateData.Timestamp
+	if !timestamp.IsZero() {
+		updDataTS = timestamp
 	}
 
 	minuteNum := strconv.Itoa(updDataTS.Minute() - ts.Minute())
@@ -430,7 +334,7 @@ func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.Devic
 	return nil
 }
 
-func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadowUpdateMsg, deviceDataColMan mccommon.DevicesCollectionManagerInterface) error {
+func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadowUpdateMsg, deviceDataColMan mccommon.DevicesWithShadowCollectionManagerInterface) error {
 	println("Plantainer ActionsOnUpdate: ")
 
 	if updateData.State.Reported != nil {
@@ -485,7 +389,7 @@ func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadow
 			}
 		}
 		if changed {
-			this.CreateAndSaveData(deviceDataColMan, updateData, values)
+			//this.CreateAndSaveData(deviceDataColMan, updateData, values)
 		}
 	}
 
