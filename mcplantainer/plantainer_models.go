@@ -7,9 +7,8 @@ import (
 	"strconv"
 	"tztatom/tztcore"
 	"gopkg.in/mgo.v2/bson"
-	"mevericcore/mclightmodule"
-	"github.com/fatih/structs"
-	"github.com/mitchellh/mapstructure"
+	"fmt"
+	"encoding/json"
 )
 
 type PlantainerCustomData struct {
@@ -18,31 +17,6 @@ type PlantainerCustomData struct {
 
 type PlantainerCustomAdminData struct {
 
-}
-
-type PlantainerLightModuleStateSt struct {
-	mclightmodule.LightModuleStateSt `bson:",inline"`
-}
-
-func NewPlantainerLightModuleStateSt() *PlantainerLightModuleStateSt {
-	var lightIntervalsArr []mclightmodule.LightModuleInterval = nil
-	mode := "manual"
-	lightTurnedOn := false
-	lightLvlCheckActive := false
-	lightLvlCheckInterval := 5100
-	lightIntervalsRestTimeTurnedOn := false
-	lightIntervalsCheckingInterval := 20000
-	return &PlantainerLightModuleStateSt{
-		mclightmodule.LightModuleStateSt{
-			Mode: &mode,
-			LightTurnedOn: &lightTurnedOn,
-			LightLvlCheckActive: &lightLvlCheckActive,
-			LightLvlCheckInterval: &lightLvlCheckInterval,
-			LightIntervalsArr: &lightIntervalsArr,
-			LightIntervalsRestTimeTurnedOn: &lightIntervalsRestTimeTurnedOn,
-			LightIntervalsCheckingInterval: &lightIntervalsCheckingInterval,
-		},
-	}
 }
 
 //easyjson:json
@@ -62,6 +36,8 @@ type PlantainerShadowStateSt struct {
 	Desired *PlantainerShadowStatePieceSt
 	Delta *PlantainerShadowStatePieceSt `bson:"-"`
 }
+
+
 
 func NewPlantainerShadowState() *PlantainerShadowStateSt {
 	return &PlantainerShadowStateSt{
@@ -87,7 +63,12 @@ func (this *PlantainerShadowStateSt) fillDelta(reported *map[string]interface{},
 					(*delta)[key] = val
 				}
 			default:
-				if (*reported)[key] != val {
+				//fmt.Printf("val : %+v\n", val)
+				////isPtr := reflect.ValueOf(val).Kind() == reflect.Ptr
+				//fmt.Printf("type : %+v\n", reflect.ValueOf(val).Kind())
+				//fmt.Printf("type : %+v\n", reflect.ValueOf(val).Type())
+				//fmt.Printf("reported : %+v\n", (*reported)[key])
+				if (*reported)[key] != val && val != nil {
 					(*delta)[key] = val
 				}
 			}
@@ -95,14 +76,105 @@ func (this *PlantainerShadowStateSt) fillDelta(reported *map[string]interface{},
 	}
 }
 
-func (this *PlantainerShadowStateSt) FillDelta() {
+func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 	des := this.Desired
 	if des == nil {
-		return
+		return nil
 	}
-	if this.Delta == nil {
+
+	//_______
+
+	bData, err := des.MarshalJSON()
+	desMap := map[string]interface{}{}
+	if err != nil {
+		fmt.Printf("bData err: %+v\n", err.Error())
+		return nil
+	} else {
+		if err := json.Unmarshal(bData, &desMap); err != nil {
+			fmt.Printf("bData err: %+v\n", err.Error())
+			return nil
+		}
+		fmt.Printf("desMap: %+v\n", desMap)
+	}
+
+	bResData, err := this.Reported.MarshalJSON()
+	repMap := map[string]interface{}{}
+	if err != nil {
+		fmt.Printf("bResData err: %+v\n", err.Error())
+		return nil
+	} else {
+		if err := json.Unmarshal(bResData, &repMap); err != nil {
+			fmt.Printf("bResData err: %+v\n", err.Error())
+			return nil
+		}
+		fmt.Printf("repMap: %+v\n", repMap)
+	}
+	deltaMap := map[string]interface{}{}
+	fmt.Printf("deltaMap : %+v\n", deltaMap)
+	this.fillDelta(&repMap, &desMap, &deltaMap)
+	fmt.Printf("deltaMap : %+v\n", deltaMap)
+	fmt.Printf("Delta: %+v\n", this.Delta)
+
+	if len(deltaMap) == 0 {
+		return nil
+	}
+
+	if dBData, err := json.Marshal(deltaMap); err != nil {
+		fmt.Printf("dBData err: %+v\n", err.Error())
+		return nil
+	} else {
 		this.Delta = &PlantainerShadowStatePieceSt{}
+		fmt.Printf("dBData: %+v\n", dBData)
+		if err := json.Unmarshal(dBData, &this.Delta); err != nil {
+			fmt.Printf("bData err: %+v\n", err.Error())
+			return nil
+		}
+		fmt.Printf("Success\n")
+		fmt.Printf("Delta: %+v\n", this.Delta)
 	}
+
+	//desMap := structs.Map(des)
+	//repMap := structs.Map(this.Reported)
+	//deltaMap := map[string]interface{}{}
+	//fmt.Printf("desMap : %+v\n", desMap)
+	//fmt.Printf("repMap : %+v\n", repMap)
+	//fmt.Printf("deltaMap : %+v\n", deltaMap)
+	//this.fillDelta(&repMap, &desMap, &deltaMap)
+	//fmt.Printf("deltaMap : %+v\n", deltaMap)
+	//
+	//if bData, err := json.Marshal(deltaMap); err != nil {
+	//	fmt.Printf("bData err: %+v\n", err.Error())
+	//	return nil
+	//} else {
+	//	if err := this.Delta.UnmarshalJSON(bData); err != nil {
+	//		fmt.Printf("bData err: %+v\n", err.Error())
+	//		return nil
+	//	}
+	//	fmt.Printf("Delta: %+v\n", this.Delta)
+	//}
+	//
+	//if err := mapstructure.Decode(&deltaMap, &this.Delta); err != nil {
+	//	fmt.Printf("err: %+v\n", err.Error())
+	//	return nil
+	//}
+
+	//_______
+
+	//rep := this.Reported
+
+	//if this.Delta == nil {
+	//	this.Delta = &PlantainerShadowStatePieceSt{}
+	//}
+	//
+	//if rep.LightModule.LightTurnedOn != des.LightModule.LightTurnedOn {
+	//	this.Delta.LightModule.LightTurnedOn = des.LightModule.LightTurnedOn
+	//}
+	//
+	//if rep.LightModule.LightIntervalsCheckingInterval != des.LightModule.LightIntervalsCheckingInterval {
+	//	this.Delta.LightModule.LightIntervalsCheckingInterval = des.LightModule.LightIntervalsCheckingInterval
+	//}
+
+	//_______
 
 	//v := reflect.ValueOf(des)
 	//values := make([]interface{}, v.NumField())
@@ -110,14 +182,68 @@ func (this *PlantainerShadowStateSt) FillDelta() {
 	//	values[i] = v.Field(i).Interface()
 	//}
 
-	desMap := structs.Map(des)
-	repMap := structs.Map(this.Reported)
-	delta := map[string]interface{}{}
-	this.fillDelta(&repMap, &desMap, &delta)
-	if err := mapstructure.Decode(delta, this.Delta); err != nil {
-		return
-	}
-	return
+	//_______
+
+	//desMap := structs.Map(des)
+	//repMap := structs.Map(this.Reported)
+	//delta := map[string]interface{}{}
+	//this.fillDelta(&repMap, &desMap, &delta)
+	//if len(delta) != 0 {
+	//	if this.Delta == nil {
+	//		this.Delta = &PlantainerShadowStatePieceSt{}
+	//	}
+	//	return &delta
+	//	//if err := mapstructure.Decode(delta, this.Delta); err != nil {
+	//	//	return
+	//	//}
+	//}
+	//return nil
+
+	//_______
+
+	//desS := structs.New(des)
+	//repS := structs.New(&this.Reported)
+	//delS := structs.New(this.Delta)
+	//
+	//for _, f := range desS.Fields() {
+	//	fmt.Printf("f name: %+v\n", f.Name())
+	//	if f.IsExported() {
+	//		fmt.Printf("kind : %+v\n", f.Kind())
+	//		if f.Kind() == reflect.Struct {
+	//			fmt.Printf("It is struct!\n")
+	//			for _, ff := range f.Fields() {
+	//				fmt.Printf("ff name: %+v\n", ff.Name())
+	//				for _, fff := range ff.Fields() {
+	//					if fff.IsExported() {
+	//						if !fff.IsZero() {
+	//							//fmt.Printf("field name: %+v\n", fff.Name())
+	//							//fmt.Printf("value   : %+v\n", fff.Value())
+	//							resF := repS.Field(f.Name()).Field(ff.Name()).Field(fff.Name())
+	//							//fmt.Printf("field name: %+v\n", resF.Name())
+	//							//fmt.Printf("field kind: %+v\n", resF.Kind())
+	//							//fmt.Printf("value   : %+v\n", resF.Value())
+	//							if resF.Kind() == reflect.Ptr {
+	//								resFV := reflect.ValueOf(resF.Value()).Elem()
+	//								fffFV := reflect.ValueOf(fff.Value()).Elem()
+	//								fmt.Printf("%+v\n", resFV)
+	//								fmt.Printf("%+v\n", fffFV)
+	//								if resFV != fffFV {
+	//									if _, ok := delS.Field(f.Name()); !ok {
+	//
+	//									}
+	//								}
+	//							}
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+	//		//if f.Kind()
+	//		//for f.Fields()
+	//	}
+	//}
+
+	return nil
 }
 
 type PlantainerShadowMetadataSt struct {
@@ -129,6 +255,14 @@ type PlantainerShadowSt struct {
 	Id string
 	State PlantainerShadowStateSt
 	Metadata PlantainerShadowMetadataSt
+}
+
+func (this *PlantainerShadowSt) CheckVersion(version int) bool {
+	return this.Metadata.Version == version
+}
+
+func (this *PlantainerShadowSt) IncrementVersion() {
+	this.Metadata.Version += 1
 }
 
 func NewPlantainerShadow(shadowId string) *PlantainerShadowSt {
@@ -144,8 +278,6 @@ type PlantainerModelSt struct {
 	mccommon.DeviceBaseModel `bson:",inline"`
 
 	Shadow PlantainerShadowSt
-
-	//LightModule *LightModuleSt `bson:"-"`
 
 	CustomData      PlantainerCustomData `json:"customData" bson:"customData"`
 	CustomAdminData PlantainerCustomAdminData `json:"customAdminData" bson:"customAdminData"`

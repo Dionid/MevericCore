@@ -2,12 +2,12 @@ package mclightmodule
 
 //import "time"
 
-var lightModuleModeManual = "Manual"
-var lightModuleModeLightServerIntervalsTimerMode = "LightServerIntervalsTimerMode"
+var LightModuleModeManual = "Manual"
+var LightModuleModeLightServerIntervalsTimerMode = "LightServerIntervalsTimerMode"
 
-var lightModuleModes = map[string]string{
-	lightModuleModeManual:                        "manual",
-	lightModuleModeLightServerIntervalsTimerMode: "lightServerIntervalsTimerMode",
+var LightModuleModes = map[string]string{
+	LightModuleModeManual:                        "manual",
+	LightModuleModeLightServerIntervalsTimerMode: "lightServerIntervalsTimerMode",
 }
 
 type LightModuleInterval struct {
@@ -19,7 +19,7 @@ type LightModuleInterval struct {
 }
 
 type LightModuleStateDataSt struct {
-	LightLvl *int
+	LightLvl *int `bson:"lightLvl"`
 }
 
 type LightModuleStateSt struct {
@@ -62,6 +62,36 @@ func NewLightModuleStateWithDefault() *LightModuleStateSt {
 		LightIntervalsArr:              &lightIntervalsArr,
 		LightIntervalsRestTimeTurnedOn: &lightIntervalsRestTimeTurnedOn,
 		LightIntervalsCheckingInterval: &lightIntervalsCheckingInterval,
+	}
+}
+
+func (this *LightModuleStateSt) ReportedUpdate(newState *LightModuleStateSt) {
+	if newState.LightIntervalsCheckingInterval != nil {
+		this.LightIntervalsCheckingInterval = newState.LightIntervalsCheckingInterval
+		// Reset timers
+		if newState.Mode == nil || newState.Mode == this.Mode {
+			//this.ResetTimer()
+		}
+	}
+	if newState.LightIntervalsRestTimeTurnedOn != nil {
+		this.LightIntervalsRestTimeTurnedOn = newState.LightIntervalsRestTimeTurnedOn
+	}
+	if newState.LightIntervalsCheckingInterval != nil {
+		this.LightIntervalsCheckingInterval = newState.LightIntervalsCheckingInterval
+	}
+	if newState.LightLvlCheckActive != nil {
+		this.LightLvlCheckActive = newState.LightLvlCheckActive
+	}
+	if newState.Mode != nil && newState.Mode != this.Mode {
+		this.Mode = newState.Mode
+		switch *newState.Mode {
+		case LightModuleModes[LightModuleModeLightServerIntervalsTimerMode]:
+			// Add timers
+			//this.SetTimer()
+		case LightModuleModes[LightModuleModeManual]:
+			// Reset timers
+			//this.ResetTimer()
+		}
 	}
 }
 
@@ -162,10 +192,10 @@ func NewLightModuleStateWithDefault() *LightModuleStateSt {
 //	if newState.Mode != nil && newState.Mode != this.State.Mode {
 //		this.State.Mode = newState.Mode
 //		switch *newState.Mode {
-//		case lightModuleModes[lightModuleModeLightServerIntervalsTimerMode]:
+//		case LightModuleModes[LightModuleModeLightServerIntervalsTimerMode]:
 //			// Add timers
 //			//this.SetTimer()
-//		case lightModuleModes[lightModuleModeManual]:
+//		case LightModuleModes[LightModuleModeManual]:
 //			// Reset timers
 //			//this.ResetTimer()
 //		}

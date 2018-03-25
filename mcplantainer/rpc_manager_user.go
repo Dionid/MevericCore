@@ -61,7 +61,9 @@ func initUserRPCManDeviceRoutes() {
 	plantainerG.AddHandler("List", func(req *mccommunication.RPCReqSt) error {
 		devices := &PlantainersList{}
 
-		plantainerCollectionManager.FindByOwnerId(req.Msg.ClientId, devices)
+		if err := plantainerCollectionManager.FindByOwnerId(req.Msg.ClientId, devices); err != nil {
+			return userRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Try again", 503)
+		}
 
 		res := &map[string]interface{}{"data": devices}
 
