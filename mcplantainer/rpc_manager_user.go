@@ -3,6 +3,8 @@ package mcplantainer
 import (
 	"mevericcore/mcuserrpcmanager"
 	"mevericcore/mccommunication"
+	"mevericcore/mccommon"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var (
@@ -16,6 +18,27 @@ func initUserRPCManager() {
 func initUserRPCManDeviceRoutes() {
 	deviceG := userRPCManager.Router.Group("Devices")
 	plantainerG := deviceG.Group("Plantainer")
+	plantainerG.AddHandler("Create", func(req *mccommunication.RPCReqSt) error {
+
+		device := &PlantainerModelSt{
+			DeviceBaseModel: mccommon.DeviceBaseModel{
+				OwnersIds: []bson.ObjectId{bson.ObjectIdHex(req.Msg.ClientId)},
+			},
+			Shadow: PlantainerShadowSt{},
+		}
+
+		if err := plantainerCollectionManager.SaveModel(device); err != nil {
+			return userRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Try again", 503)
+		}
+
+		if err := plantainerCollectionManager.FindModelById(device.ID, device); err != nil {
+			return userRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Try again", 503)
+		}
+
+		res := &map[string]interface{}{device.Shadow.Id: device}
+
+		return userRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
+	})
 	plantainerG.AddHandler("Get", func(req *mccommunication.RPCReqSt) error {
 		device := &PlantainerModelSt{}
 		args := req.Msg.RPCMsg.Args.(map[string]interface{})
@@ -32,6 +55,15 @@ func initUserRPCManDeviceRoutes() {
 		}
 
 		res := &map[string]interface{}{deviceShadowId: device}
+
+		return userRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
+	})
+	plantainerG.AddHandler("List", func(req *mccommunication.RPCReqSt) error {
+		devices := &PlantainersList{}
+
+		plantainerCollectionManager.FindByOwnerId(req.Msg.ClientId, devices)
+
+		res := &map[string]interface{}{"data": devices}
 
 		return userRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
 	})

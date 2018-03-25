@@ -54,7 +54,7 @@ type PlantainerCustomAdminData struct {
 
 //easyjson:json
 type PlantainerModelSt struct {
-	mccommon.DeviceBaseModel `bson:",inline"`
+	mccommon.DeviceWithShadowBaseModel `bson:",inline"`
 
 	CustomData      PlantainerCustomData `json:"customData" bson:"customData"`
 	CustomAdminData PlantainerCustomAdminData `json:"customAdminData" bson:"customAdminData"`
@@ -75,7 +75,7 @@ func (this *PlantainerModelSt) Update(data *map[string]interface{}) error {
 	return nil
 }
 
-func CreateNewPlantainerModelSt() mccommon.DeviceBaseModelInterface {
+func CreateNewPlantainerModelSt() mccommon.DeviceWithShadowBaseModelInterface {
 	return &PlantainerModelSt{}
 }
 

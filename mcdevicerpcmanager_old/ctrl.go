@@ -5,7 +5,7 @@ import (
 	"errors"
 )
 
-type DeviceCreatorFn func() mccommon.DeviceBaseModelInterface
+type DeviceCreatorFn func() mccommon.DeviceWithShadowBaseModelInterface
 
 type DeviceRPCCtrlSt struct{
 	DeviceResponseServiceSt

@@ -1,13 +1,11 @@
-package dashboard
+package mcplantainer
 
 import (
-	"mevericcore/mcecho"
 	"github.com/labstack/echo"
+	"mevericcore/mcecho"
 	"net/http"
-	"gopkg.in/mgo.v2/bson"
 	"mevericcore/mccommon"
-	"tztatom/tztcore"
-	"mevericcore/mcplantainer/common"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type UserPlantainerControllerSt struct {
@@ -22,25 +20,23 @@ func (this *UserPlantainerControllerSt) Create(c echo.Context) error {
 
 	// TODO: ONLY ADMIN CHECK
 
-	deviceShadowId := mccommon.RandString(13)
+	//deviceShadowId := mccommon.RandString(13)
 
-	device := &common.PlantainerModelSt{
-		DeviceWithShadowBaseModel: mccommon.DeviceWithShadowBaseModel{
-			Shadow: mccommon.ShadowModelSt{
-				Id: deviceShadowId,
-			},
+	device := &PlantainerModelSt{
+		DeviceBaseModel: mccommon.DeviceBaseModel{
 			OwnersIds: []bson.ObjectId{bson.ObjectIdHex(userId)},
 		},
+		Shadow: PlantainerShadowSt{},
 	}
 
-	if err := common.PlantainerCollectionManager.SaveModel(device); err != nil {
+	if err := plantainerCollectionManager.SaveModel(device); err != nil {
 		// TODO: Must check if problem with shadowId
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	if err := common.PlantainerCollectionManager.FindModelById(device.ID, device); err != nil {
+	if err := plantainerCollectionManager.FindModelById(device.ID, device); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, "Product not found")
 	}
 
-	return tztcore.SendJSON(device, &c)
+	return mcecho.SendJSON(device, &c)
 }

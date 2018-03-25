@@ -102,7 +102,7 @@ func easyjson38438769DecodeMevericcoreMccommon1(in *jlexer.Lexer, out *DevicesLi
 			*out = (*out)[:0]
 		}
 		for !in.IsDelim(']') {
-			var v4 DeviceBaseModel
+			var v4 DeviceWithShadowBaseModel
 			(v4).UnmarshalEasyJSON(in)
 			*out = append(*out, v4)
 			in.WantComma()
@@ -512,7 +512,7 @@ func (v *DeviceWithCustomDataBaseModel) UnmarshalJSON(data []byte) error {
 func (v *DeviceWithCustomDataBaseModel) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson38438769DecodeMevericcoreMccommon2(l, v)
 }
-func easyjson38438769DecodeMevericcoreMccommon3(in *jlexer.Lexer, out *DeviceBaseModel) {
+func easyjson38438769DecodeMevericcoreMccommon3(in *jlexer.Lexer, out *DeviceWithShadowBaseModel) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -626,7 +626,7 @@ func easyjson38438769DecodeMevericcoreMccommon3(in *jlexer.Lexer, out *DeviceBas
 		in.Consumed()
 	}
 }
-func easyjson38438769EncodeMevericcoreMccommon3(out *jwriter.Writer, in DeviceBaseModel) {
+func easyjson38438769EncodeMevericcoreMccommon3(out *jwriter.Writer, in DeviceWithShadowBaseModel) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -741,25 +741,25 @@ func easyjson38438769EncodeMevericcoreMccommon3(out *jwriter.Writer, in DeviceBa
 }
 
 // MarshalJSON supports json.Marshaler interface
-func (v DeviceBaseModel) MarshalJSON() ([]byte, error) {
+func (v DeviceWithShadowBaseModel) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
 	easyjson38438769EncodeMevericcoreMccommon3(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
-func (v DeviceBaseModel) MarshalEasyJSON(w *jwriter.Writer) {
+func (v DeviceWithShadowBaseModel) MarshalEasyJSON(w *jwriter.Writer) {
 	easyjson38438769EncodeMevericcoreMccommon3(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
-func (v *DeviceBaseModel) UnmarshalJSON(data []byte) error {
+func (v *DeviceWithShadowBaseModel) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
 	easyjson38438769DecodeMevericcoreMccommon3(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *DeviceBaseModel) UnmarshalEasyJSON(l *jlexer.Lexer) {
+func (v *DeviceWithShadowBaseModel) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson38438769DecodeMevericcoreMccommon3(l, v)
 }

@@ -3,6 +3,7 @@ package mcplantainer
 import (
 	"mevericcore/mccommon"
 	"gopkg.in/mgo.v2"
+	"mevericcore/mclightmodule"
 )
 
 type PlantainerDataValuesIrrigationModuleSt struct {
@@ -10,19 +11,15 @@ type PlantainerDataValuesIrrigationModuleSt struct {
 	Temperature int
 }
 
-type PlantainerDataValuesLightModuleSt struct {
-	LightLvl int
-}
-
 type PlantainerDataValuesSt struct {
 	IrrigationModule *PlantainerDataValuesIrrigationModuleSt
-	LightModule *PlantainerDataValuesLightModuleSt
+	LightModule *mclightmodule.LightModuleStateDataSt
 }
 
 func NewPlantainerDataValuesSt() *PlantainerDataValuesSt {
 	return &PlantainerDataValuesSt{
 		&PlantainerDataValuesIrrigationModuleSt{},
-		&PlantainerDataValuesLightModuleSt{},
+		&mclightmodule.LightModuleStateDataSt{},
 	}
 }
 

@@ -7,6 +7,9 @@ import (
 	"strconv"
 	"tztatom/tztcore"
 	"gopkg.in/mgo.v2/bson"
+	"mevericcore/mclightmodule"
+	"github.com/fatih/structs"
+	"github.com/mitchellh/mapstructure"
 )
 
 type PlantainerCustomData struct {
@@ -17,11 +20,132 @@ type PlantainerCustomAdminData struct {
 
 }
 
+type PlantainerLightModuleStateSt struct {
+	mclightmodule.LightModuleStateSt `bson:",inline"`
+}
+
+func NewPlantainerLightModuleStateSt() *PlantainerLightModuleStateSt {
+	var lightIntervalsArr []mclightmodule.LightModuleInterval = nil
+	mode := "manual"
+	lightTurnedOn := false
+	lightLvlCheckActive := false
+	lightLvlCheckInterval := 5100
+	lightIntervalsRestTimeTurnedOn := false
+	lightIntervalsCheckingInterval := 20000
+	return &PlantainerLightModuleStateSt{
+		mclightmodule.LightModuleStateSt{
+			Mode: &mode,
+			LightTurnedOn: &lightTurnedOn,
+			LightLvlCheckActive: &lightLvlCheckActive,
+			LightLvlCheckInterval: &lightLvlCheckInterval,
+			LightIntervalsArr: &lightIntervalsArr,
+			LightIntervalsRestTimeTurnedOn: &lightIntervalsRestTimeTurnedOn,
+			LightIntervalsCheckingInterval: &lightIntervalsCheckingInterval,
+		},
+	}
+}
+
+//easyjson:json
+type PlantainerShadowStatePieceSt struct {
+	LightModule PlantainerLightModuleStateSt `bson:"lightModule"`
+}
+
+func NewPlantainerShadowStatePiece() *PlantainerShadowStatePieceSt {
+	return &PlantainerShadowStatePieceSt{
+		*NewPlantainerLightModuleStateSt(),
+	}
+}
+
+//easyjson:json
+type PlantainerShadowStateSt struct {
+	Reported PlantainerShadowStatePieceSt
+	Desired *PlantainerShadowStatePieceSt
+	Delta *PlantainerShadowStatePieceSt `bson:"-"`
+}
+
+func NewPlantainerShadowState() *PlantainerShadowStateSt {
+	return &PlantainerShadowStateSt{
+		*NewPlantainerShadowStatePiece(),
+		nil,
+		nil,
+	}
+}
+
+func (this *PlantainerShadowStateSt) fillDelta(reported *map[string]interface{}, desired *map[string]interface{}, delta *map[string]interface{}) {
+	for key, val := range *desired {
+		if (*reported)[key] != nil {
+			switch desireV := val.(type) {
+			case map[string]interface{}:
+				switch repV := (*reported)[key].(type) {
+				case map[string]interface{}:
+					newMap := map[string]interface{}{}
+					this.fillDelta(&repV, &desireV, &newMap)
+					if len(newMap) > 0 {
+						(*delta)[key] = newMap
+					}
+				default:
+					(*delta)[key] = val
+				}
+			default:
+				if (*reported)[key] != val {
+					(*delta)[key] = val
+				}
+			}
+		}
+	}
+}
+
+func (this *PlantainerShadowStateSt) FillDelta() {
+	des := this.Desired
+	if des == nil {
+		return
+	}
+	if this.Delta == nil {
+		this.Delta = &PlantainerShadowStatePieceSt{}
+	}
+
+	//v := reflect.ValueOf(des)
+	//values := make([]interface{}, v.NumField())
+	//for i := 0; i < v.NumField(); i++ {
+	//	values[i] = v.Field(i).Interface()
+	//}
+
+	desMap := structs.Map(des)
+	repMap := structs.Map(this.Reported)
+	delta := map[string]interface{}{}
+	this.fillDelta(&repMap, &desMap, &delta)
+	if err := mapstructure.Decode(delta, this.Delta); err != nil {
+		return
+	}
+	return
+}
+
+type PlantainerShadowMetadataSt struct {
+	Version int
+}
+
+//easyjson:json
+type PlantainerShadowSt struct {
+	Id string
+	State PlantainerShadowStateSt
+	Metadata PlantainerShadowMetadataSt
+}
+
+func NewPlantainerShadow(shadowId string) *PlantainerShadowSt {
+	return &PlantainerShadowSt{
+		shadowId,
+		*NewPlantainerShadowState(),
+		PlantainerShadowMetadataSt{},
+	}
+}
+
 //easyjson:json
 type PlantainerModelSt struct {
 	mccommon.DeviceBaseModel `bson:",inline"`
 
-	LightModule *LightModuleSt `bson:"-"`
+	Shadow PlantainerShadowSt
+
+	//LightModule *LightModuleSt `bson:"-"`
 
 	CustomData      PlantainerCustomData `json:"customData" bson:"customData"`
 	CustomAdminData PlantainerCustomAdminData `json:"customAdminData" bson:"customAdminData"`
@@ -29,7 +153,7 @@ type PlantainerModelSt struct {
 
 func NewPlantainerModel() *PlantainerModelSt {
 	return &PlantainerModelSt{
-		LightModule: NewLightModule(),
+		//Shadow: PlantainerShadowSt{},
 	}
 }
 
@@ -117,14 +241,18 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 
 	this.CustomData.Name = "Plantainer"
 
-	if this.Shadow.Id == "" {
-		// TODO: test shadowId
-		this.Shadow.Id = tztcore.RandString(13)
+	this.Shadow = PlantainerShadowSt{
+		tztcore.RandString(13),
+		PlantainerShadowStateSt{
+			PlantainerShadowStatePieceSt{
+				*NewPlantainerLightModuleStateSt(),
+			},
+			nil,
+			nil,
+		},
+		PlantainerShadowMetadataSt{},
 	}
 
-	reported := this.CreateReported()
-
-	this.Shadow.State = *this.CreateShadowState(reported)
 	this.Type = this.GetTypeName()
 
 	return nil
@@ -175,28 +303,28 @@ func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadow
 
 	if updateData.State.Reported != nil {
 		if (*updateData.State.Reported)["lightModule"] != nil {
-			lightModuleData := (*updateData.State.Reported)["lightModule"].(map[string]interface{})
-			this.LightModule.SetState(
-				NewLightModuleState(
-					this.Shadow.State.Reported["mode"].(string),
-					this.Shadow.State.Reported["lightLvlCheckActive"].(bool),
-					int(this.Shadow.State.Reported["lightLvlCheckInterval"].(float64)),
-					this.Shadow.State.Reported["lightIntervalsRestTimeTurnedOn"].(bool),
-					int(this.Shadow.State.Reported["lightIntervalsCheckingInterval"].(float64)),
-					this.Shadow.State.Reported["lightIntervalsArr"].([]LightModuleInterval),
-				),
-			)
-			this.LightModule.CheckOnStateUpdate(
-				this.Shadow.Id,
-				NewLightModuleState(
-					lightModuleData["mode"].(string),
-					lightModuleData["lightLvlCheckActive"].(bool),
-					int(lightModuleData["lightLvlCheckInterval"].(float64)),
-					lightModuleData["lightIntervalsRestTimeTurnedOn"].(bool),
-					int(lightModuleData["lightIntervalsCheckingInterval"].(float64)),
-					lightModuleData["lightIntervalsArr"].([]LightModuleInterval),
-				),
-			)
+			//lightModuleData := (*updateData.State.Reported)["lightModule"].(map[string]interface{})
+			//this.LightModule.SetState(
+			//	NewLightModuleState(
+			//		this.Shadow.State.Reported["mode"].(string),
+			//		this.Shadow.State.Reported["lightLvlCheckActive"].(bool),
+			//		int(this.Shadow.State.Reported["lightLvlCheckInterval"].(float64)),
+			//		this.Shadow.State.Reported["lightIntervalsRestTimeTurnedOn"].(bool),
+			//		int(this.Shadow.State.Reported["lightIntervalsCheckingInterval"].(float64)),
+			//		this.Shadow.State.Reported["lightIntervalsArr"].([]LightModuleInterval),
+			//	),
+			//)
+			//this.LightModule.CheckOnStateUpdate(
+			//	this.Shadow.Id,
+			//	NewLightModuleState(
+			//		lightModuleData["mode"].(string),
+			//		lightModuleData["lightLvlCheckActive"].(bool),
+			//		int(lightModuleData["lightLvlCheckInterval"].(float64)),
+			//		lightModuleData["lightIntervalsRestTimeTurnedOn"].(bool),
+			//		int(lightModuleData["lightIntervalsCheckingInterval"].(float64)),
+			//		lightModuleData["lightIntervalsArr"].([]LightModuleInterval),
+			//	),
+			//)
 		}
 	}
 
@@ -220,7 +348,7 @@ func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadow
 			lightModuleData := (*updateData.State.Reported)["lightModule"].(map[string]interface{})
 			if lightLvl, ok := lightModuleData["lightLvl"].(float64); ok == true {
 				lightLvl := int(lightLvl)
-				values.LightModule.LightLvl = lightLvl
+				values.LightModule.LightLvl = &lightLvl
 				changed = true
 			}
 		}

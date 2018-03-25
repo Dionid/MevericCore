@@ -13,21 +13,7 @@ var (
 	PlantainerServerId = "plantainerServerId"
 )
 
-func initMQTT() {
-	opts := mcmqttrouter.CreateConnOpts("tcp://localhost:1883", "randomString123qweasd", true)
-
-	opts.OnConnectionLost = func(c mqtt.Client, err error) {
-		fmt.Println("OMG!!!! CONNECTION LOST BEACUSE: " + err.Error())
-		deviceMQTTMan.ReInitMQTT()
-	}
-
-	mqttClient := mcmqttrouter.CreateClient(opts)
-
-	mqttRouter := mcmqttrouter.NewMQTTRouter(mqttClient, 1)
-	mqttMainG := mqttRouter.Group(PlantainerServerId)
-
-	deviceMQTTMan.Init(mqttMainG)
-	//deviceMQTTMan.SetReqHandler(deviceRPCMan.Handle)
+func subscribeToRPC() {
 	deviceMQTTMan.Subscribe("/rpc", func(client mqtt.Client, msg mqtt.Message) {
 		msgPayload := msg.Payload()
 		msgTopic := msg.Topic()
@@ -81,4 +67,23 @@ func initMQTT() {
 			}
 		}
 	})
+}
+
+func initMQTT() {
+	opts := mcmqttrouter.CreateConnOpts("tcp://localhost:1883", "randomString123qweasd", true)
+
+	opts.OnConnectionLost = func(c mqtt.Client, err error) {
+		fmt.Println("OMG!!!! CONNECTION LOST BEACUSE: " + err.Error())
+		deviceMQTTMan.ReInitMQTT()
+		subscribeToRPC()
+	}
+
+	mqttClient := mcmqttrouter.CreateClient(opts)
+
+	mqttRouter := mcmqttrouter.NewMQTTRouter(mqttClient, 1)
+	mqttMainG := mqttRouter.Group(PlantainerServerId)
+
+	deviceMQTTMan.Init(mqttMainG)
+	//deviceMQTTMan.SetReqHandler(deviceRPCMan.Handle)
+	subscribeToRPC()
 }
