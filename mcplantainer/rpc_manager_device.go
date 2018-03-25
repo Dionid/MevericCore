@@ -62,18 +62,37 @@ func initDeviceRPCManMainRoutes() {
 		shadow := &device.Shadow
 		state := &device.Shadow.State
 
-		//device.ActionsOnUpdate(&updateData, plantainerCollectionManager)
+		// Save Data and send it to User
+		if updateData.State.Reported != nil {
+			data, _ := device.ExtractAndSaveData(updateData.State.Reported)
+			if data != nil {
+				rpcData := &mccommon.RPCMsg{
+					Dst: req.Msg.RPCMsg.Src,
+					Src: req.Msg.RPCMsg.Dst,
+					Method: "Device.Plantainer.Data.New",
+					Args: &map[string]interface{}{
+						"data": data,
+					},
+				}
 
+				if bData, err := rpcData.MarshalJSON(); err != nil {
+					return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
+				} else {
+					innerRPCMan.Service.Publish("User.RPC.Send", bData)
+				}
+			}
+		}
+
+		// Change State
 		if updateData.State.Reported != nil && updateData.State.Desired != nil {
 			if state.Desired == nil {
 				state.Desired = &PlantainerShadowStatePieceSt{}
 			}
 			state.Desired.LightModule.DesiredUpdate(&updateData.State.Desired.LightModule)
-			state.Reported.LightModule.ReportedUpdate(&updateData.State.Reported.LightModule)
+			device.ReportedUpdate(updateData.State.Reported)
 			shadow.IncrementVersion()
 		} else if updateData.State.Reported != nil {
-			//state.Reported.LightModule.ReportedUpdate(&updateData.State.Reported.LightModule)
-			device.ReportedUpdate(updateData.State.Reported, plantainerCollectionManager)
+			device.ReportedUpdate(updateData.State.Reported)
 			shadow.IncrementVersion()
 		} else if updateData.State.Desired != nil {
 			if !shadow.CheckVersion(updateData.Version) {
@@ -91,12 +110,10 @@ func initDeviceRPCManMainRoutes() {
 			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
 		}
 
-		res := &map[string]interface{}{
+		deviceRPCMan.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, &map[string]interface{}{
 			"state": state,
 			"version": device.Shadow.Metadata.Version,
-		}
-
-		deviceRPCMan.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
+		})
 
 		state.FillDelta()
 
@@ -110,7 +127,7 @@ func initDeviceRPCManMainRoutes() {
 		rpcData := &mccommon.RPCMsg{
 			Dst: req.Msg.RPCMsg.Src,
 			Src: req.Msg.RPCMsg.Dst,
-			Method: "Device.Shadow.Update.Accepted",
+			Method: "Device.Plantainer.Shadow.Update.Accepted",
 			Args: &map[string]interface{}{
 				"state": updateData.State,
 				"version": device.Shadow.Metadata.Version,

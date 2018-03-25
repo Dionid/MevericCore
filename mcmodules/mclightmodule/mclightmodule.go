@@ -11,27 +11,27 @@ var LightModuleModes = map[string]string{
 }
 
 type LightModuleInterval struct {
-	FromTimeHours   int  `bson:"fromTimeHours"`
-	FromTimeMinutes int  `bson:"fromTimeMinutes"`
-	ToTimeHours     int  `bson:"toTimeHours"`
-	ToTimeMinutes   int  `bson:"toTimeMinutes"`
-	TurnedOn        bool `bson:"turnedOn"`
+	FromTimeHours   int  `bson:"fromTimeHours,omitempty"`
+	FromTimeMinutes int  `bson:"fromTimeMinutes,omitempty"`
+	ToTimeHours     int  `bson:"toTimeHours,omitempty"`
+	ToTimeMinutes   int  `bson:"toTimeMinutes,omitempty"`
+	TurnedOn        bool `bson:"turnedOn,omitempty"`
 }
 
 type LightModuleStateDataSt struct {
-	LightLvl *int `bson:"lightLvl"`
+	LightLvl *int `bson:"lightLvl,omitempty"`
 }
 
 type LightModuleStateSt struct {
 	LightModuleStateDataSt                 `bson:",inline"`
-	Mode                                   *string                `bson:"mode"`
-	LightTurnedOn                          *bool                  `bson:"lightTurnedOn"`
-	LightLvlCheckActive                    *bool                  `bson:"lightLvlCheckActive"`
-	LightLvlCheckInterval                  *int                   `bson:"lightLvlCheckInterval"`
-	LightLvlCheckLastIntervalCallTimestamp *int                   `bson:"lightLvlCheckLastIntervalCallTimestamp"`
-	LightIntervalsArr                      *[]LightModuleInterval `bson:"lightIntervalsArr"`
-	LightIntervalsRestTimeTurnedOn         *bool                  `bson:"lightIntervalsRestTimeTurnedOn"`
-	LightIntervalsCheckingInterval         *int                   `bson:"lightIntervalsCheckingInterval"`
+	Mode                                   *string                `bson:"mode,omitempty"`
+	LightTurnedOn                          *bool                  `bson:"lightTurnedOn,omitempty"`
+	LightLvlCheckActive                    *bool                  `bson:"lightLvlCheckActive,omitempty"`
+	LightLvlCheckInterval                  *int                   `bson:"lightLvlCheckInterval,omitempty"`
+	LightLvlCheckLastIntervalCallTimestamp *int                   `bson:"lightLvlCheckLastIntervalCallTimestamp,omitempty"`
+	LightIntervalsArr                      *[]LightModuleInterval `bson:"lightIntervalsArr,omitempty"`
+	LightIntervalsRestTimeTurnedOn         *bool                  `bson:"lightIntervalsRestTimeTurnedOn,omitempty"`
+	LightIntervalsCheckingInterval         *int                   `bson:"lightIntervalsCheckingInterval,omitempty"`
 }
 
 func NewLightModuleState(mode string, lightTurnedOn bool, lightLvlCheckActive bool, lightLvlCheckInterval int, lightIntervalsRestTimeTurnedOn bool, lightIntervalsCheckingInterval int, lightIntervalsArr []LightModuleInterval) *LightModuleStateSt {

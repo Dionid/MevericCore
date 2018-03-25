@@ -11,6 +11,7 @@ type PlantainerDataValuesIrrigationModuleSt struct {
 	Temperature int
 }
 
+//easyjson:json
 type PlantainerDataValuesSt struct {
 	IrrigationModule *PlantainerDataValuesIrrigationModuleSt
 	LightModule *mclightmodule.LightModuleStateDataSt

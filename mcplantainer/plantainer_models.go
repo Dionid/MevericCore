@@ -7,8 +7,6 @@ import (
 	"strconv"
 	"tztatom/tztcore"
 	"gopkg.in/mgo.v2/bson"
-	"fmt"
-	"encoding/json"
 	"mevericcore/mcmodules/mclightmodule"
 )
 
@@ -18,143 +16,6 @@ type PlantainerCustomData struct {
 
 type PlantainerCustomAdminData struct {
 
-}
-
-//easyjson:json
-type PlantainerShadowStatePieceSt struct {
-	LightModule PlantainerLightModuleStateSt `bson:"lightModule"`
-}
-
-func NewPlantainerShadowStatePiece() *PlantainerShadowStatePieceSt {
-	return &PlantainerShadowStatePieceSt{
-		*NewPlantainerLightModuleStateSt(),
-	}
-}
-
-//easyjson:json
-type PlantainerShadowStateSt struct {
-	Reported PlantainerShadowStatePieceSt
-	Desired *PlantainerShadowStatePieceSt
-	Delta *PlantainerShadowStatePieceSt `bson:"-"`
-}
-
-func NewPlantainerShadowState() *PlantainerShadowStateSt {
-	return &PlantainerShadowStateSt{
-		*NewPlantainerShadowStatePiece(),
-		nil,
-		nil,
-	}
-}
-
-func (this *PlantainerShadowStateSt) fillDelta(reported *map[string]interface{}, desired *map[string]interface{}, delta *map[string]interface{}) {
-	for key, val := range *desired {
-		if (*reported)[key] != nil {
-			switch desireV := val.(type) {
-			case map[string]interface{}:
-				switch repV := (*reported)[key].(type) {
-				case map[string]interface{}:
-					newMap := map[string]interface{}{}
-					this.fillDelta(&repV, &desireV, &newMap)
-					if len(newMap) > 0 {
-						(*delta)[key] = newMap
-					}
-				default:
-					(*delta)[key] = val
-				}
-			default:
-				if (*reported)[key] != val && val != nil {
-					(*delta)[key] = val
-				}
-			}
-		}
-	}
-}
-
-func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
-	des := this.Desired
-	if des == nil {
-		return nil
-	}
-
-	//_______
-
-	bData, err := des.MarshalJSON()
-	desMap := map[string]interface{}{}
-	if err != nil {
-		fmt.Printf("bData err: %+v\n", err.Error())
-		return nil
-	} else {
-		if err := json.Unmarshal(bData, &desMap); err != nil {
-			fmt.Printf("bData err: %+v\n", err.Error())
-			return nil
-		}
-		//fmt.Printf("desMap: %+v\n", desMap)
-	}
-
-	bResData, err := this.Reported.MarshalJSON()
-	repMap := map[string]interface{}{}
-	if err != nil {
-		fmt.Printf("bResData err: %+v\n", err.Error())
-		return nil
-	} else {
-		if err := json.Unmarshal(bResData, &repMap); err != nil {
-			fmt.Printf("bResData err: %+v\n", err.Error())
-			return nil
-		}
-		//fmt.Printf("repMap: %+v\n", repMap)
-	}
-	deltaMap := map[string]interface{}{}
-	//fmt.Printf("deltaMap : %+v\n", deltaMap)
-	this.fillDelta(&repMap, &desMap, &deltaMap)
-	//fmt.Printf("deltaMap : %+v\n", deltaMap)
-	//fmt.Printf("Delta: %+v\n", this.Delta)
-
-	if len(deltaMap) == 0 {
-		return nil
-	}
-
-	if dBData, err := json.Marshal(deltaMap); err != nil {
-		fmt.Printf("dBData err: %+v\n", err.Error())
-		return nil
-	} else {
-		this.Delta = &PlantainerShadowStatePieceSt{}
-		//fmt.Printf("dBData: %+v\n", dBData)
-		if err := json.Unmarshal(dBData, &this.Delta); err != nil {
-			//fmt.Printf("bData err: %+v\n", err.Error())
-			return nil
-		}
-		//fmt.Printf("Success\n")
-		//fmt.Printf("Delta: %+v\n", this.Delta)
-	}
-
-	return nil
-}
-
-type PlantainerShadowMetadataSt struct {
-	Version int
-}
-
-//easyjson:json
-type PlantainerShadowSt struct {
-	Id string
-	State PlantainerShadowStateSt
-	Metadata PlantainerShadowMetadataSt
-}
-
-func (this *PlantainerShadowSt) CheckVersion(version int) bool {
-	return this.Metadata.Version == version
-}
-
-func (this *PlantainerShadowSt) IncrementVersion() {
-	this.Metadata.Version += 1
-}
-
-func NewPlantainerShadow(shadowId string) *PlantainerShadowSt {
-	return &PlantainerShadowSt{
-		shadowId,
-		*NewPlantainerShadowState(),
-		PlantainerShadowMetadataSt{},
-	}
 }
 
 //easyjson:json
@@ -168,12 +29,10 @@ type PlantainerModelSt struct {
 }
 
 func NewPlantainerModel() *PlantainerModelSt {
-	return &PlantainerModelSt{
-		//Shadow: PlantainerShadowSt{},
-	}
+	return &PlantainerModelSt{}
 }
 
-func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStatePieceSt, deviceDataColMan mccommon.DevicesCollectionManagerInterface) error {
+func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowStatePieceSt) (*PlantainerDataValuesSt, error) {
 	values := &PlantainerDataValuesSt{}
 	addedValues := false
 
@@ -186,9 +45,14 @@ func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStateP
 	}
 
 	if addedValues {
-		this.CreateAndSaveData(deviceDataColMan, time.Now(), values)
+		this.CreateAndSaveData(time.Now(), values)
+		return values, nil
 	}
 
+	return nil, nil
+}
+
+func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStatePieceSt) error {
 	this.Shadow.State.Reported.LightModule.ReportedUpdate(&updateData.LightModule)
 	return nil
 }
@@ -294,7 +158,7 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 	return nil
 }
 
-func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.DevicesCollectionManagerInterface, timestamp time.Time, values *PlantainerDataValuesSt) error {
+func (this *PlantainerModelSt) CreateAndSaveData(timestamp time.Time, values *PlantainerDataValuesSt) error {
 	data := NewPlantainerData()
 
 	t := time.Now()
@@ -327,70 +191,8 @@ func (this *PlantainerModelSt) CreateAndSaveData(deviceDataColMan mccommon.Devic
 	findQuery := map[string]interface{}{"deviceShadowId": data.DeviceShadowId, "ts": data.TS}
 	updateQuery := map[string]interface{}{"$set": map[string]interface{}{"values." + minuteNum + "." + secondNum: values}}
 
-	if err := deviceDataColMan.SaveData(data, findQuery, updateQuery, "devicesData"); err != nil {
+	if err := plantainerCollectionManager.SaveData(data, findQuery, updateQuery, "devicesData"); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func (this *PlantainerModelSt) ActionsOnUpdate(updateData *mccommon.DeviceShadowUpdateMsg, deviceDataColMan mccommon.DevicesWithShadowCollectionManagerInterface) error {
-	println("Plantainer ActionsOnUpdate: ")
-
-	if updateData.State.Reported != nil {
-		if (*updateData.State.Reported)["lightModule"] != nil {
-			//lightModuleData := (*updateData.State.Reported)["lightModule"].(map[string]interface{})
-			//this.LightModule.SetState(
-			//	NewLightModuleState(
-			//		this.Shadow.State.Reported["mode"].(string),
-			//		this.Shadow.State.Reported["lightLvlCheckActive"].(bool),
-			//		int(this.Shadow.State.Reported["lightLvlCheckInterval"].(float64)),
-			//		this.Shadow.State.Reported["lightIntervalsRestTimeTurnedOn"].(bool),
-			//		int(this.Shadow.State.Reported["lightIntervalsCheckingInterval"].(float64)),
-			//		this.Shadow.State.Reported["lightIntervalsArr"].([]LightModuleInterval),
-			//	),
-			//)
-			//this.LightModule.CheckOnStateUpdate(
-			//	this.Shadow.Id,
-			//	NewLightModuleState(
-			//		lightModuleData["mode"].(string),
-			//		lightModuleData["lightLvlCheckActive"].(bool),
-			//		int(lightModuleData["lightLvlCheckInterval"].(float64)),
-			//		lightModuleData["lightIntervalsRestTimeTurnedOn"].(bool),
-			//		int(lightModuleData["lightIntervalsCheckingInterval"].(float64)),
-			//		lightModuleData["lightIntervalsArr"].([]LightModuleInterval),
-			//	),
-			//)
-		}
-	}
-
-	if updateData.State.Reported != nil {
-		values := NewPlantainerDataValuesSt()
-		changed := false
-		if (*updateData.State.Reported)["irrigationModule"] != nil {
-			irrigationModuleData := (*updateData.State.Reported)["irrigationModule"].(map[string]interface{})
-			if hum, ok := irrigationModuleData["humidity"].(float64); ok == true {
-				hum := int(hum)
-				values.IrrigationModule.Humidity = hum
-				changed = true
-			}
-			if temperature, ok := irrigationModuleData["temperature"].(float64); ok == true {
-				temperature := int(temperature)
-				values.IrrigationModule.Temperature = temperature
-				changed = true
-			}
-		}
-		if (*updateData.State.Reported)["lightModule"] != nil {
-			lightModuleData := (*updateData.State.Reported)["lightModule"].(map[string]interface{})
-			if lightLvl, ok := lightModuleData["lightLvl"].(float64); ok == true {
-				lightLvl := int(lightLvl)
-				values.LightModule.LightLvl = &lightLvl
-				changed = true
-			}
-		}
-		if changed {
-			//this.CreateAndSaveData(deviceDataColMan, updateData, values)
-		}
 	}
 
 	return nil
