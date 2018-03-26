@@ -107,12 +107,11 @@ func initInnerRPCMan() {
 		deviceId := msg.RPCMsg.Src
 
 		go func() {
-			err := deviceRPCMan.Handle(respChan, msg)
+			err := cronRPCMan.Handle(respChan, msg)
 			if err != nil {
 				print("OMG ERR IN MQTT CONTROLLER")
 			}
 		}()
-
 
 		for resultSt := range respChan {
 			if resultSt.Error != nil {

@@ -4,46 +4,19 @@ import (
 	"mevericcore/mcdevicerpcmanager"
 	"mevericcore/mccommunication"
 	"mevericcore/mccommon"
-	"errors"
 )
 
 var (
-	deviceRPCMan = mcdevicerpcmanager.New()
+	cronRPCMan = mcdevicerpcmanager.New()
 )
 
-func initDeviceRPCManager() {
-	initDeviceRPCManMainRoutes()
+func initCronRPCManager() {
+	initCronRPCManMainRoutes()
 }
 
-func initDeviceRPCManMainRoutes() {
-	plantainerG := deviceRPCMan.Router.Group("#")
+func initCronRPCManMainRoutes() {
+	plantainerG := cronRPCMan.Router.Group("#")
 	shadowG := plantainerG.Group("Shadow")
-	shadowG.AddHandler("Get", func(req *mccommunication.RPCReqSt) error {
-		device := NewPlantainerModel()
-
-		if err := plantainerCollectionManager.FindByShadowId(req.Msg.ClientId, device); err != nil {
-			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Device not found", 503)
-		}
-
-		state := device.Shadow.State
-
-		res := &map[string]interface{}{
-			"state": state,
-		}
-
-		deviceRPCMan.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
-
-		state.FillDelta()
-
-		if state.Delta != nil {
-			deviceRPCMan.SendReq(req.Channel, req.Msg.ClientId + ".Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
-				"state": state.Delta,
-				"version": device.Shadow.Metadata.Version,
-			})
-		}
-
-		return nil
-	})
 	shadowG.AddHandler("Update", func(req *mccommunication.RPCReqSt) error {
 		device := NewPlantainerModel()
 
@@ -93,10 +66,6 @@ func initDeviceRPCManMainRoutes() {
 			device.ReportedUpdate(updateData.State.Reported)
 			shadow.IncrementVersion()
 		} else if updateData.State.Desired != nil {
-			if !shadow.CheckVersion(updateData.Version) {
-				err := errors.New("version wrong")
-				return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
-			}
 			device.DesiredUpdate(updateData.State.Desired)
 			shadow.IncrementVersion()
 		}

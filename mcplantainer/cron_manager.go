@@ -94,12 +94,6 @@ func (cr *DeviceCronManagerSt) subInnerRPC() {
 func (cr *DeviceCronManagerSt) Init() error {
 	cr.subInnerRPC()
 
-	//testCr := cron.New()
-	//testCr.AddFunc("@every 5s", func() {
-	//	fmt.Printf("Test cron /n")
-	//})
-	//testCr.Start()
-
 	// . Go through DB and Get all Plantainers
 	plantainers := PlantainersList{}
 	if err := plantainerCollectionManager.FindAllModels(&bson.M{"type": "plantainer"}, &plantainers); err != nil {
