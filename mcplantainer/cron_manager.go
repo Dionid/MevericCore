@@ -5,6 +5,8 @@ import (
 	"mevericcore/mcinnerrpc"
 	"mevericcore/mccommunication"
 	"gopkg.in/mgo.v2/bson"
+	"fmt"
+	"time"
 )
 
 type CronSetterFn func(devId string, lightModuleC *cron.Cron) error
@@ -60,6 +62,7 @@ func (cr *DeviceCronManagerSt) StopModuleCron(devId string, moduleName string) {
 func (cr *DeviceCronManagerSt) StartModuleCron(devId string, moduleName string) {
 	module := cr.CronByDeviceId[devId].ModulesCron[moduleName]
 	module.CronSetter(devId, module.Cron)
+	module.Cron.Start()
 }
 
 func (cr *DeviceCronManagerSt) subInnerRPC() {
@@ -73,16 +76,16 @@ func (cr *DeviceCronManagerSt) subInnerRPC() {
 
 		args := rpcData.Args.(map[string]interface{})
 		devId := args["deviceId"].(string)
-		modules := args["modules"].([]string)
+		modules := args["modules"].([]interface{})
 
 		switch rpcData.Method {
 		case "DeviceCron.Plantainer.RPC.Stop":
 			for _, name := range modules {
-				cr.StopModuleCron(devId, name)
+				cr.StopModuleCron(devId, name.(string))
 			}
 		case "DeviceCron.Plantainer.RPC.Reset":
 			for _, name := range modules {
-				cr.ResetModuleCron(devId, name)
+				cr.ResetModuleCron(devId, name.(string))
 			}
 		}
 	})
@@ -91,11 +94,19 @@ func (cr *DeviceCronManagerSt) subInnerRPC() {
 func (cr *DeviceCronManagerSt) Init() error {
 	cr.subInnerRPC()
 
+	//testCr := cron.New()
+	//testCr.AddFunc("@every 5s", func() {
+	//	fmt.Printf("Test cron /n")
+	//})
+	//testCr.Start()
+
 	// . Go through DB and Get all Plantainers
 	plantainers := PlantainersList{}
 	if err := plantainerCollectionManager.FindAllModels(&bson.M{"type": "plantainer"}, &plantainers); err != nil {
 		return err
 	}
+
+	fmt.Printf(time.Now().String())
 
 	// . Check all States and set timers
 	for _, plantainer := range plantainers {

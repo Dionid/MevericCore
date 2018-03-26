@@ -4,6 +4,8 @@ import (
 	"mevericcore/mcmodules/mclightmodule"
 	"github.com/robfig/cron"
 	"mevericcore/mccommunication"
+	"strconv"
+	"fmt"
 )
 
 type PlantainerLightModuleStateSt struct {
@@ -38,35 +40,42 @@ func (this *PlantainerLightModuleStateSt) SetCronTasks(deviceId string, cron *cr
 		return
 	}
 	for _, interval := range *this.LightIntervalsArr {
-		cron.AddFunc("* " + string(interval.FromTimeMinutes) + " " + string(interval.FromTimeHours) + " * * *", func() {
+		fromCrString := "0 " + strconv.Itoa(interval.FromTimeMinutes) + " " + strconv.Itoa(interval.FromTimeHours) + " * * *"
+		cron.AddFunc(fromCrString, func() {
 			// ToDo: change Method to normal way
+			fmt.Println("Cron " + strconv.Itoa(interval.FromTimeMinutes))
 			rpcMsg := &mccommunication.RPCMsg{
 				Src: deviceId,
 				Dst: PlantainerServerId,
 				Method: deviceId + ".Shadow.Update",
 				Args: map[string]interface{}{
 					"state": map[string]interface{}{
-						"reported": PlantainerLightModuleStateSt{
-							mclightmodule.LightModuleStateSt{
-								LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
-									LightTurnedOn: &interval.TurnedOn,
+						"desired": map[string]interface{}{
+							"lightModule": PlantainerLightModuleStateSt{
+								mclightmodule.LightModuleStateSt{
+									LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
+										LightTurnedOn: &interval.TurnedOn,
+									},
 								},
 							},
 						},
 					},
 				},
 			}
+			bData, _ := rpcMsg.MarshalJSON()
 			req := &mccommunication.ClientToServerRPCReqSt{
 				ClientToServerReqSt: mccommunication.ClientToServerReqSt{
 					ClientId: deviceId,
 					Protocol: "Cron",
+					Msg: &bData,
 				},
 				RPCMsg: rpcMsg,
 			}
 			// ToDo: CHANGE THIS SHIT FROM ClientToServerRPCReqSt TO RPCMsg
 			innerRPCMan.PublishClientToServerRPCReq("Devices.Plantainer.Cron.Task.Exec", req)
 		})
-		cron.AddFunc("* " + string(interval.ToTimeMinutes) + " " + string(interval.ToTimeHours) + " * * *", func() {
+		toCrStr := "0 " + strconv.Itoa(interval.ToTimeMinutes) + " " + strconv.Itoa(interval.ToTimeHours) + " * * *"
+		cron.AddFunc(toCrStr, func() {
 			// ToDo: change Method to normal way
 			rpcMsg := &mccommunication.RPCMsg{
 				Src: deviceId,
@@ -74,20 +83,24 @@ func (this *PlantainerLightModuleStateSt) SetCronTasks(deviceId string, cron *cr
 				Method: deviceId + ".Shadow.Update",
 				Args: map[string]interface{}{
 					"state": map[string]interface{}{
-						"reported": PlantainerLightModuleStateSt{
-							mclightmodule.LightModuleStateSt{
-								LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
-									LightTurnedOn: this.LightIntervalsRestTimeTurnedOn,
+						"desired": map[string]interface{}{
+							"lightModule": PlantainerLightModuleStateSt{
+								mclightmodule.LightModuleStateSt{
+									LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
+										LightTurnedOn: this.LightIntervalsRestTimeTurnedOn,
+									},
 								},
 							},
 						},
 					},
 				},
 			}
+			bData, _ := rpcMsg.MarshalJSON()
 			req := &mccommunication.ClientToServerRPCReqSt{
 				ClientToServerReqSt: mccommunication.ClientToServerReqSt{
 					ClientId: deviceId,
 					Protocol: "Cron",
+					Msg: &bData,
 				},
 				RPCMsg: rpcMsg,
 			}
@@ -99,7 +112,7 @@ func (this *PlantainerLightModuleStateSt) SetCronTasks(deviceId string, cron *cr
 func (this *PlantainerLightModuleStateSt) CheckAfterShadowUpdate(deviceId string, oldState *PlantainerLightModuleStateSt) {
 	needToResetTimers := false
 	needToStopTimers := false
-	if oldState.Mode != this.Mode {
+	if *oldState.Mode != *this.Mode {
 		switch *this.Mode {
 		case mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode]:
 			// Reset timers
@@ -158,6 +171,7 @@ func (this *PlantainerLightModuleStateSt) ReportedUpdate(newState *PlantainerLig
 	}
 
 	if newState.LightIntervalsArr != nil {
+		// Todo: add validation
 		this.LightIntervalsArr = newState.LightIntervalsArr
 	}
 

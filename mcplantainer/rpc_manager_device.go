@@ -4,7 +4,7 @@ import (
 	"mevericcore/mcdevicerpcmanager"
 	"mevericcore/mccommunication"
 	"mevericcore/mccommon"
-	"errors"
+	//"errors"
 )
 
 var (
@@ -88,23 +88,25 @@ func initDeviceRPCManMainRoutes() {
 		if updateData.State.Reported != nil && updateData.State.Desired != nil {
 			device.DesiredUpdate(updateData.State.Desired)
 			device.ReportedUpdate(updateData.State.Reported)
-			device.CheckAfterShadowReportedUpdate(&oldShadow)
 			shadow.IncrementVersion()
 		} else if updateData.State.Reported != nil {
 			device.ReportedUpdate(updateData.State.Reported)
-			device.CheckAfterShadowReportedUpdate(&oldShadow)
 			shadow.IncrementVersion()
 		} else if updateData.State.Desired != nil {
-			if !shadow.CheckVersion(updateData.Version) {
-				err := errors.New("version wrong")
-				return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
-			}
+			//if !shadow.CheckVersion(updateData.Version) {
+			//	err := errors.New("version wrong")
+			//	return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
+			//}
 			device.DesiredUpdate(updateData.State.Desired)
 			shadow.IncrementVersion()
 		}
 
 		if err := plantainerCollectionManager.SaveModel(device); err != nil {
 			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
+		}
+
+		if updateData.State.Reported != nil {
+			device.CheckAfterShadowReportedUpdate(&oldShadow)
 		}
 
 		deviceRPCMan.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, &map[string]interface{}{

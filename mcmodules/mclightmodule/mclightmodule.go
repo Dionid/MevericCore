@@ -2,8 +2,8 @@ package mclightmodule
 
 //import "time"
 
-var LightModuleModeManual = "Manual"
-var LightModuleModeLightServerIntervalsTimerMode = "LightServerIntervalsTimerMode"
+var LightModuleModeManual = "manual"
+var LightModuleModeLightServerIntervalsTimerMode = "lightServerIntervalsTimerMode"
 
 var LightModuleModes = map[string]string{
 	LightModuleModeManual:                        "manual",
