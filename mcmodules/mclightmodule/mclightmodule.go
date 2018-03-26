@@ -26,7 +26,6 @@ type LightModuleStateDataSt struct {
 type LightModuleStateSt struct {
 	LightModuleStateDataSt                 `bson:",inline"`
 	Mode                                   *string                `bson:"mode,omitempty"`
-	LightTurnedOn                          *bool                  `bson:"lightTurnedOn,omitempty"`
 	LightLvlCheckActive                    *bool                  `bson:"lightLvlCheckActive,omitempty"`
 	LightLvlCheckInterval                  *int                   `bson:"lightLvlCheckInterval,omitempty"`
 	LightLvlCheckLastIntervalCallTimestamp *int                   `bson:"lightLvlCheckLastIntervalCallTimestamp,omitempty"`
@@ -37,8 +36,10 @@ type LightModuleStateSt struct {
 
 func NewLightModuleState(mode string, lightTurnedOn bool, lightLvlCheckActive bool, lightLvlCheckInterval int, lightIntervalsRestTimeTurnedOn bool, lightIntervalsCheckingInterval int, lightIntervalsArr []LightModuleInterval) *LightModuleStateSt {
 	return &LightModuleStateSt{
+		LightModuleStateDataSt: LightModuleStateDataSt{
+			LightTurnedOn:                  &lightTurnedOn,
+		},
 		Mode:                           &mode,
-		LightTurnedOn:                  &lightTurnedOn,
 		LightLvlCheckActive:            &lightLvlCheckActive,
 		LightLvlCheckInterval:          &lightLvlCheckInterval,
 		LightIntervalsArr:              &lightIntervalsArr,
@@ -56,8 +57,10 @@ func NewLightModuleStateWithDefault() *LightModuleStateSt {
 	lightIntervalsRestTimeTurnedOn := false
 	lightIntervalsCheckingInterval := 20000
 	return &LightModuleStateSt{
+		LightModuleStateDataSt: LightModuleStateDataSt{
+			LightTurnedOn:                  &lightTurnedOn,
+		},
 		Mode:                           &mode,
-		LightTurnedOn:                  &lightTurnedOn,
 		LightLvlCheckActive:            &lightLvlCheckActive,
 		LightLvlCheckInterval:          &lightLvlCheckInterval,
 		LightIntervalsArr:              &lightIntervalsArr,

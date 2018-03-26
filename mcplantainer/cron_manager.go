@@ -4,6 +4,7 @@ import (
 	"github.com/robfig/cron"
 	"mevericcore/mcinnerrpc"
 	"mevericcore/mccommunication"
+	"gopkg.in/mgo.v2/bson"
 )
 
 type CronSetterFn func(devId string, lightModuleC *cron.Cron) error
@@ -26,36 +27,42 @@ type DeviceCronInterface interface {
 }
 
 // This manager is used in Hub to check operations that needs to be done
-type DeviceCronManager struct {
+type DeviceCronManagerSt struct {
 	CronByDeviceId map[string]*DeviceCronSt
 }
 
-func (cr *DeviceCronManager) AddCron(devId string, c *DeviceCronSt) {
+func NewDeviceCronManager() *DeviceCronManagerSt {
+	return &DeviceCronManagerSt{
+		map[string]*DeviceCronSt{},
+	}
+}
+
+func (cr *DeviceCronManagerSt) AddCron(devId string, c *DeviceCronSt) {
 	cr.CronByDeviceId[devId] = c
 }
 
-func (cr *DeviceCronManager) StartAllDeviceCrons(devId string) {
+func (cr *DeviceCronManagerSt) StartAllDeviceCrons(devId string) {
 	for _, cSt := range cr.CronByDeviceId[devId].ModulesCron {
 		cSt.CronSetter(devId, cSt.Cron)
 		cSt.Cron.Start()
 	}
 }
 
-func (cr *DeviceCronManager) ResetModuleCron(devId string, moduleName string) {
+func (cr *DeviceCronManagerSt) ResetModuleCron(devId string, moduleName string) {
 	cr.StopModuleCron(devId, moduleName)
 	cr.StartModuleCron(devId, moduleName)
 }
 
-func (cr *DeviceCronManager) StopModuleCron(devId string, moduleName string) {
+func (cr *DeviceCronManagerSt) StopModuleCron(devId string, moduleName string) {
 	cr.CronByDeviceId[devId].ModulesCron[moduleName].Cron.Stop()
 }
 
-func (cr *DeviceCronManager) StartModuleCron(devId string, moduleName string) {
+func (cr *DeviceCronManagerSt) StartModuleCron(devId string, moduleName string) {
 	module := cr.CronByDeviceId[devId].ModulesCron[moduleName]
 	module.CronSetter(devId, module.Cron)
 }
 
-func (cr *DeviceCronManager) subInnerRPC() {
+func (cr *DeviceCronManagerSt) subInnerRPC() {
 	// . Subscribe for tasks
 	innerRPCMan.Service.Subscribe("DeviceCron.Plantainer.RPC", func(msg *mcinnerrpc.Msg) {
 		rpcData := mccommunication.RPCMsg{}
@@ -81,12 +88,12 @@ func (cr *DeviceCronManager) subInnerRPC() {
 	})
 }
 
-func (cr *DeviceCronManager) Init() error {
+func (cr *DeviceCronManagerSt) Init() error {
 	cr.subInnerRPC()
 
 	// . Go through DB and Get all Plantainers
 	plantainers := PlantainersList{}
-	if err := plantainerCollectionManager.FindAllModels(nil, &plantainers); err != nil {
+	if err := plantainerCollectionManager.FindAllModels(&bson.M{"type": "plantainer"}, &plantainers); err != nil {
 		return err
 	}
 

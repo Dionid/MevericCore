@@ -57,6 +57,10 @@ func initCollections(session *mgo.Session) {
 	plantainerCollectionManager.Init(session, mainDBName)
 }
 
+var (
+	deviceCronManager = NewDeviceCronManager()
+)
+
 func Init() {
 	// 1. Init MongoDB session
 	session := initMongoDbConnection()
@@ -75,6 +79,8 @@ func Init() {
 	initDeviceRPCManager()
 
 	initMQTT()
+
+	deviceCronManager.Init()
 
 	e.Logger.Fatal(e.Start("localhost:3001"))
 }

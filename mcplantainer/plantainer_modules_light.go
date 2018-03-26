@@ -20,73 +20,16 @@ func NewPlLightModuleStateWithDefaultsSt() *PlantainerLightModuleStateSt {
 	lightIntervalsCheckingInterval := 20000
 	return &PlantainerLightModuleStateSt{
 		mclightmodule.LightModuleStateSt{
+			LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
+				LightTurnedOn:                  &lightTurnedOn,
+			},
 			Mode: &mode,
-			LightTurnedOn: &lightTurnedOn,
 			LightLvlCheckActive: &lightLvlCheckActive,
 			LightLvlCheckInterval: &lightLvlCheckInterval,
 			LightIntervalsArr: &lightIntervalsArr,
 			LightIntervalsRestTimeTurnedOn: &lightIntervalsRestTimeTurnedOn,
 			LightIntervalsCheckingInterval: &lightIntervalsCheckingInterval,
 		},
-	}
-}
-
-func (this *PlantainerLightModuleStateSt) GetCronJobs(deviceId string, cron *cron.Cron) {
-	if *this.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
-		return
-	}
-	for _, interval := range *this.LightIntervalsArr {
-		cron.AddFunc("* " + string(interval.FromTimeMinutes) + " " + string(interval.FromTimeHours) + " * * *", func() {
-			// ToDo: change Method to normal way
-			rpcMsg := &mccommunication.RPCMsg{
-				Src: deviceId,
-				Dst: PlantainerServerId,
-				Method: deviceId + ".Shadow.Update",
-				Args: map[string]interface{}{
-					"state": map[string]interface{}{
-						"reported": PlantainerLightModuleStateSt{
-							mclightmodule.LightModuleStateSt{
-								LightTurnedOn: &interval.TurnedOn,
-							},
-						},
-					},
-				},
-			}
-			req := &mccommunication.ClientToServerRPCReqSt{
-				ClientToServerReqSt: mccommunication.ClientToServerReqSt{
-					ClientId: deviceId,
-					Protocol: "Cron",
-				},
-				RPCMsg: rpcMsg,
-			}
-			// ToDo: CHANGE THIS SHIT FROM ClientToServerRPCReqSt TO RPCMsg
-			innerRPCMan.PublishClientToServerRPCReq("Devices.Plantainer.Cron.Task.Exec", req)
-		})
-		cron.AddFunc("* " + string(interval.ToTimeMinutes) + " " + string(interval.ToTimeHours) + " * * *", func() {
-			// ToDo: change Method to normal way
-			rpcMsg := &mccommunication.RPCMsg{
-				Src: deviceId,
-				Dst: PlantainerServerId,
-				Method: deviceId + ".Shadow.Update",
-				Args: map[string]interface{}{
-					"state": map[string]interface{}{
-						"reported": PlantainerLightModuleStateSt{
-							mclightmodule.LightModuleStateSt{
-								LightTurnedOn: this.LightIntervalsRestTimeTurnedOn,
-							},
-						},
-					},
-				},
-			}
-			req := &mccommunication.ClientToServerRPCReqSt{
-				ClientToServerReqSt: mccommunication.ClientToServerReqSt{
-					ClientId: deviceId,
-					Protocol: "Cron",
-				},
-				RPCMsg: rpcMsg,
-			}
-			innerRPCMan.PublishClientToServerRPCReq("Devices.Plantainer.Cron.Task.Exec", req)
-		})
 	}
 }
 
@@ -105,7 +48,9 @@ func (this *PlantainerLightModuleStateSt) SetCronTasks(deviceId string, cron *cr
 					"state": map[string]interface{}{
 						"reported": PlantainerLightModuleStateSt{
 							mclightmodule.LightModuleStateSt{
-								LightTurnedOn: &interval.TurnedOn,
+								LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
+									LightTurnedOn: &interval.TurnedOn,
+								},
 							},
 						},
 					},
@@ -131,7 +76,9 @@ func (this *PlantainerLightModuleStateSt) SetCronTasks(deviceId string, cron *cr
 					"state": map[string]interface{}{
 						"reported": PlantainerLightModuleStateSt{
 							mclightmodule.LightModuleStateSt{
-								LightTurnedOn: this.LightIntervalsRestTimeTurnedOn,
+								LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
+									LightTurnedOn: this.LightIntervalsRestTimeTurnedOn,
+								},
 							},
 						},
 					},
