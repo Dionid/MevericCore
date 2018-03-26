@@ -63,13 +63,15 @@ type RPCTasksManagerSt struct {
 	ColManager *RPCTaskCollectionsManagerSt
 }
 
-func NewTasksManager() *RPCTasksManagerSt {
+func NewRPCTasksManager() *RPCTasksManagerSt {
 	return &RPCTasksManagerSt{
 		NewTaskCollectionsManager(),
 	}
 }
 
-func (this *RPCTasksManagerSt) AddNewTask(rpcMsg *mccommunication.RPCMsg, execTime time.Time, ) {
+var RPCTasksManager = NewRPCTasksManager()
+
+func (this *RPCTasksManagerSt) AddNewTask(rpcMsg *mccommunication.RPCMsg, execTime time.Time, secondsCheck bool, hoursCheck bool, daysCheck bool) {
 
 }
 

@@ -8,6 +8,7 @@ import (
 	"tztatom/tztcore"
 	"gopkg.in/mgo.v2/bson"
 	"mevericcore/mcmodules/mclightmodule"
+	"github.com/robfig/cron"
 )
 
 type PlantainerCustomData struct {
@@ -32,6 +33,10 @@ func NewPlantainerModel() *PlantainerModelSt {
 	return &PlantainerModelSt{}
 }
 
+func (this *PlantainerModelSt) CheckAfterShadowReportedUpdate(oldShadow *PlantainerShadowSt) {
+	this.Shadow.State.Reported.LightModule.CheckAfterShadowUpdate(this.Shadow.Id,&oldShadow.State.Reported.LightModule)
+}
+
 func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowStatePieceSt) (*PlantainerDataValuesSt, error) {
 	values := &PlantainerDataValuesSt{}
 	addedValues := false
@@ -40,7 +45,15 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 		if values.LightModule == nil {
 			values.LightModule = &mclightmodule.LightModuleStateDataSt{}
 		}
-		values.LightModule.LightLvl = updateData.LightModule.LightLvl
+		//fmt.Printf("%+v\n", updateData.LightModule)
+		v := updateData.LightModule.LightLvl
+		if v != nil{
+			values.LightModule.LightLvl = v
+		}
+		vB := updateData.LightModule.LightTurnedOn
+		if v != nil{
+			values.LightModule.LightTurnedOn = vB
+		}
 		addedValues = true
 	}
 
@@ -54,6 +67,14 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 
 func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStatePieceSt) error {
 	this.Shadow.State.Reported.LightModule.ReportedUpdate(&updateData.LightModule)
+	return nil
+}
+
+func (this *PlantainerModelSt) DesiredUpdate(updateData *PlantainerShadowStatePieceSt) error {
+	if this.Shadow.State.Desired == nil {
+		this.Shadow.State.Desired = &PlantainerShadowStatePieceSt{}
+	}
+	this.Shadow.State.Desired.LightModule.DesiredUpdate(&updateData.LightModule.LightModuleStateSt)
 	return nil
 }
 
@@ -145,7 +166,7 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 		tztcore.RandString(13),
 		PlantainerShadowStateSt{
 			PlantainerShadowStatePieceSt{
-				*NewPlantainerLightModuleStateSt(),
+				*NewPlLightModuleStateWithDefaultsSt(),
 			},
 			nil,
 			nil,

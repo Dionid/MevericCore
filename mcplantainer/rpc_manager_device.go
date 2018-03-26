@@ -61,6 +61,7 @@ func initDeviceRPCManMainRoutes() {
 		updateData := updateRpcMsg.Args
 		shadow := &device.Shadow
 		state := &device.Shadow.State
+		oldShadow := device.Shadow
 
 		// Save Data and send it to User
 		if updateData.State.Reported != nil {
@@ -85,24 +86,20 @@ func initDeviceRPCManMainRoutes() {
 
 		// Change State
 		if updateData.State.Reported != nil && updateData.State.Desired != nil {
-			if state.Desired == nil {
-				state.Desired = &PlantainerShadowStatePieceSt{}
-			}
-			state.Desired.LightModule.DesiredUpdate(&updateData.State.Desired.LightModule)
+			device.DesiredUpdate(updateData.State.Desired)
 			device.ReportedUpdate(updateData.State.Reported)
+			device.CheckAfterShadowReportedUpdate(&oldShadow)
 			shadow.IncrementVersion()
 		} else if updateData.State.Reported != nil {
 			device.ReportedUpdate(updateData.State.Reported)
+			device.CheckAfterShadowReportedUpdate(&oldShadow)
 			shadow.IncrementVersion()
 		} else if updateData.State.Desired != nil {
 			if !shadow.CheckVersion(updateData.Version) {
 				err := errors.New("version wrong")
 				return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
 			}
-			if state.Desired == nil {
-				state.Desired = &PlantainerShadowStatePieceSt{}
-			}
-			state.Desired.LightModule.DesiredUpdate(&updateData.State.Desired.LightModule)
+			device.DesiredUpdate(updateData.State.Desired)
 			shadow.IncrementVersion()
 		}
 

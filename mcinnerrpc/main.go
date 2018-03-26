@@ -2,6 +2,7 @@ package mcinnerrpc
 
 import (
 	"github.com/nats-io/go-nats"
+	"mevericcore/mccommunication"
 )
 
 type Msg struct {
@@ -47,6 +48,22 @@ type InnerRPCManSt struct {
 
 func New() *InnerRPCManSt {
 	return &InnerRPCManSt{}
+}
+
+func (this *InnerRPCManSt) PublishRPC(subj string, data *mccommunication.RPCMsg) error {
+	if bData, err := data.MarshalJSON(); err != nil {
+		return err
+	} else {
+		return this.Service.Publish(subj, bData)
+	}
+}
+
+func (this *InnerRPCManSt) PublishClientToServerRPCReq(subj string, data *mccommunication.ClientToServerRPCReqSt) error {
+	if bData, err := data.MarshalJSON(); err != nil {
+		return err
+	} else {
+		return this.Service.Publish(subj, bData)
+	}
 }
 
 func (this *InnerRPCManSt) Init() {

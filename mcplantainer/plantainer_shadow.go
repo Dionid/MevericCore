@@ -13,7 +13,7 @@ type PlantainerShadowStatePieceSt struct {
 
 func NewPlantainerShadowStatePiece() *PlantainerShadowStatePieceSt {
 	return &PlantainerShadowStatePieceSt{
-		*NewPlantainerLightModuleStateSt(),
+		*NewPlLightModuleStateWithDefaultsSt(),
 	}
 }
 

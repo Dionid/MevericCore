@@ -19,7 +19,8 @@ type LightModuleInterval struct {
 }
 
 type LightModuleStateDataSt struct {
-	LightLvl *int `bson:"lightLvl,omitempty"`
+	LightTurnedOn *bool `bson:"lightTurnedOn,omitempty" json:"lightTurnedOn,omitempty"`
+	LightLvl *int `bson:"lightLvl,omitempty" json:"lightLvl,omitempty"`
 }
 
 type LightModuleStateSt struct {
@@ -63,6 +64,32 @@ func NewLightModuleStateWithDefault() *LightModuleStateSt {
 		LightIntervalsRestTimeTurnedOn: &lightIntervalsRestTimeTurnedOn,
 		LightIntervalsCheckingInterval: &lightIntervalsCheckingInterval,
 	}
+}
+
+func (this *LightModuleStateSt) DesiredUpdate(newState *LightModuleStateSt) error {
+	if newState.Mode != nil {
+		this.Mode = newState.Mode
+	}
+	if newState.LightTurnedOn != nil {
+		this.LightTurnedOn = newState.LightTurnedOn
+	}
+	if newState.LightLvlCheckActive != nil {
+		this.LightLvlCheckActive = newState.LightLvlCheckActive
+	}
+	if newState.LightLvlCheckInterval != nil {
+		this.LightLvlCheckInterval = newState.LightLvlCheckInterval
+	}
+	if newState.LightIntervalsArr != nil {
+		// ToDo: Add validation of intervals quality
+		this.LightIntervalsArr = newState.LightIntervalsArr
+	}
+	if newState.LightIntervalsRestTimeTurnedOn != nil {
+		this.LightIntervalsRestTimeTurnedOn = newState.LightIntervalsRestTimeTurnedOn
+	}
+	if newState.LightIntervalsCheckingInterval != nil {
+		this.LightIntervalsCheckingInterval = newState.LightIntervalsCheckingInterval
+	}
+	return nil
 }
 
 func (this *LightModuleStateSt) ReportedUpdate(newState *LightModuleStateSt) {

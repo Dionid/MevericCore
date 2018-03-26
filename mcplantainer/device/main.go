@@ -10,6 +10,7 @@ import (
 	"mevericcore/mcplantainer/common"
 	"mevericcore/mccommon"
 	"mevericcore/mcinnerrpc"
+	"mevericcore/mccommunication"
 )
 
 var (
@@ -33,7 +34,7 @@ func Init(dbsession *mgo.Session, dbName string) {
 func InitInnerRPCManager() {
 	InnerRPCMan.Init()
 	InnerRPCMan.Service.Subscribe("Device.RPC.Send", func(msg *mcinnerrpc.Msg) {
-		rpcData := mccommon.RPCMsg{}
+		rpcData := mccommunication.RPCMsg{}
 
 		if err := rpcData.UnmarshalJSON(msg.Data); err != nil {
 			return
