@@ -1,11 +1,11 @@
 package mcplantainer
 
 import (
-	"mevericcore/mcdevicemqttmanager"
-	"mevericcore/mcmqttrouter"
+	"mevericcore/mclibs/mcdevicemqttmanager"
+	"mevericcore/mclibs/mcmqttrouter"
 	"github.com/eclipse/paho.mqtt.golang"
 	"fmt"
-	"mevericcore/mccommunication"
+	"mevericcore/mclibs/mccommunication"
 )
 
 var (

@@ -1,10 +1,10 @@
 package mcdashboard_old
 
 import (
-	"mevericcore/mcecho"
+	"mevericcore/mclibs/mcecho"
 	"github.com/labstack/echo"
 	"net/http"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mccommon"
 	"fmt"
 )
 

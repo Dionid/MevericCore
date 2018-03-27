@@ -1,10 +1,10 @@
 package mcuserrpcmanager_old
 
 import (
-	"mevericcore/mcws"
+	"mevericcore/mclibs/mcws"
 	"github.com/labstack/echo"
-	"mevericcore/mccommon"
-	"mevericcore/mcinnerrpc"
+	"mevericcore/mclibs/mccommon"
+	"mevericcore/mclibs/mcinnerrpc"
 )
 
 var (

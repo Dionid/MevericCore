@@ -1,11 +1,11 @@
 package mcdashboard
 
 import (
-	"mevericcore/mcuserrpcmanager"
+	"mevericcore/mclibs/mcuserrpcmanager"
 	"github.com/dgrijalva/jwt-go"
 	"time"
-	"mevericcore/mcws"
-	"mevericcore/mccommunication"
+	"mevericcore/mclibs/mcws"
+	"mevericcore/mclibs/mccommunication"
 )
 
 var (

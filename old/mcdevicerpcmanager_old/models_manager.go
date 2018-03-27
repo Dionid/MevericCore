@@ -1,7 +1,7 @@
 package mcdevicerpcmanager_old
 
 import (
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mccommon"
 	"strings"
 	"gopkg.in/mgo.v2/bson"
 )

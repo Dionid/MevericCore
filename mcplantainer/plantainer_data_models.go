@@ -1,7 +1,7 @@
 package mcplantainer
 
 import (
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mccommon"
 	"gopkg.in/mgo.v2"
 	"mevericcore/mcmodules/mclightmodule"
 )

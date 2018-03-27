@@ -2,7 +2,7 @@ package mcrpcmanager
 
 
 import (
-	"mevericcore/mccommunication"
+	"mevericcore/mclibs/mccommunication"
 	"mevericcore/mclibs/mcrpcrouter"
 )
 

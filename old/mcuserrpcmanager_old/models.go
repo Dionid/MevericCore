@@ -1,6 +1,6 @@
 package mcuserrpcmanager_old
 
-import "mevericcore/mcws"
+import "mevericcore/mclibs/mcws"
 
 // easyjson:json
 type WsAuthRPCReqSt struct {

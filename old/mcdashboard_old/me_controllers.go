@@ -1,7 +1,7 @@
 package mcdashboard_old
 
 import (
-	"mevericcore/mcecho"
+	"mevericcore/mclibs/mcecho"
 	"github.com/labstack/echo"
 	"github.com/dgrijalva/jwt-go"
 	"net/http"

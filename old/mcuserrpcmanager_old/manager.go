@@ -1,8 +1,8 @@
 package mcuserrpcmanager_old
 
 import (
-	"mevericcore/mcws"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mcws"
+	"mevericcore/mclibs/mccommon"
 	"github.com/labstack/echo"
 	"net/http"
 	"github.com/dgrijalva/jwt-go"

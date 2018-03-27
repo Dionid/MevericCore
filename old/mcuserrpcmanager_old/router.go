@@ -1,7 +1,7 @@
 package mcuserrpcmanager_old
 
 import (
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mccommon"
 	"fmt"
 	"errors"
 )

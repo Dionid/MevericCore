@@ -1,9 +1,9 @@
 package mcplantainer
 
 import (
-	"mevericcore/mcuserrpcmanager"
-	"mevericcore/mccommunication"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mcuserrpcmanager"
+	"mevericcore/mclibs/mccommunication"
+	"mevericcore/mclibs/mccommon"
 	"gopkg.in/mgo.v2/bson"
 )
 

@@ -4,9 +4,9 @@ import (
 	"github.com/labstack/echo"
 	"net/http"
 	"github.com/gorilla/websocket"
-	"mevericcore/mcws"
+	"mevericcore/mclibs/mcws"
 	"fmt"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mccommon"
 )
 
 var (

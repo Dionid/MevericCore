@@ -2,7 +2,7 @@ package mcplantainer
 
 import (
 	"mevericcore/mcmodules/mclightmodule"
-	"mevericcore/mccommunication"
+	"mevericcore/mclibs/mccommunication"
 )
 
 type PlantainerLightModuleStateSt struct {

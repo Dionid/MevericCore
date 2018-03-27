@@ -1,9 +1,9 @@
 package mcuserrpcmanager_old
 
 import (
-	"mevericcore/mcecho"
-	"mevericcore/mcws"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mcecho"
+	"mevericcore/mclibs/mcws"
+	"mevericcore/mclibs/mccommon"
 	"github.com/labstack/echo"
 	"net/http"
 	"fmt"

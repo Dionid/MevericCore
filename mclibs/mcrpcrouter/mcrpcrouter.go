@@ -3,7 +3,7 @@ package mcrpcrouter
 import (
 	"fmt"
 	"errors"
-	"mevericcore/mccommunication"
+	"mevericcore/mclibs/mccommunication"
 	"strings"
 )
 

@@ -1,8 +1,8 @@
 package mcplantainer
 
 import (
-	"mevericcore/mcdevicerpcmanager"
-	"mevericcore/mccommunication"
+	"mevericcore/mclibs/mcdevicerpcmanager"
+	"mevericcore/mclibs/mccommunication"
 	"errors"
 )
 

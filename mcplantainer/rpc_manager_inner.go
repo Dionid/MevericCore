@@ -1,8 +1,8 @@
 package mcplantainer
 
 import (
-	"mevericcore/mccommunication"
-	"mevericcore/mcinnerrpc"
+	"mevericcore/mclibs/mccommunication"
+	"mevericcore/mclibs/mcinnerrpc"
 	"fmt"
 )
 

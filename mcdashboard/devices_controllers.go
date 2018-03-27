@@ -1,7 +1,7 @@
 package mcdashboard
 
 import (
-	"mevericcore/mcecho"
+	"mevericcore/mclibs/mcecho"
 	"github.com/labstack/echo"
 	"net/http"
 )

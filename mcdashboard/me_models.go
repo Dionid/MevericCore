@@ -1,7 +1,7 @@
 package mcdashboard
 
 import (
-	"mevericcore/mcmongo"
+	"mevericcore/mclibs/mcmongo"
 	"gopkg.in/mgo.v2/bson"
 )
 

@@ -4,7 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"mevericcore/mcdashboard_old"
+	"mevericcore/old/mcdashboard_old"
 )
 
 var (

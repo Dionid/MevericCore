@@ -7,7 +7,7 @@ import (
 	"time"
 	"mevericcore/mcmodules/mclightmodule"
 	"strconv"
-	"mevericcore/mccommunication"
+	"mevericcore/mclibs/mccommunication"
 )
 
 // This manager is used in Hub to check operations that needs to be done

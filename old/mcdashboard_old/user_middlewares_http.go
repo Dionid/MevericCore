@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/dgrijalva/jwt-go"
 	"net/http"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mccommon"
 )
 
 func GetUserMiddleWare(next echo.HandlerFunc) echo.HandlerFunc {

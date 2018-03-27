@@ -1,9 +1,9 @@
 package mcdashboard
 
 import (
-	"mevericcore/mcecho"
+	"mevericcore/mclibs/mcecho"
 	"github.com/labstack/echo"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mccommon"
 	"net/http"
 	"github.com/dgrijalva/jwt-go"
 	"time"

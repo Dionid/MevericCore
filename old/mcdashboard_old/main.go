@@ -2,12 +2,12 @@ package mcdashboard_old
 
 import (
 	"gopkg.in/mgo.v2"
-	"mevericcore/mcws"
+	"mevericcore/mclibs/mcws"
 	"github.com/labstack/echo"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/middleware"
-	"mevericcore/mcecho"
+	"mevericcore/mclibs/mcecho"
 )
 
 var (

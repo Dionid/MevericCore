@@ -2,11 +2,118 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="881e5201-14e1-4691-ab10-7c4b95d047ed" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/main/main.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/data_collection.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/data_collection.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/data_models.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/data_models.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/device_collection.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/device_collection.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/device_models.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/device_models.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/device_models_base.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/device_models_base.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/device_models_base_easyjson.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/device_models_base_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/device_models_easyjson.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/device_models_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/models.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/models.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/models_rpc_msgs.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/models_rpc_msgs.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/models_rpc_msgs_easyjson.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/models_rpc_msgs_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/shadow_models.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/shadow_models.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/shadow_models_easyjson.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/shadow_models_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/user_collections.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/user_collections.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/user_models.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/user_models.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/user_models_easyjson.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/user_models_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/utils.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/utils.go" />
+      <change beforePath="$PROJECT_DIR$/mccommon/ws_msg_models.go" afterPath="$PROJECT_DIR$/mclibs/mccommon/ws_msg_models.go" />
+      <change beforePath="$PROJECT_DIR$/mccommunication/clientToServer.go" afterPath="$PROJECT_DIR$/mclibs/mccommunication/clientToServer.go" />
+      <change beforePath="$PROJECT_DIR$/mccommunication/clientToServer_easyjson.go" afterPath="$PROJECT_DIR$/mclibs/mccommunication/clientToServer_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mccommunication/mccommunitaioncommon.go" afterPath="$PROJECT_DIR$/mclibs/mccommunication/mccommunitaioncommon.go" />
+      <change beforePath="$PROJECT_DIR$/mccommunication/rpc.go" afterPath="$PROJECT_DIR$/mclibs/mccommunication/rpc.go" />
+      <change beforePath="$PROJECT_DIR$/mccommunication/rpc_easyjson.go" afterPath="$PROJECT_DIR$/mclibs/mccommunication/rpc_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/devices_collections.go" afterPath="$PROJECT_DIR$/mcdashboard/devices_collections.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/devices_controllers.go" afterPath="$PROJECT_DIR$/mcdashboard/devices_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/devices_models.go" afterPath="$PROJECT_DIR$/mcdashboard/devices_models.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/mcdashboard.go" afterPath="$PROJECT_DIR$/mcdashboard/mcdashboard.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/me_controllers.go" afterPath="$PROJECT_DIR$/mcdashboard/me_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/me_models.go" afterPath="$PROJECT_DIR$/mcdashboard/me_models.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/user_rpc_manager.go" afterPath="$PROJECT_DIR$/mcdashboard/user_rpc_manager.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/users_collections.go" afterPath="$PROJECT_DIR$/mcdashboard/users_collections.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/users_controllers.go" afterPath="$PROJECT_DIR$/mcdashboard/users_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/users_models.go" afterPath="$PROJECT_DIR$/mcdashboard/users_models.go" />
+      <change beforePath="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" afterPath="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" />
+      <change beforePath="$PROJECT_DIR$/mcdevicehttpmanager/main.go" afterPath="$PROJECT_DIR$/mclibs/mcdevicehttpmanager/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcdevicemqttmanager/controllers.go" afterPath="$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcdevicemqttmanager/main.go" afterPath="$PROJECT_DIR$/mclibs/mcdevicemqttmanager/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcdevicerpcmanager/mcdevicerpcmanager.go" afterPath="$PROJECT_DIR$/mclibs/mcdevicerpcmanager/mcdevicerpcmanager.go" />
+      <change beforePath="$PROJECT_DIR$/mcdevicerpcrouter/mcdevicerpcrouter.go" afterPath="$PROJECT_DIR$/mclibs/mcdevicerpcrouter/mcdevicerpcrouter.go" />
+      <change beforePath="$PROJECT_DIR$/mcecho/modelcontroller.go" afterPath="$PROJECT_DIR$/mclibs/mcecho/modelcontroller.go" />
+      <change beforePath="$PROJECT_DIR$/mcecho/router.go" afterPath="$PROJECT_DIR$/mclibs/mcecho/router.go" />
+      <change beforePath="$PROJECT_DIR$/mcecho/utils.go" afterPath="$PROJECT_DIR$/mclibs/mcecho/utils.go" />
+      <change beforePath="$PROJECT_DIR$/mcinnerrpc/main.go" afterPath="$PROJECT_DIR$/mclibs/mcinnerrpc/main.go" />
+      <change beforePath="$PROJECT_DIR$/mclibs/mcrpcmanager/mcrpcmanager.go" afterPath="$PROJECT_DIR$/mclibs/mcrpcmanager/mcrpcmanager.go" />
+      <change beforePath="$PROJECT_DIR$/mclibs/mcrpcrouter/mcrpcrouter.go" afterPath="$PROJECT_DIR$/mclibs/mcrpcrouter/mcrpcrouter.go" />
+      <change beforePath="$PROJECT_DIR$/mcmongo/collections.go" afterPath="$PROJECT_DIR$/mclibs/mcmongo/collections.go" />
+      <change beforePath="$PROJECT_DIR$/mcmongo/models.go" afterPath="$PROJECT_DIR$/mclibs/mcmongo/models.go" />
+      <change beforePath="$PROJECT_DIR$/mcmqttrouter/.gitignore" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/mcmqttrouter/mcmqttrouter.go" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/mcmqttrouter/models.go" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/mcmqttrouter/utils.go" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/apps/dashboard/index.html" afterPath="$PROJECT_DIR$/old/mcplantainer_old/apps/dashboard/index.html" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/apps/dashboard/main.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/apps/dashboard/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/apps/devices/main.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/apps/devices/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/apps/main.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/apps/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/common/device_collection.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/common/device_collection.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/common/device_model.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/common/device_model_easyjson.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/common/device_model_easyjson.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/cron_manager.go" afterPath="$PROJECT_DIR$/mcplantainer/cron_manager.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/dashboard/controller_http.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/dashboard/controller_http.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/dashboard/main.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/dashboard/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/device/device_init.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/device/device_init.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/device/main.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/device/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/mqtt.go" afterPath="$PROJECT_DIR$/mcplantainer/mqtt.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_collections.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_collections.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_data_collections.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_data_collections.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_data_models.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_data_models.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_models.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_models.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_shadow.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_shadow.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/rpc_manager_cron.go" afterPath="$PROJECT_DIR$/mcplantainer/rpc_manager_cron.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/rpc_manager_device.go" afterPath="$PROJECT_DIR$/mcplantainer/rpc_manager_device.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/rpc_manager_inner.go" afterPath="$PROJECT_DIR$/mcplantainer/rpc_manager_inner.go" />
+      <change beforePath="$PROJECT_DIR$/mcplantainer/rpc_manager_user.go" afterPath="$PROJECT_DIR$/mcplantainer/rpc_manager_user.go" />
+      <change beforePath="$PROJECT_DIR$/mcuserrpcmanager/mcuserrpcmanager.go" afterPath="$PROJECT_DIR$/mclibs/mcuserrpcmanager/mcuserrpcmanager.go" />
+      <change beforePath="$PROJECT_DIR$/mcuserrpcrouter/mcuserrpcrouter.go" afterPath="$PROJECT_DIR$/mclibs/mcuserrpcrouter/mcuserrpcrouter.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/main.go" afterPath="$PROJECT_DIR$/old/mcusers/main.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/me_controllers.go" afterPath="$PROJECT_DIR$/old/mcusers/me_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/me_init.go" afterPath="$PROJECT_DIR$/old/mcusers/me_init.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/me_models.go" afterPath="$PROJECT_DIR$/old/mcusers/me_models.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/me_models_easyjson.go" afterPath="$PROJECT_DIR$/old/mcusers/me_models_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/me_routes_http.go" afterPath="$PROJECT_DIR$/old/mcusers/me_routes_http.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/user_controllers.go" afterPath="$PROJECT_DIR$/old/mcusers/user_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/user_middlewares_http.go" afterPath="$PROJECT_DIR$/old/mcusers/user_middlewares_http.go" />
+      <change beforePath="$PROJECT_DIR$/mcusers/user_routes_http.go" afterPath="$PROJECT_DIR$/old/mcusers/user_routes_http.go" />
+      <change beforePath="$PROJECT_DIR$/mcws/models_manager.go" afterPath="$PROJECT_DIR$/mclibs/mcws/models_manager.go" />
+      <change beforePath="$PROJECT_DIR$/mcws/models_msgs.go" afterPath="$PROJECT_DIR$/mclibs/mcws/models_msgs.go" />
+      <change beforePath="$PROJECT_DIR$/mcws/models_msgs_easyjson.go" afterPath="$PROJECT_DIR$/mclibs/mcws/models_msgs_easyjson.go" />
+      <change beforePath="$PROJECT_DIR$/mcws/models_room.go" afterPath="$PROJECT_DIR$/mclibs/mcws/models_room.go" />
+      <change beforePath="$PROJECT_DIR$/mcws/models_socket.go" afterPath="$PROJECT_DIR$/mclibs/mcws/models_socket.go" />
+      <change beforePath="$PROJECT_DIR$/mcws/router.go" afterPath="$PROJECT_DIR$/mclibs/mcws/router.go" />
+      <change beforePath="$PROJECT_DIR$/old/apps/dashboard/main.go" afterPath="$PROJECT_DIR$/old/apps/dashboard/main.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/device_collection.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/device_collection.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/device_controllers.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/device_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/main.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/main.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/me_controllers.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/me_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/me_models.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/me_models.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/user_collection.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/user_collection.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/user_controllers.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/user_controllers.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/user_middlewares_http.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/user_middlewares_http.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/ws.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/ws.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/ws_manager.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/ws_manager.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/ws_msg_models.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/ws_msg_models.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/ctrl.go" afterPath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/ctrl.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/models_manager.go" afterPath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/models_manager.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/models_reqhandlers.go" afterPath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/models_reqhandlers.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/router.go" afterPath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/router.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcuserrpcmanager_old/controller_http.go" afterPath="$PROJECT_DIR$/old/mcuserrpcmanager_old/controller_http.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcuserrpcmanager_old/main.go" afterPath="$PROJECT_DIR$/old/mcuserrpcmanager_old/main.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcuserrpcmanager_old/manager.go" afterPath="$PROJECT_DIR$/old/mcuserrpcmanager_old/manager.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcuserrpcmanager_old/models.go" afterPath="$PROJECT_DIR$/old/mcuserrpcmanager_old/models.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcuserrpcmanager_old/router.go" afterPath="$PROJECT_DIR$/old/mcuserrpcmanager_old/router.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,10 +130,22 @@
       <file leaf-file-name="rpc_manager_device.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_device.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="143" column="0" lean-forward="false" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
+            <state relative-caret-position="198">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding>
-                <element signature="e#22#107#0" expanded="true" />
+                <element signature="e#22#121#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mcplantainer/main/main.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="5" column="23" lean-forward="false" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+              <folding>
+                <element signature="e#14#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -38,7 +157,7 @@
             <state relative-caret-position="96">
               <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding>
-                <element signature="e#22#142#0" expanded="true" />
+                <element signature="e#22#149#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -47,35 +166,45 @@
       <file leaf-file-name="plantainer_modules_light.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+            <state relative-caret-position="251">
+              <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
               <folding>
-                <element signature="e#22#102#0" expanded="true" />
+                <element signature="e#22#109#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="cron_manager.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cron_manager.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mcplantainer/cron_manager.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="117" column="35" lean-forward="false" selection-start-line="117" selection-start-column="35" selection-end-line="117" selection-end-column="35" />
+            <state relative-caret-position="272">
+              <caret line="119" column="0" lean-forward="false" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
               <folding>
-                <element signature="e#22#178#0" expanded="true" />
+                <element signature="e#22#185#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rpc_manager_inner.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="rpc_manager_inner.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_inner.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+            <state relative-caret-position="1494">
+              <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
               <folding>
-                <element signature="e#22#96#0" expanded="true" />
+                <element signature="e#22#110#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="controllers.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="309">
+              <caret line="119" column="0" lean-forward="false" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -91,7 +220,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>userM</find>
       <find>GetUserMiddleWare</find>
       <find>protocol</find>
       <find>mono</find>
@@ -121,17 +249,18 @@
       <find>mccommo</find>
       <find>deviceId</find>
       <find>msg</find>
+      <find>mcusers</find>
     </findStrings>
     <replaceStrings>
       <replace>package mcdashboard</replace>
       <replace>package mcusers</replace>
     </replaceStrings>
     <dirStrings>
-      <dir>$PROJECT_DIR$/mcdashboard</dir>
       <dir>$PROJECT_DIR$/mcusers</dir>
       <dir>$PROJECT_DIR$/mcdashboard_old</dir>
       <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/mcplantainer/common</dir>
+      <dir>$PROJECT_DIR$/mcdashboard</dir>
       <dir>$PROJECT_DIR$/mcplantainer</dir>
     </dirStrings>
   </component>
@@ -142,9 +271,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mcuserrpcrouter/models.go" />
-        <option value="$PROJECT_DIR$/mcdashboard/userrpcmanager.go" />
-        <option value="$PROJECT_DIR$/mcws/models_msgs.go" />
         <option value="$PROJECT_DIR$/mcuserrpcmanager2/mcuserrpcmanager.go" />
         <option value="$PROJECT_DIR$/mcuserrpcrouter/mcuserrpcrouter.go" />
         <option value="$PROJECT_DIR$/mcdashboard/devices_controllers.go" />
@@ -191,8 +317,11 @@
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_data_collections.go" />
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_shadow.go" />
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go" />
-        <option value="$PROJECT_DIR$/mcplantainer/rpc_manager_device.go" />
         <option value="$PROJECT_DIR$/mcplantainer/cron_manager.go" />
+        <option value="$PROJECT_DIR$/mcplantainer/rpc_manager_device.go" />
+        <option value="$PROJECT_DIR$/mcusers/main.go" />
+        <option value="$PROJECT_DIR$/old/apps/dashboard/main.go" />
+        <option value="$PROJECT_DIR$/mcplantainer/main/main.go" />
       </list>
     </option>
   </component>
@@ -266,6 +395,23 @@
               <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
               <item name="mcplantainer" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
+              <item name="mcplantainer" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
+              <item name="old" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
+              <item name="old" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -287,11 +433,11 @@
       <recent name="$PROJECT_DIR$/apps/plantainer" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/mcmodules" />
       <recent name="$PROJECT_DIR$/old" />
+      <recent name="$PROJECT_DIR$/mcplantainer/old" />
+      <recent name="$PROJECT_DIR$/mclibs" />
+      <recent name="$PROJECT_DIR$/mcmodules" />
       <recent name="$PROJECT_DIR$/mcdashboard" />
-      <recent name="$PROJECT_DIR$/mcplantainer/dashboard" />
-      <recent name="$PROJECT_DIR$/mcplantainer/device" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -319,7 +465,7 @@
       <module name="mevericcore" />
       <working_directory value="$PROJECT_DIR$/" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/mcplantainer/apps/main.go" />
+      <filePath value="$PROJECT_DIR$/mcplantainer/main/main.go" />
       <package value="mevericcore" />
       <directory value="$PROJECT_DIR$/" />
     </configuration>
@@ -342,18 +488,17 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="873" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1702432" sideWeight="0.48843187" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24421594" sideWeight="0.5114449" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904884" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29691517" sideWeight="0.4914163" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29691517" sideWeight="0.4914163" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32904884" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28920308" sideWeight="0.4914163" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24421594" sideWeight="0.48855507" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24421594" sideWeight="0.48855507" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16809729" sideWeight="0.5115681" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -423,12 +568,12 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcmongo/collections.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcmongo/collections.go</url>
           <line>181</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcmongo/collections.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcmongo/collections.go</url>
           <line>185</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
@@ -493,17 +638,17 @@
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdevicemqttmanager/controllers.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go</url>
           <line>65</line>
           <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdevicemqttmanager/controllers.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go</url>
           <line>111</line>
           <option name="timeStamp" value="90" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdevicemqttmanager/controllers.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go</url>
           <line>118</line>
           <option name="timeStamp" value="97" />
         </line-breakpoint>
@@ -573,42 +718,42 @@
           <option name="timeStamp" value="164" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mccommon/device_models.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mccommon/device_models.go</url>
           <line>56</line>
           <option name="timeStamp" value="166" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/dashboard/controller_http.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/dashboard/controller_http.go</url>
           <line>44</line>
           <option name="timeStamp" value="178" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/dashboard/controller_http.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/dashboard/controller_http.go</url>
           <line>19</line>
           <option name="timeStamp" value="179" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/common/device_model.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go</url>
           <line>94</line>
           <option name="timeStamp" value="180" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/common/device_model.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go</url>
           <line>144</line>
           <option name="timeStamp" value="181" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/common/device_model.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go</url>
           <line>156</line>
           <option name="timeStamp" value="182" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/dashboard/controller_http.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/dashboard/controller_http.go</url>
           <line>41</line>
           <option name="timeStamp" value="183" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/dashboard/controller_http.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/dashboard/controller_http.go</url>
           <line>37</line>
           <option name="timeStamp" value="185" />
         </line-breakpoint>
@@ -753,17 +898,17 @@
           <option name="timeStamp" value="271" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdevicemqttmanager/controllers.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go</url>
           <line>90</line>
           <option name="timeStamp" value="279" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdevicemqttmanager/controllers.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go</url>
           <line>98</line>
           <option name="timeStamp" value="281" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdevicemqttmanager/controllers.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go</url>
           <line>82</line>
           <option name="timeStamp" value="287" />
         </line-breakpoint>
@@ -773,17 +918,17 @@
           <option name="timeStamp" value="290" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcmqttrouter/mcmqttrouter.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcmqttrouter/mcmqttrouter.go</url>
           <line>21</line>
           <option name="timeStamp" value="291" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcmqttrouter/mcmqttrouter.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcmqttrouter/mcmqttrouter.go</url>
           <line>30</line>
           <option name="timeStamp" value="292" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcdevicemqttmanager/controllers.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go</url>
           <line>29</line>
           <option name="timeStamp" value="297" />
         </line-breakpoint>
@@ -808,22 +953,22 @@
           <option name="timeStamp" value="335" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/common/device_model.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go</url>
           <line>192</line>
           <option name="timeStamp" value="348" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/common/device_model.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go</url>
           <line>193</line>
           <option name="timeStamp" value="349" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/common/device_model.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go</url>
           <line>196</line>
           <option name="timeStamp" value="350" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/common/device_model.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go</url>
           <line>74</line>
           <option name="timeStamp" value="363" />
         </line-breakpoint>
@@ -838,12 +983,12 @@
           <option name="timeStamp" value="365" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/dashboard/main.go</url>
+          <url>file://$PROJECT_DIR$/old/mcplantainer_old/dashboard/main.go</url>
           <line>48</line>
           <option name="timeStamp" value="367" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mccommon/data_collection.go</url>
+          <url>file://$PROJECT_DIR$/mclibs/mccommon/data_collection.go</url>
           <line>18</line>
           <option name="timeStamp" value="369" />
         </line-breakpoint>
@@ -932,18 +1077,6 @@
           <line>54</line>
           <properties />
           <option name="timeStamp" value="584" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go</url>
-          <line>41</line>
-          <properties />
-          <option name="timeStamp" value="594" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go</url>
-          <line>37</line>
-          <properties />
-          <option name="timeStamp" value="610" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
@@ -1037,21 +1170,9 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
-          <line>78</line>
-          <properties />
-          <option name="timeStamp" value="677" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
           <line>119</line>
           <properties />
           <option name="timeStamp" value="678" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
-          <line>118</line>
-          <properties />
-          <option name="timeStamp" value="679" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
@@ -1065,44 +1186,54 @@
           <properties />
           <option name="timeStamp" value="686" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go</url>
+          <line>75</line>
+          <properties />
+          <option name="timeStamp" value="687" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
+          <line>121</line>
+          <properties />
+          <option name="timeStamp" value="688" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
+          <line>125</line>
+          <properties />
+          <option name="timeStamp" value="689" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go</url>
+          <line>119</line>
+          <properties />
+          <option name="timeStamp" value="690" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
+          <line>100</line>
+          <properties />
+          <option name="timeStamp" value="691" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
+          <line>101</line>
+          <properties />
+          <option name="timeStamp" value="692" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/cron_manager.go</url>
+          <line>106</line>
+          <properties />
+          <option name="timeStamp" value="693" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="687" />
+      <option name="time" value="694" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mccommon/shadow_models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="37" column="5" lean-forward="false" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcdashboard/devices_models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mccommon/device_models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcdashboard/devices_controllers.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="36" column="44" lean-forward="true" selection-start-line="36" selection-start-column="44" selection-end-line="36" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mcdashboard/devices_collections.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
@@ -1127,7 +1258,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mccommon/device_collection.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mccommon/device_collection.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
           <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="31" selection-end-column="1" />
@@ -1135,7 +1266,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mccommon/data_collection.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mccommon/data_collection.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="72">
           <caret line="8" column="5" lean-forward="false" selection-start-line="8" selection-start-column="5" selection-end-line="8" selection-end-column="5" />
@@ -1143,7 +1274,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/dashboard/controller_http.go">
+    <entry file="file://$PROJECT_DIR$/old/mcplantainer_old/dashboard/controller_http.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
           <caret line="26" column="15" lean-forward="false" selection-start-line="26" selection-start-column="15" selection-end-line="26" selection-end-column="15" />
@@ -1151,7 +1282,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/common/device_collection.go">
+    <entry file="file://$PROJECT_DIR$/old/mcplantainer_old/common/device_collection.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="361">
           <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
@@ -1159,7 +1290,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/common/device_model.go">
+    <entry file="file://$PROJECT_DIR$/old/mcplantainer_old/common/device_model.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="232" column="28" lean-forward="false" selection-start-line="232" selection-start-column="28" selection-end-line="232" selection-end-column="28" />
@@ -1167,12 +1298,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/device/device_init.go">
+    <entry file="file://$PROJECT_DIR$/old/mcplantainer_old/device/device_init.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
           <folding>
-            <element signature="e#16#103#0" expanded="false" />
+            <element signature="e#16#111#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1185,7 +1316,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcmongo/models.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mcmongo/models.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="15" column="5" lean-forward="false" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
@@ -1193,7 +1324,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcws/models_manager.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mcws/models_manager.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="63" column="31" lean-forward="false" selection-start-line="63" selection-start-column="31" selection-end-line="63" selection-end-column="31" />
@@ -1217,7 +1348,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcmongo/collections.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mcmongo/collections.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
           <caret line="156" column="37" lean-forward="false" selection-start-line="156" selection-start-column="37" selection-end-line="156" selection-end-column="37" />
@@ -1249,7 +1380,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcinnerrpc/main.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mcinnerrpc/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="251">
           <caret line="52" column="27" lean-forward="false" selection-start-line="52" selection-start-column="27" selection-end-line="52" selection-end-column="27" />
@@ -1257,7 +1388,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/device/main.go">
+    <entry file="file://$PROJECT_DIR$/old/mcplantainer_old/device/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="107">
           <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
@@ -1286,22 +1417,22 @@
         <state relative-caret-position="160">
           <caret line="16" column="36" lean-forward="false" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
           <folding>
-            <element signature="e#22#114#0" expanded="true" />
+            <element signature="e#22#121#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcdevicerpcrouter/mcdevicerpcrouter.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mcdevicerpcrouter/mcdevicerpcrouter.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="571">
           <caret line="136" column="14" lean-forward="true" selection-start-line="136" selection-start-column="14" selection-end-line="136" selection-end-column="14" />
           <folding>
-            <element signature="e#27#96#0" expanded="false" />
+            <element signature="e#27#103#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcuserrpcrouter/mcuserrpcrouter.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mcuserrpcrouter/mcuserrpcrouter.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="422">
           <caret line="108" column="83" lean-forward="false" selection-start-line="108" selection-start-column="83" selection-end-line="108" selection-end-column="83" />
@@ -1309,7 +1440,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcuserrpcmanager/mcuserrpcmanager.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mcuserrpcmanager/mcuserrpcmanager.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="499">
           <caret line="60" column="28" lean-forward="false" selection-start-line="60" selection-start-column="28" selection-end-line="60" selection-end-column="28" />
@@ -1317,17 +1448,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcdevicerpcmanager/mcdevicerpcmanager.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mcdevicerpcmanager/mcdevicerpcmanager.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="625">
           <caret line="67" column="1" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="67" selection-end-column="1" />
           <folding>
-            <element signature="e#28#102#0" expanded="true" />
+            <element signature="e#28#116#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mccommunication/rpc.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mccommunication/rpc.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="5" lean-forward="false" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="5" />
@@ -1335,7 +1466,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mccommunication/clientToServer.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mccommunication/clientToServer.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="14" column="5" lean-forward="false" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
@@ -1348,12 +1479,12 @@
         <state relative-caret-position="463">
           <caret line="60" column="27" lean-forward="false" selection-start-line="60" selection-start-column="27" selection-end-line="60" selection-end-column="27" />
           <folding>
-            <element signature="e#23#98#0" expanded="false" />
+            <element signature="e#23#105#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mccommunication/mccommunitaioncommon.go">
+    <entry file="file://$PROJECT_DIR$/mclibs/mccommunication/mccommunitaioncommon.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="9" lean-forward="false" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="9" />
@@ -1366,7 +1497,7 @@
         <state relative-caret-position="198">
           <caret line="11" column="27" lean-forward="false" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="27" />
           <folding>
-            <element signature="e#21#90#0" expanded="false" />
+            <element signature="e#21#97#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1376,7 +1507,7 @@
         <state relative-caret-position="288">
           <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
           <folding>
-            <element signature="e#22#75#0" expanded="true" />
+            <element signature="e#22#82#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1397,14 +1528,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/mcplantainer.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="75" column="15" lean-forward="false" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_shadow.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="446">
@@ -1418,7 +1541,7 @@
         <state relative-caret-position="-653">
           <caret line="23" column="37" lean-forward="false" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="37" />
           <folding>
-            <element signature="e#22#143#0" expanded="true" />
+            <element signature="e#22#164#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1428,7 +1551,7 @@
         <state relative-caret-position="262">
           <caret line="35" column="51" lean-forward="true" selection-start-line="35" selection-start-column="51" selection-end-line="35" selection-end-column="51" />
           <folding>
-            <element signature="e#22#176#0" expanded="true" />
+            <element signature="e#22#183#0" expanded="false" />
             <element signature="n#!!block;n#CreateReported#0" expanded="false" />
           </folding>
         </state>
@@ -1439,47 +1562,7 @@
         <state relative-caret-position="162">
           <caret line="9" column="4" lean-forward="false" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
           <folding>
-            <element signature="e#22#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-          <folding>
-            <element signature="e#22#102#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_device.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="143" column="0" lean-forward="false" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
-          <folding>
-            <element signature="e#22#107#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_cron.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <element signature="e#22#142#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_inner.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="81" column="0" lean-forward="false" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding>
-            <element signature="e#22#96#0" expanded="true" />
+            <element signature="e#22#53#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1500,12 +1583,96 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="309">
+          <caret line="119" column="0" lean-forward="false" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#109#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_cron.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#149#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/cron_manager.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="117" column="35" lean-forward="false" selection-start-line="117" selection-start-column="35" selection-end-line="117" selection-end-column="35" />
+        <state relative-caret-position="272">
+          <caret line="119" column="0" lean-forward="false" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
           <folding>
-            <element signature="e#22#178#0" expanded="true" />
+            <element signature="e#22#185#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/mcusers/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="52">
+          <caret line="3" column="29" lean-forward="false" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_device.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#121#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/mcplantainer.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="75" column="15" lean-forward="false" selection-start-line="75" selection-start-column="15" selection-end-line="75" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/apps/dashboard/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1098">
+          <caret line="61" column="1" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="61" selection-end-column="1" />
+          <folding>
+            <element signature="e#14#145#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/main/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="23" lean-forward="false" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+          <folding>
+            <element signature="e#14#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_inner.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1494">
+          <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#110#0" expanded="true" />
           </folding>
         </state>
       </provider>

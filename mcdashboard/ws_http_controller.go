@@ -2,13 +2,13 @@ package mcdashboard
 
 import (
 	"net/http"
-	"mevericcore/mcecho"
+	"mevericcore/mclibs/mcecho"
 	"github.com/gorilla/websocket"
-	"mevericcore/mcws"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mcws"
+	"mevericcore/mclibs/mccommon"
 	"github.com/labstack/echo"
 	"fmt"
-	"mevericcore/mccommunication"
+	"mevericcore/mclibs/mccommunication"
 )
 
 var (

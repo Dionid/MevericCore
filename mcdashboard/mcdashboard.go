@@ -4,10 +4,10 @@ import (
 	"gopkg.in/mgo.v2"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"mevericcore/mcecho"
-	"mevericcore/mccommon"
-	"mevericcore/mcinnerrpc"
-	"mevericcore/mcws"
+	"mevericcore/mclibs/mcecho"
+	"mevericcore/mclibs/mccommon"
+	"mevericcore/mclibs/mcinnerrpc"
+	"mevericcore/mclibs/mcws"
 )
 
 var (

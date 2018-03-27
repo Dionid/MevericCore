@@ -1,8 +1,8 @@
 package mcdashboard_old
 
 import (
-	"mevericcore/mcws"
-	"mevericcore/mccommon"
+	"mevericcore/mclibs/mcws"
+	"mevericcore/mclibs/mccommon"
 )
 
 // easyjson:json
