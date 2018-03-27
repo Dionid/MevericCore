@@ -2,31 +2,13 @@ package mcplantainer
 
 import (
 	"github.com/robfig/cron"
-	"mevericcore/mcinnerrpc"
-	"mevericcore/mccommunication"
 	"gopkg.in/mgo.v2/bson"
 	"fmt"
 	"time"
+	"mevericcore/mcmodules/mclightmodule"
+	"strconv"
+	"mevericcore/mccommunication"
 )
-
-type CronSetterFn func(devId string, lightModuleC *cron.Cron) error
-
-type ModulesCronSt struct {
-	ModuleName string
-	Cron *cron.Cron
-	CronSetter CronSetterFn
-}
-
-type ModulesCronMap map[string]*ModulesCronSt
-
-type DeviceCronSt struct {
-	DeviceShadowId string
-	ModulesCron ModulesCronMap
-}
-
-type DeviceCronInterface interface {
-
-}
 
 // This manager is used in Hub to check operations that needs to be done
 type DeviceCronManagerSt struct {
@@ -39,12 +21,13 @@ func NewDeviceCronManager() *DeviceCronManagerSt {
 	}
 }
 
-func (cr *DeviceCronManagerSt) AddCron(devId string, c *DeviceCronSt) {
+func (cr *DeviceCronManagerSt) AddDeviceCron(devId string, c *DeviceCronSt) {
 	cr.CronByDeviceId[devId] = c
 }
 
 func (cr *DeviceCronManagerSt) StartAllDeviceCrons(devId string) {
 	for _, cSt := range cr.CronByDeviceId[devId].ModulesCron {
+		// ToDo: Check that 1 cSt.Cron is enough
 		cSt.CronSetter(devId, cSt.Cron)
 		cSt.Cron.Start()
 	}
@@ -65,35 +48,7 @@ func (cr *DeviceCronManagerSt) StartModuleCron(devId string, moduleName string) 
 	module.Cron.Start()
 }
 
-func (cr *DeviceCronManagerSt) subInnerRPC() {
-	// . Subscribe for tasks
-	innerRPCMan.Service.Subscribe("DeviceCron.Plantainer.RPC", func(msg *mcinnerrpc.Msg) {
-		rpcData := mccommunication.RPCMsg{}
-
-		if err := rpcData.UnmarshalJSON(msg.Data); err != nil {
-			return
-		}
-
-		args := rpcData.Args.(map[string]interface{})
-		devId := args["deviceId"].(string)
-		modules := args["modules"].([]interface{})
-
-		switch rpcData.Method {
-		case "DeviceCron.Plantainer.RPC.Stop":
-			for _, name := range modules {
-				cr.StopModuleCron(devId, name.(string))
-			}
-		case "DeviceCron.Plantainer.RPC.Reset":
-			for _, name := range modules {
-				cr.ResetModuleCron(devId, name.(string))
-			}
-		}
-	})
-}
-
 func (cr *DeviceCronManagerSt) Init() error {
-	cr.subInnerRPC()
-
 	// . Go through DB and Get all Plantainers
 	plantainers := PlantainersList{}
 	if err := plantainerCollectionManager.FindAllModels(&bson.M{"type": "plantainer"}, &plantainers); err != nil {
@@ -112,7 +67,96 @@ func (cr *DeviceCronManagerSt) Init() error {
 			if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
 				return err
 			}
-			plantainer.Shadow.State.Reported.LightModule.SetCronTasks(dId, c)
+
+			lightModule := plantainer.Shadow.State.Reported.LightModule
+
+			if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+				return nil
+			}
+
+			for _, interval := range *lightModule.LightIntervalsArr {
+				fromCrString := "0 " + strconv.Itoa(interval.FromTimeMinutes) + " " + strconv.Itoa(interval.FromTimeHours) + " * * *"
+				c.AddFunc(fromCrString, func() {
+					plantainer := &PlantainerModelSt{}
+					if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
+						return
+					}
+					lightModule := plantainer.Shadow.State.Reported.LightModule
+					if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+						return
+					}
+					plantainer.Shadow.State.Desired.LightModule.LightTurnedOn = &interval.TurnedOn
+					plantainer.Shadow.IncrementVersion()
+
+					if err := plantainerCollectionManager.SaveModel(plantainer); err != nil {
+						return
+					}
+
+					successUpdate := &mccommunication.RPCMsg{
+						Src: PlantainerServerId,
+						Dst: dId,
+						Method: dId + ".Shadow.Update.Success",
+						Args: plantainer.Shadow.State,
+					}
+					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
+					innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
+
+					plantainer.Shadow.State.FillDelta()
+
+					if plantainer.Shadow.State.Delta != nil {
+						innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", &mccommunication.RPCMsg{
+							Src: PlantainerServerId,
+							Dst: dId,
+							Method: dId + ".Shadow.Delta",
+							Args: &map[string]interface{}{
+								"state": plantainer.Shadow.State.Delta,
+								"version": plantainer.Shadow.Metadata.Version,
+							},
+						})
+					}
+				})
+				toCrStr := "0 " + strconv.Itoa(interval.ToTimeMinutes) + " " + strconv.Itoa(interval.ToTimeHours) + " * * *"
+				c.AddFunc(toCrStr, func() {
+					plantainer := &PlantainerModelSt{}
+					if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
+						return
+					}
+					lightModule := plantainer.Shadow.State.Reported.LightModule
+					if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+						return
+					}
+
+					plantainer.Shadow.State.Desired.LightModule.LightTurnedOn = lightModule.LightIntervalsRestTimeTurnedOn
+					plantainer.Shadow.IncrementVersion()
+
+					if err := plantainerCollectionManager.SaveModel(plantainer); err != nil {
+						return
+					}
+
+					successUpdate := &mccommunication.RPCMsg{
+						Src: PlantainerServerId,
+						Dst: dId,
+						Method: dId + ".Shadow.Update.Success",
+						Args: plantainer.Shadow.State,
+					}
+					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
+					innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
+
+					plantainer.Shadow.State.FillDelta()
+
+					if plantainer.Shadow.State.Delta != nil {
+						innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", &mccommunication.RPCMsg{
+							Src: PlantainerServerId,
+							Dst: dId,
+							Method: dId + ".Shadow.Delta",
+							Args: &map[string]interface{}{
+								"state": plantainer.Shadow.State.Delta,
+								"version": plantainer.Shadow.Metadata.Version,
+							},
+						})
+					}
+				})
+			}
 			return nil
 		}
 
@@ -122,7 +166,9 @@ func (cr *DeviceCronManagerSt) Init() error {
 			lightModuleCronSetter,
 		}
 
-		cr.AddCron(devId, &DeviceCronSt{
+		// ToDo: Add other crons
+
+		cr.AddDeviceCron(devId, &DeviceCronSt{
 			devId,
 			modulesCronMap,
 			})

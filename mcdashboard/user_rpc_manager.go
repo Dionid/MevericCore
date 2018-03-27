@@ -49,14 +49,25 @@ func initUserRPCManDeviceRoutes() {
 
 		return UserRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
 	})
-	deviceG.AddHandler("*", func(req *mccommunication.RPCReqSt) error {
+	//deviceG.AddHandler("*", func(req *mccommunication.RPCReqSt) error {
+	//	bData, err := req.Msg.MarshalJSON()
+	//
+	//	if err != nil {
+	//		return nil
+	//	}
+	//
+	//	innerRPCMan.Service.Publish("User.RPC." + req.Msg.RPCMsg.Method, bData)
+	//
+	//	return nil
+	//})
+	UserRPCManager.Router.AddHandler("*", func(req *mccommunication.RPCReqSt) error {
 		bData, err := req.Msg.MarshalJSON()
 
 		if err != nil {
 			return nil
 		}
 
-		innerRPCMan.Service.Publish("User.RPC." + req.Msg.RPCMsg.Method, bData)
+		innerRPCMan.Service.Publish("User.RPC.Received." + req.Msg.RPCMsg.Method, bData)
 
 		return nil
 	})

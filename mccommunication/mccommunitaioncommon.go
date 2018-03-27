@@ -19,6 +19,13 @@ type (
 	RPCMiddlewareFunc func(RPCHandlerFunc) RPCHandlerFunc
 )
 
+func NewReqSt(c ClientToServerHandleResultChannel) *ReqSt {
+	return &ReqSt{
+		Channel: c,
+		ctx: map[string]interface{}{},
+	}
+}
+
 func NewRPCReqSt(c ClientToServerHandleResultChannel, msg *ClientToServerRPCReqSt) *RPCReqSt {
 	return &RPCReqSt{
 		ReqSt: ReqSt{

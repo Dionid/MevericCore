@@ -71,16 +71,14 @@ func Init() {
 
 	// 3. Init Collections
 	initCollections(session)
-
-	//initRoutes(e)
-
-	initInnerRPCMan()
 	initUserRPCManager()
 	initDeviceRPCManager()
-
-	initMQTT()
+	initCronRPCManager()
+	initInnerRPCMan()
 
 	deviceCronManager.Init()
+
+	initMQTT()
 
 	e.Logger.Fatal(e.Start("localhost:3001"))
 }

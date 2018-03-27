@@ -3,7 +3,6 @@ package mcplantainer
 import (
 	"mevericcore/mcdevicerpcmanager"
 	"mevericcore/mccommunication"
-	"mevericcore/mccommon"
 	"errors"
 )
 
@@ -67,10 +66,10 @@ func initDeviceRPCManMainRoutes() {
 		if updateData.State.Reported != nil {
 			data, _ := device.ExtractAndSaveData(updateData.State.Reported)
 			if data != nil {
-				rpcData := &mccommon.RPCMsg{
+				rpcData := &mccommunication.RPCMsg{
 					Dst: req.Msg.RPCMsg.Src,
 					Src: req.Msg.RPCMsg.Dst,
-					Method: "Device.Plantainer.Data.New",
+					Method: "Plantainer.Device.Data.New",
 					Args: &map[string]interface{}{
 						"data": data,
 					},
@@ -123,7 +122,7 @@ func initDeviceRPCManMainRoutes() {
 			})
 		}
 
-		rpcData := &mccommon.RPCMsg{
+		rpcData := &mccommunication.RPCMsg{
 			Dst: req.Msg.RPCMsg.Src,
 			Src: req.Msg.RPCMsg.Dst,
 			Method: "Device.Plantainer.Shadow.Update.Accepted",
