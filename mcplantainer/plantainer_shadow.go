@@ -62,8 +62,6 @@ func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 		return nil
 	}
 
-	//_______
-
 	bData, err := des.MarshalJSON()
 	desMap := map[string]interface{}{}
 	if err != nil {
@@ -116,6 +114,7 @@ func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 	return nil
 }
 
+// ToDo: Add other data (timestamps)
 type PlantainerShadowMetadataSt struct {
 	Version int
 }

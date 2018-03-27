@@ -58,6 +58,7 @@ func (this *PlantainerLightModuleStateSt) CheckAfterShadowUpdate(deviceId string
 			}
 		}
 	}
+	// ToDO: Move this away from here (models must be thin)
 	if needToResetTimers || needToStopTimers {
 		method := "Plantainer.Cron.Reset"
 		if needToStopTimers {
@@ -94,7 +95,6 @@ func (this *PlantainerLightModuleStateSt) ReportedUpdate(newState *PlantainerLig
 	}
 
 	if newState.LightIntervalsArr != nil {
-		// Todo: add validation
 		this.LightIntervalsArr = newState.LightIntervalsArr
 	}
 

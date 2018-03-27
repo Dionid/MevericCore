@@ -57,108 +57,113 @@ func (cr *DeviceCronManagerSt) Init() error {
 
 	fmt.Printf(time.Now().String())
 
+	lightModuleCronSetter := func(dId string, c *cron.Cron) error {
+		defer func(){
+			if recover() != nil {
+				return
+			}
+		}()
+		plantainer := &PlantainerModelSt{}
+		if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
+			return err
+		}
+
+		lightModule := plantainer.Shadow.State.Reported.LightModule
+
+		if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+			return nil
+		}
+
+		for _, interval := range *lightModule.LightIntervalsArr {
+			fromCrString := "0 " + strconv.Itoa(interval.FromTimeMinutes) + " " + strconv.Itoa(interval.FromTimeHours) + " * * *"
+			c.AddFunc(fromCrString, func() {
+				plantainer := &PlantainerModelSt{}
+				if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
+					return
+				}
+				lightModule := plantainer.Shadow.State.Reported.LightModule
+				if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+					return
+				}
+				plantainer.Shadow.State.Desired.LightModule.LightTurnedOn = &interval.TurnedOn
+				plantainer.Shadow.IncrementVersion()
+
+				if err := plantainerCollectionManager.SaveModel(plantainer); err != nil {
+					return
+				}
+
+				successUpdate := &mccommunication.RPCMsg{
+					Src: PlantainerServerId,
+					Dst: dId,
+					Method: dId + ".Shadow.Update.Success",
+					Args: plantainer.Shadow.State,
+				}
+				innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
+				innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
+
+				plantainer.Shadow.State.FillDelta()
+
+				if plantainer.Shadow.State.Delta != nil {
+					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", &mccommunication.RPCMsg{
+						Src: PlantainerServerId,
+						Dst: dId,
+						Method: dId + ".Shadow.Delta",
+						Args: &map[string]interface{}{
+							"state": plantainer.Shadow.State.Delta,
+							"version": plantainer.Shadow.Metadata.Version,
+						},
+					})
+				}
+			})
+			toCrStr := "0 " + strconv.Itoa(interval.ToTimeMinutes) + " " + strconv.Itoa(interval.ToTimeHours) + " * * *"
+			c.AddFunc(toCrStr, func() {
+				plantainer := &PlantainerModelSt{}
+				if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
+					return
+				}
+				lightModule := plantainer.Shadow.State.Reported.LightModule
+				if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+					return
+				}
+
+				plantainer.Shadow.State.Desired.LightModule.LightTurnedOn = lightModule.LightIntervalsRestTimeTurnedOn
+				plantainer.Shadow.IncrementVersion()
+
+				if err := plantainerCollectionManager.SaveModel(plantainer); err != nil {
+					return
+				}
+
+				successUpdate := &mccommunication.RPCMsg{
+					Src: PlantainerServerId,
+					Dst: dId,
+					Method: dId + ".Shadow.Update.Success",
+					Args: plantainer.Shadow.State,
+				}
+				innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
+				innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
+
+				plantainer.Shadow.State.FillDelta()
+
+				if plantainer.Shadow.State.Delta != nil {
+					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", &mccommunication.RPCMsg{
+						Src: PlantainerServerId,
+						Dst: dId,
+						Method: dId + ".Shadow.Delta",
+						Args: &map[string]interface{}{
+							"state": plantainer.Shadow.State.Delta,
+							"version": plantainer.Shadow.Metadata.Version,
+						},
+					})
+				}
+			})
+		}
+		return nil
+	}
+
 	// . Check all States and set timers
 	for _, plantainer := range plantainers {
 		devId := plantainer.Shadow.Id
 		modulesCronMap := ModulesCronMap{}
-
-		lightModuleCronSetter := func(dId string, c *cron.Cron) error {
-			plantainer := &PlantainerModelSt{}
-			if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
-				return err
-			}
-
-			lightModule := plantainer.Shadow.State.Reported.LightModule
-
-			if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
-				return nil
-			}
-
-			for _, interval := range *lightModule.LightIntervalsArr {
-				fromCrString := "0 " + strconv.Itoa(interval.FromTimeMinutes) + " " + strconv.Itoa(interval.FromTimeHours) + " * * *"
-				c.AddFunc(fromCrString, func() {
-					plantainer := &PlantainerModelSt{}
-					if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
-						return
-					}
-					lightModule := plantainer.Shadow.State.Reported.LightModule
-					if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
-						return
-					}
-					plantainer.Shadow.State.Desired.LightModule.LightTurnedOn = &interval.TurnedOn
-					plantainer.Shadow.IncrementVersion()
-
-					if err := plantainerCollectionManager.SaveModel(plantainer); err != nil {
-						return
-					}
-
-					successUpdate := &mccommunication.RPCMsg{
-						Src: PlantainerServerId,
-						Dst: dId,
-						Method: dId + ".Shadow.Update.Success",
-						Args: plantainer.Shadow.State,
-					}
-					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
-					innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
-
-					plantainer.Shadow.State.FillDelta()
-
-					if plantainer.Shadow.State.Delta != nil {
-						innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", &mccommunication.RPCMsg{
-							Src: PlantainerServerId,
-							Dst: dId,
-							Method: dId + ".Shadow.Delta",
-							Args: &map[string]interface{}{
-								"state": plantainer.Shadow.State.Delta,
-								"version": plantainer.Shadow.Metadata.Version,
-							},
-						})
-					}
-				})
-				toCrStr := "0 " + strconv.Itoa(interval.ToTimeMinutes) + " " + strconv.Itoa(interval.ToTimeHours) + " * * *"
-				c.AddFunc(toCrStr, func() {
-					plantainer := &PlantainerModelSt{}
-					if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
-						return
-					}
-					lightModule := plantainer.Shadow.State.Reported.LightModule
-					if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
-						return
-					}
-
-					plantainer.Shadow.State.Desired.LightModule.LightTurnedOn = lightModule.LightIntervalsRestTimeTurnedOn
-					plantainer.Shadow.IncrementVersion()
-
-					if err := plantainerCollectionManager.SaveModel(plantainer); err != nil {
-						return
-					}
-
-					successUpdate := &mccommunication.RPCMsg{
-						Src: PlantainerServerId,
-						Dst: dId,
-						Method: dId + ".Shadow.Update.Success",
-						Args: plantainer.Shadow.State,
-					}
-					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
-					innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
-
-					plantainer.Shadow.State.FillDelta()
-
-					if plantainer.Shadow.State.Delta != nil {
-						innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", &mccommunication.RPCMsg{
-							Src: PlantainerServerId,
-							Dst: dId,
-							Method: dId + ".Shadow.Delta",
-							Args: &map[string]interface{}{
-								"state": plantainer.Shadow.State.Delta,
-								"version": plantainer.Shadow.Metadata.Version,
-							},
-						})
-					}
-				})
-			}
-			return nil
-		}
 
 		modulesCronMap["lightModule"] = &ModulesCronSt{
 			"lightModule",
