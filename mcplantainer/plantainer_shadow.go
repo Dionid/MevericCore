@@ -4,6 +4,7 @@ import (
 	"mevericcore/mclibs/mccommunication"
 	"encoding/json"
 	"fmt"
+	"reflect"
 )
 
 //easyjson:json
@@ -33,6 +34,12 @@ func NewPlantainerShadowState() *PlantainerShadowStateSt {
 }
 
 func (this *PlantainerShadowStateSt) fillDelta(reported *map[string]interface{}, desired *map[string]interface{}, delta *map[string]interface{}) {
+	defer func(){
+		if err := recover(); err != nil {
+			fmt.Println("Recoverd in fillDelta")
+		}
+	}()
+
 	for key, val := range *desired {
 		if (*reported)[key] != nil {
 			switch desireV := val.(type) {
@@ -48,9 +55,25 @@ func (this *PlantainerShadowStateSt) fillDelta(reported *map[string]interface{},
 					(*delta)[key] = val
 				}
 			default:
-				if (*reported)[key] != val && val != nil {
-					(*delta)[key] = val
+				switch repV := (*reported)[key].(type) {
+				case []interface{}:
+					if !reflect.DeepEqual(repV, val) {
+						if val != nil {
+							(*delta)[key] = val
+						}
+					}
+				default:
+					if repV != val {
+						if val != nil {
+							(*delta)[key] = val
+						}
+					}
 				}
+				//if (*reported)[key] != val {
+				//	if val != nil {
+				//		(*delta)[key] = val
+				//	}
+				//}
 			}
 		}
 	}

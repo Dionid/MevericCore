@@ -11,7 +11,8 @@ import (
 )
 
 type PlantainerCustomData struct {
-	Name string
+	Name string `bson:"name"`
+	ImageUrl string `bson:"imageUrl"`
 }
 
 type PlantainerCustomAdminData struct {
@@ -151,6 +152,10 @@ func (this *PlantainerModelSt) Update(data *map[string]interface{}) error {
 		name := customDataUpdate["name"].(string)
 		if name != "" {
 			this.CustomData.Name = name
+		}
+		imageUrl := customDataUpdate["imageUrl"].(string)
+		if imageUrl != "" {
+			this.CustomData.ImageUrl = imageUrl
 		}
 	}
 

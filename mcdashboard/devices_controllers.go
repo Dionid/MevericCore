@@ -57,6 +57,26 @@ func (this *UserDevicesControllerSt) Retrieve(c echo.Context) error {
 	return mcecho.SendJSON(device, &c)
 }
 
+func (this *UserDevicesControllerSt) Update(c echo.Context) error {
+	device, err := this.getDevice(c)
+
+	m := &map[string]interface{}{}
+	if err := c.Bind(&m); err != nil {
+		return err
+	}
+	device.UpdateCustomData(m)
+
+	if err := devicesCollectionManager.SaveModel(device); err != nil {
+		return echo.NewHTTPError(http.StatusNotAcceptable, "Can't delete. Try again")
+	}
+
+	if err != nil {
+		return err
+	}
+
+	return mcecho.SendJSON(device, &c)
+}
+
 func (this *UserDevicesControllerSt) Destroy(c echo.Context) error {
 	device, err := this.getDevice(c)
 

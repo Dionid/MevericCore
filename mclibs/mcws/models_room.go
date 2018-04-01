@@ -19,6 +19,7 @@ func CreateWSocketRoom (name string) *WSocketRoom {
 
 func (r *WSocketRoom) GetOrAddWSocket(ws *WSocket) *WSocket {
 	if w, ok := r.WSocketsById[ws.Id]; ok {
+		w.Ws = ws.Ws
 		return w
 	}
 	r.WSocketsById[ws.Id] = ws

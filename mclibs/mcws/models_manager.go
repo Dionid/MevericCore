@@ -22,7 +22,21 @@ func (this *WSocketsManagerSt) AddWSocketById(ws *WSocket) error {
 }
 
 func (this *WSocketsManagerSt) RemoveWSocketById(id string) error {
-	delete(this.WSocketsListById, id)
+	// ToDo: Add mutex
+	if _, ok := this.WSocketsListById[id]; ok {
+		delete(this.WSocketsListById, id)
+	}
+	if _, ok := this.WSocketRoomsList[id]; ok {
+		delete(this.WSocketsListById, id)
+	}
+	for key, v := range this.WSocketRoomsList {
+		if _, ok := v.WSocketsById[id]; ok {
+			delete(v.WSocketsById, id)
+			if len(v.WSocketsById) == 0 {
+				delete(this.WSocketRoomsList, key)
+			}
+		}
+	}
 	return nil
 }
 

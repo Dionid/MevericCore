@@ -133,13 +133,19 @@ func (cr *DeviceCronManagerSt) Init() error {
 					return
 				}
 
+				// ToDo: Make structure for this kind of response
 				successUpdate := &mccommunication.RPCMsg{
 					Src: PlantainerServerId,
 					Dst: dId,
 					Method: dId + ".Shadow.Update.Success",
-					Args: plantainer.Shadow.State,
+					Args: map[string]interface{}{
+						"state": plantainer.Shadow.State,
+						"version": plantainer.Shadow.Metadata.Version,
+					},
 				}
 				innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
+				// ToDo: Deside what to use as prefix for ".Shadow.Update.Success"
+				successUpdate.Method = "Plantainer.Shadow.Update.Success"
 				innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
 
 				plantainer.Shadow.State.FillDelta()

@@ -100,9 +100,9 @@ func (this *UserRPCRouterSt) Handle(c mccommunication.ClientToServerHandleResult
 	for index, resourceName := range resourceSep {
 		h := (*handlersAndChildrenMap)[resourceName]
 
-		if h == nil && index == 0 {
-			return errors.New("no resource: " + resource)
-		}
+		//if h == nil && index == 0 {
+		//	return errors.New("no resource: " + resource)
+		//}
 
 		if h == nil {
 			if (*handlersAndChildrenMap)["*"] != nil {

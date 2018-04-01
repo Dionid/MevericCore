@@ -82,6 +82,10 @@ func (this *PlantainerLightModuleStateSt) ReportedUpdate(newState *PlantainerLig
 		this.LightTurnedOn = newState.LightTurnedOn
 	}
 
+	if newState.LightLvl != nil {
+		this.LightLvl = newState.LightLvl
+	}
+
 	// Device lvl
 	if newState.LightLvlCheckActive != nil {
 		this.LightLvlCheckActive = newState.LightLvlCheckActive

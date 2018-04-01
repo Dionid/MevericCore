@@ -95,9 +95,9 @@ func initInnerRPCMan() {
 	// For more specific we added RPC.Method itself to subject, for you to catch it anywhere is your architecture.
 	// Example: "{Source}.RPC.Received.{RPCMsg.Method}"
 
-	//innerRPCMan.Service.Subscribe("Device.RPC.Received.Plantainer>", func(req *mcinnerrpc.Msg) {})
-	//innerRPCMan.Service.Subscribe("Cloud.RPC.Received.Plantainer>", func(req *mcinnerrpc.Msg) {})
-	innerRPCMan.Service.Subscribe("User.RPC.Received.Plantainer>", func(req *mcinnerrpc.Msg) {
+	//innerRPCMan.Service.Subscribe("Device.RPC.Received.Plantainer.>", func(req *mcinnerrpc.Msg) {})
+	//innerRPCMan.Service.Subscribe("Cloud.RPC.Received.Plantainer.>", func(req *mcinnerrpc.Msg) {})
+	innerRPCMan.Service.Subscribe("User.RPC.Received.Plantainer.>", func(req *mcinnerrpc.Msg) {
 		msg := &mccommunication.ClientToServerRPCReqSt{}
 		if err := msg.UnmarshalJSON(req.Data); err != nil {
 			fmt.Println("msg.UnmarshalJSON error: " + err.Error())

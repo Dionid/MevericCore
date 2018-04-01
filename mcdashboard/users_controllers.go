@@ -19,16 +19,16 @@ func (this *UserController) Auth(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "Bad parameters")
 	}
 	if userData.Login == "" || userData.Password == "" {
-		return echo.NewHTTPError(http.StatusNotAcceptable, "Login and password are required")
+		return echo.NewHTTPError(http.StatusUnprocessableEntity, "Login and password are required")
 	}
 
 	user := new(mccommon.UserModel)
 
 	if err := usersCollectionManager.FindModelByLogin(userData.Login, user); err != nil {
 		if err == usersCollectionManager.ErrNotFound {
-			return echo.NewHTTPError(http.StatusNotAcceptable, "Invalid login or password")
+			return echo.NewHTTPError(http.StatusUnprocessableEntity, "Invalid login or password")
 		} else {
-			return echo.NewHTTPError(http.StatusNotAcceptable, "Try again")
+			return echo.NewHTTPError(http.StatusUnprocessableEntity, "Try again")
 		}
 	}
 

@@ -75,7 +75,7 @@ func initUserRPCManDeviceRoutes() {
 
 func initUserRPCManAuthRoutes() {
 	authG := UserRPCManager.Router.Group("Auth")
-	authG.AddHandler("GetToken", func(req *mccommunication.RPCReqSt) error {
+	authG.AddHandler("Login", func(req *mccommunication.RPCReqSt) error {
 		tokenMsg := &mcws.WsAuthRPCReqSt{}
 		if err := tokenMsg.UnmarshalJSON(*req.Msg.Msg); err != nil {
 			return err

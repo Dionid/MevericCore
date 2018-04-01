@@ -123,7 +123,7 @@ func initDeviceRPCManMainRoutes() {
 		rpcData := &mccommunication.RPCMsg{
 			Dst: req.Msg.RPCMsg.Src,
 			Src: req.Msg.RPCMsg.Dst,
-			Method: "Device.Plantainer.Shadow.Update.Accepted",
+			Method: "Plantainer.Device.Shadow.Update.Accepted",
 			Args: &map[string]interface{}{
 				"state": updateData.State,
 				"version": device.Shadow.Metadata.Version,

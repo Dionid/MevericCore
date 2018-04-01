@@ -1,0 +1,2 @@
+easyjson -omit_empty -snake_case models.go
+easyjson -omit_empty -lower_camel_case models.go
