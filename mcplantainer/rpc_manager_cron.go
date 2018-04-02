@@ -79,37 +79,38 @@ func initCronRPCManMainRoutes() {
 			device.CheckAfterShadowReportedUpdate(&oldShadow)
 		}
 
-		//cronRPCMan.RespondSuccessResp(req.Channel, req.RPCData, &map[string]interface{}{
-		//	"state": state,
-		//	"version": device.Shadow.Metadata.Version,
-		//})
+		//rpcData := &mccommunication.RPCMsg{
+		//	Dst: deviceId,
+		//	Src: PlantainerServerId,
+		//	Method: "Plantainer.Shadow.Update.Accepted",
+		//	Args: &map[string]interface{}{
+		//		"state": updateData.State,
+		//		"version": device.Shadow.Metadata.Version,
+		//	},
+		//}
 
-		rpcData := &mccommunication.RPCMsg{
-			Dst: deviceId,
-			Src: PlantainerServerId,
-			Method: "Plantainer.Shadow.Update.Accepted",
-			Args: &map[string]interface{}{
-				"state": updateData.State,
-				"version": device.Shadow.Metadata.Version,
-			},
-		}
+		successUpdate := NewShadowUpdateAcceptedReqRPC(
+			deviceId,
+			&device.Shadow,
+		)
 
-		innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", rpcData)
-		innerRPCMan.PublishRPC("User.RPC.Send", rpcData)
+		innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
+		innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
 
 		state.FillDelta()
 
 		if state.Delta != nil {
-			rpcData := &mccommunication.RPCMsg{
-				Dst: deviceId,
-				Src: PlantainerServerId,
-				Method: deviceId + ".Shadow.Delta",
-				Args: &map[string]interface{}{
-					"state":   state.Delta,
-					"version": device.Shadow.Metadata.Version,
-				},
-			}
-			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", rpcData)
+			//rpcData := &mccommunication.RPCMsg{
+			//	Dst: deviceId,
+			//	Src: PlantainerServerId,
+			//	Method: deviceId + ".Shadow.Delta",
+			//	Args: &map[string]interface{}{
+			//		"state":   state.Delta,
+			//		"version": device.Shadow.Metadata.Version,
+			//	},
+			//}
+			deltaRpc := NewShadowUpdateDeltaReqRPC(deviceId, &device.Shadow)
+			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", deltaRpc)
 		}
 
 		return nil

@@ -43,9 +43,9 @@ func initUserRPCManDeviceRoutes() {
 	deviceG.AddHandler("Get", func(req *mccommunication.RPCReqSt) error {
 		device := &PlantainerModelSt{}
 		args := req.Msg.RPCMsg.Args.(map[string]interface{})
-		deviceShadowId := args["deviceId"].(string)
+		deviceId := args["deviceId"].(string)
 
-		if err := plantainerCollectionManager.FindByShadowId(deviceShadowId, device); err != nil {
+		if err := plantainerCollectionManager.FindByShadowId(deviceId, device); err != nil {
 			return userRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Device not found", 503)
 		}
 
@@ -55,22 +55,23 @@ func initUserRPCManDeviceRoutes() {
 			return userRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "You can use only your own devices", 503)
 		}
 
-		res := &map[string]interface{}{deviceShadowId: device}
+		res := &map[string]interface{}{deviceId: device}
 
 		device.Shadow.State.FillDelta()
 
 		// . If there are some diff (delta), than send it to Device
 		if device.Shadow.State.Delta != nil {
-			rpcData := &mccommunication.RPCMsg{
-				Method: deviceShadowId + ".Shadow.Delta",
-				Id: req.Msg.RPCMsg.Id,
-				Src: PlantainerServerId,
-				Dst: deviceShadowId,
-				Args: &map[string]interface{}{
-					"state":   device.Shadow.State.Delta,
-					"version": device.Shadow.Metadata.Version,
-				},
-			}
+			rpcData := NewShadowUpdateDeltaReqRPC(deviceId, &device.Shadow)
+			//rpcData := &mccommunication.RPCMsg{
+			//	Method: deviceId + ".Shadow.Delta",
+			//	Id: req.Msg.RPCMsg.Id,
+			//	Src: PlantainerServerId,
+			//	Dst: deviceId,
+			//	Args: &map[string]interface{}{
+			//		"state":   device.Shadow.State.Delta,
+			//		"version": device.Shadow.Metadata.Version,
+			//	},
+			//}
 			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", rpcData)
 		}
 
@@ -141,6 +142,8 @@ func initUserRPCManDeviceRoutes() {
 			}
 			device.DesiredUpdate(updateData.State.Desired)
 			shadow.IncrementVersion()
+		} else {
+			return userRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Shadow.Desired is required", 500)
 		}
 
 		if err := plantainerCollectionManager.SaveModel(device); err != nil {
@@ -153,21 +156,28 @@ func initUserRPCManDeviceRoutes() {
 			"version": device.Shadow.Metadata.Version,
 		})
 
+		successUpdate := NewShadowUpdateAcceptedReqRPC(
+			deviceId,
+			&device.Shadow,
+		)
+		deviceRPCMan.SendRPC(req.Channel, successUpdate)
+
 		state.FillDelta()
 
 		// . If there are some diff (delta), than send it to Device
 		if state.Delta != nil {
-			rpcData := &mccommunication.RPCMsg{
-				Method: deviceId + ".Shadow.Delta",
-				Id: req.Msg.RPCMsg.Id,
-				Src: PlantainerServerId,
-				Dst: deviceId,
-				Args: &map[string]interface{}{
-					"state":   state.Delta,
-					"version": device.Shadow.Metadata.Version,
-				},
-			}
-			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", rpcData)
+			//rpcData := &mccommunication.RPCMsg{
+			//	Method: deviceId + ".Shadow.Delta",
+			//	Id: req.Msg.RPCMsg.Id,
+			//	Src: PlantainerServerId,
+			//	Dst: deviceId,
+			//	Args: &map[string]interface{}{
+			//		"state":   state.Delta,
+			//		"version": device.Shadow.Metadata.Version,
+			//	},
+			//}
+			deltaRpc := NewShadowUpdateDeltaReqRPC(deviceId, &device.Shadow)
+			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", deltaRpc)
 		}
 
 		return nil

@@ -57,6 +57,14 @@ func (thisR *UserRPCManagerBaseSt) SendReq(c mccommunication.ClientToServerHandl
 	return nil
 }
 
+func (thisR *UserRPCManagerBaseSt) SendRPC(c mccommunication.ClientToServerHandleResultChannel, rpc *mccommunication.RPCMsg) error {
+	c <- mccommunication.ClientToServerHandleResult{
+		rpc,
+		nil,
+	}
+	return nil
+}
+
 func (thisR *UserRPCManagerBaseSt) Handle(c mccommunication.ClientToServerHandleResultChannel, msg *mccommunication.ClientToServerRPCReqSt) error {
 	return thisR.Router.Handle(c, msg.RPCMsg.Method, msg)
 }

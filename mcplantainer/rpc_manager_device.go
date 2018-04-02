@@ -37,10 +37,12 @@ func initDeviceRPCManMainRoutes() {
 		state.FillDelta()
 
 		if state.Delta != nil {
-			deviceRPCMan.SendReq(req.Channel, req.Msg.ClientId + ".Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
-				"state": state.Delta,
-				"version": device.Shadow.Metadata.Version,
-			})
+			deltaRpc := NewShadowUpdateDeltaReqRPC(device.Shadow.Id, &device.Shadow)
+			deviceRPCMan.SendRPC(req.Channel, deltaRpc)
+			//deviceRPCMan.SendReq(req.Channel, req.Msg.ClientId + ".Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
+			//	"state": state.Delta,
+			//	"version": device.Shadow.Metadata.Version,
+			//})
 		}
 
 		return nil
@@ -125,31 +127,38 @@ func initDeviceRPCManMainRoutes() {
 		})
 
 		// . Send "Update.Accepted" event to Users that subscribed this device
-		rpcData := &mccommunication.RPCMsg{
-			Dst: req.Msg.RPCMsg.Src,
-			Src: req.Msg.RPCMsg.Dst,
-			Method: "Plantainer.Device.Shadow.Update.Accepted",
-			Args: &map[string]interface{}{
-				"state": updateData.State,
-				"version": device.Shadow.Metadata.Version,
-			},
-		}
-
-		if bData, err := rpcData.MarshalJSON(); err != nil {
-			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
-		} else {
-			innerRPCMan.Service.Publish("User.RPC.Send", bData)
-		}
+		successUpdate := NewShadowUpdateAcceptedReqRPC(
+			device.Shadow.Id,
+			&device.Shadow,
+		)
+		innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
+		//rpcData := &mccommunication.RPCMsg{
+		//	Dst: req.Msg.RPCMsg.Src,
+		//	Src: req.Msg.RPCMsg.Dst,
+		//	Method: "Plantainer.Device.Shadow.Update.Accepted",
+		//	Args: &map[string]interface{}{
+		//		"state": updateData.State,
+		//		"version": device.Shadow.Metadata.Version,
+		//	},
+		//}
+		//
+		//if bData, err := rpcData.MarshalJSON(); err != nil {
+		//	return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
+		//} else {
+		//	innerRPCMan.Service.Publish("User.RPC.Send", bData)
+		//}
 
 		// . Check if there is some diff (delta) between Desired and Reported states (Delta struct is used for that)
 		state.FillDelta()
 
 		// . If there are some diff (delta), than send it to Device
 		if state.Delta != nil {
-			deviceRPCMan.SendReq(req.Channel, "Plantainer.Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
-				"state":   state.Delta,
-				"version": device.Shadow.Metadata.Version,
-			})
+			deltaRpc := NewShadowUpdateDeltaReqRPC(device.Shadow.Id, &device.Shadow)
+			deviceRPCMan.SendRPC(req.Channel, deltaRpc)
+			//deviceRPCMan.SendReq(req.Channel, "Plantainer.Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
+			//	"state":   state.Delta,
+			//	"version": device.Shadow.Metadata.Version,
+			//})
 		}
 
 		return nil
