@@ -16,7 +16,8 @@ func initDeviceRPCManager() {
 
 func initDeviceRPCManMainRoutes() {
 	plantainerG := deviceRPCMan.Router.Group("Plantainer")
-	shadowG := plantainerG.Group("Shadow")
+	deviceG := plantainerG.Group("Device")
+	shadowG := deviceG.Group("Shadow")
 	shadowG.AddHandler("Get", func(req *mccommunication.RPCReqSt) error {
 		device := NewPlantainerModel()
 
@@ -109,6 +110,8 @@ func initDeviceRPCManMainRoutes() {
 			}
 			device.DesiredUpdate(updateData.State.Desired)
 			shadow.IncrementVersion()
+		} else {
+			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Request is empty", 500)
 		}
 
 		if err := plantainerCollectionManager.SaveModel(device); err != nil {
@@ -121,10 +124,11 @@ func initDeviceRPCManMainRoutes() {
 		}
 
 		// . Send success back to Device
-		deviceRPCMan.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, &map[string]interface{}{
-			"state": state,
-			"version": device.Shadow.Metadata.Version,
-		})
+		// COMMENTED FOR A TIME
+		//deviceRPCMan.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, &map[string]interface{}{
+		//	"state": state,
+		//	"version": device.Shadow.Metadata.Version,
+		//})
 
 		// . Send "Update.Accepted" event to Users that subscribed this device
 		successUpdate := NewShadowUpdateAcceptedReqRPC(

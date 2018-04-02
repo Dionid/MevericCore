@@ -18,7 +18,7 @@ func NewShadowUpdateAcceptedReqRPC(src string, dst string, methodPrefix string, 
 	return &mccommunication.RPCMsg{
 		Src: src,
 		Dst: dst,
-		Method: methodPrefix + ".Shadow.Update.Success",
+		Method: methodPrefix + ".Device.Shadow.Update.Accepted",
 		Args: map[string]interface{}{
 			"state": state,
 			"version": version,
@@ -30,7 +30,7 @@ func NewShadowUpdateDeltaReqRPC(src string, dst string, methodPrefix string, del
 	return &mccommunication.RPCMsg{
 		Src: src,
 		Dst: dst,
-		Method: methodPrefix + ".Shadow.Delta",
+		Method: methodPrefix + ".Device.Shadow.Delta",
 		Args: map[string]interface{}{
 			"state": delta,
 			"version": version,

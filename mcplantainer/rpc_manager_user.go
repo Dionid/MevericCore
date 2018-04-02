@@ -55,8 +55,6 @@ func initUserRPCManDeviceRoutes() {
 			return userRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "You can use only your own devices", 503)
 		}
 
-		res := &map[string]interface{}{deviceId: device}
-
 		device.Shadow.State.FillDelta()
 
 		// . If there are some diff (delta), than send it to Device
@@ -74,6 +72,8 @@ func initUserRPCManDeviceRoutes() {
 			//}
 			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", rpcData)
 		}
+
+		res := &map[string]interface{}{deviceId: device}
 
 		return userRPCManager.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, res)
 	})

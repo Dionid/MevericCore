@@ -29,7 +29,7 @@ func (thisR *DeviceRPCManagerSt) RespondRPCErrorRes(c mccommunication.ClientToSe
 
 func (thisR *DeviceRPCManagerSt) RespondSuccessResp(c mccommunication.ClientToServerHandleResultChannel, msg *mccommunication.RPCMsg, result *map[string]interface{}) error {
 	data := &mccommunication.RPCMsg{
-		Method: msg.Method,
+		//Method: msg.Method,
 		Id: msg.Id,
 		Src: msg.Dst,
 		Dst: msg.Src,
