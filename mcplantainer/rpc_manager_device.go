@@ -15,7 +15,7 @@ func initDeviceRPCManager() {
 }
 
 func initDeviceRPCManMainRoutes() {
-	plantainerG := deviceRPCMan.Router.Group("#")
+	plantainerG := deviceRPCMan.Router.Group("Plantainer")
 	shadowG := plantainerG.Group("Shadow")
 	shadowG.AddHandler("Get", func(req *mccommunication.RPCReqSt) error {
 		device := NewPlantainerModel()
@@ -51,6 +51,11 @@ func initDeviceRPCManMainRoutes() {
 
 		if err := plantainerCollectionManager.FindByShadowId(req.Msg.ClientId, device); err != nil {
 			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Device not found", 503)
+		}
+
+		if req.Msg.RPCMsg.Result != nil {
+			print("RESULT GOT FORM UPDATE")
+			return nil
 		}
 
 		// TODO: Can be Update result
@@ -141,7 +146,7 @@ func initDeviceRPCManMainRoutes() {
 
 		// . If there are some diff (delta), than send it to Device
 		if state.Delta != nil {
-			deviceRPCMan.SendReq(req.Channel, req.Msg.ClientId + ".Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
+			deviceRPCMan.SendReq(req.Channel, "Plantainer.Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
 				"state":   state.Delta,
 				"version": device.Shadow.Metadata.Version,
 			})

@@ -7,7 +7,6 @@ import (
 	"time"
 	"mevericcore/mcmodules/mclightmodule"
 	"strconv"
-	"mevericcore/mclibs/mccommunication"
 )
 
 // This manager is used in Hub to check operations that needs to be done
@@ -57,6 +56,7 @@ func (cr *DeviceCronManagerSt) Init() error {
 
 	fmt.Printf(time.Now().String())
 
+	// Create CronSetter - fn that will be used to reset crons
 	lightModuleCronSetter := func(dId string, c *cron.Cron) error {
 		defer func(){
 			if recover() != nil {
@@ -82,9 +82,13 @@ func (cr *DeviceCronManagerSt) Init() error {
 					return
 				}
 				lightModule := plantainer.Shadow.State.Reported.LightModule
+
+				// Cancel cron action if it happened when mode is in "manual"
 				if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
 					return
 				}
+
+				// Change the State (LightTurnedOn)
 				plantainer.Shadow.State.Desired.LightModule.LightTurnedOn = &interval.TurnedOn
 				plantainer.Shadow.IncrementVersion()
 
@@ -92,27 +96,19 @@ func (cr *DeviceCronManagerSt) Init() error {
 					return
 				}
 
-				successUpdate := &mccommunication.RPCMsg{
-					Src: PlantainerServerId,
-					Dst: dId,
-					Method: dId + ".Shadow.Update.Success",
-					Args: plantainer.Shadow.State,
-				}
+				successUpdate := NewShadowUpdateAcceptedReqRPC(
+					dId,
+					&plantainer.Shadow,
+				)
+
 				innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
 				innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
 
 				plantainer.Shadow.State.FillDelta()
 
 				if plantainer.Shadow.State.Delta != nil {
-					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", &mccommunication.RPCMsg{
-						Src: PlantainerServerId,
-						Dst: dId,
-						Method: dId + ".Shadow.Delta",
-						Args: &map[string]interface{}{
-							"state": plantainer.Shadow.State.Delta,
-							"version": plantainer.Shadow.Metadata.Version,
-						},
-					})
+					deltaRpc := NewShadowUpdateDeltaReqRPC(dId, &plantainer.Shadow)
+					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", deltaRpc)
 				}
 			})
 			toCrStr := "0 " + strconv.Itoa(interval.ToTimeMinutes) + " " + strconv.Itoa(interval.ToTimeHours) + " * * *"
@@ -133,33 +129,19 @@ func (cr *DeviceCronManagerSt) Init() error {
 					return
 				}
 
-				// ToDo: Make structure for this kind of response
-				successUpdate := &mccommunication.RPCMsg{
-					Src: PlantainerServerId,
-					Dst: dId,
-					Method: dId + ".Shadow.Update.Success",
-					Args: map[string]interface{}{
-						"state": plantainer.Shadow.State,
-						"version": plantainer.Shadow.Metadata.Version,
-					},
-				}
+				successUpdate := NewShadowUpdateAcceptedReqRPC(
+					dId,
+					&plantainer.Shadow,
+				)
+
 				innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
-				// ToDo: Deside what to use as prefix for ".Shadow.Update.Success"
-				successUpdate.Method = "Plantainer.Shadow.Update.Success"
 				innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
 
 				plantainer.Shadow.State.FillDelta()
 
 				if plantainer.Shadow.State.Delta != nil {
-					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", &mccommunication.RPCMsg{
-						Src: PlantainerServerId,
-						Dst: dId,
-						Method: dId + ".Shadow.Delta",
-						Args: &map[string]interface{}{
-							"state": plantainer.Shadow.State.Delta,
-							"version": plantainer.Shadow.Metadata.Version,
-						},
-					})
+					deltaRpc := NewShadowUpdateDeltaReqRPC(dId, &plantainer.Shadow)
+					innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", deltaRpc)
 				}
 			})
 		}
