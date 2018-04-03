@@ -20,7 +20,7 @@ type LightModuleInterval struct {
 
 type LightModuleStateDataSt struct {
 	LightTurnedOn *bool `bson:"lightTurnedOn,omitempty" json:"lightTurnedOn,omitempty"`
-	LightLvl *int `bson:"lightLvl,omitempty" json:"lightLvl,omitempty"`
+	LightLvl *float64 `bson:"lightLvl,omitempty" json:"lightLvl,omitempty"`
 }
 
 type LightModuleStateSt struct {

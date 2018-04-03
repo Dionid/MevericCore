@@ -18,8 +18,8 @@ func subscribeToRPC() {
 		msgPayload := msg.Payload()
 		msgTopic := msg.Topic()
 
-		fmt.Printf("Product RPC topic: %s\n", msgTopic)
-		fmt.Printf("Product RPC payload: %s\n", msgPayload)
+		fmt.Printf("Plantainer received RPC topic: %s\n", msgTopic)
+		fmt.Printf("Plantainer received RPC payload: %s\n", msgPayload)
 
 		rpcData := mccommunication.RPCMsg{}
 		if err := rpcData.UnmarshalJSON(msgPayload); err != nil {
@@ -44,7 +44,7 @@ func subscribeToRPC() {
 		go func() {
 			err := deviceRPCMan.Handle(respChan, handleMsg)
 			if err != nil {
-				print("OMG ERR IN MQTT CONTROLLER")
+				println("OMG ERR IN MQTT CONTROLLER: " + err.Error())
 			}
 		}()
 

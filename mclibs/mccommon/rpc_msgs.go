@@ -26,6 +26,18 @@ func NewShadowUpdateAcceptedReqRPC(src string, dst string, methodPrefix string, 
 	}
 }
 
+func NewShadowUpdateRejectedReqRPC(src string, dst string, methodPrefix string, errMessage string, errCode int) *mccommunication.RPCMsg {
+	return &mccommunication.RPCMsg{
+		Src: src,
+		Dst: dst,
+		Method: methodPrefix + ".Device.Shadow.Update.Rejected",
+		Args: map[string]interface{}{
+			"message": errMessage,
+			"code": errCode,
+		},
+	}
+}
+
 func NewShadowUpdateDeltaReqRPC(src string, dst string, methodPrefix string, delta interface{}, version int) *mccommunication.RPCMsg {
 	return &mccommunication.RPCMsg{
 		Src: src,

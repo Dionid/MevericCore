@@ -40,10 +40,6 @@ func initDeviceRPCManMainRoutes() {
 		if state.Delta != nil {
 			deltaRpc := NewShadowUpdateDeltaReqRPC(device.Shadow.Id, &device.Shadow)
 			deviceRPCMan.SendRPC(req.Channel, deltaRpc)
-			//deviceRPCMan.SendReq(req.Channel, req.Msg.ClientId + ".Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
-			//	"state": state.Delta,
-			//	"version": device.Shadow.Metadata.Version,
-			//})
 		}
 
 		return nil
@@ -53,19 +49,15 @@ func initDeviceRPCManMainRoutes() {
 		device := NewPlantainerModel()
 
 		if err := plantainerCollectionManager.FindByShadowId(req.Msg.ClientId, device); err != nil {
-			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Device not found", 503)
+			errRPC := NewShadowUpdateRejectedReqRPC(req.Msg.ClientId, "Device not found", 503)
+			return deviceRPCMan.SendRPC(req.Channel, errRPC)
 		}
 
-		if req.Msg.RPCMsg.Result != nil {
-			print("RESULT GOT FORM UPDATE")
-			return nil
-		}
-
-		// TODO: Can be Update result
 		updateRpcMsg := &ShadowUpdateRPCMsgSt{}
 
 		if err := updateRpcMsg.UnmarshalJSON(*req.Msg.Msg); err != nil {
-			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 422)
+			errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 422)
+			return deviceRPCMan.SendRPC(req.Channel, errRPC)
 		}
 
 		updateData := updateRpcMsg.Args
@@ -88,7 +80,8 @@ func initDeviceRPCManMainRoutes() {
 				}
 
 				if bData, err := rpcData.MarshalJSON(); err != nil {
-					return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
+					errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 500)
+					return deviceRPCMan.SendRPC(req.Channel, errRPC)
 				} else {
 					innerRPCMan.Service.Publish("User.RPC.Send", bData)
 				}
@@ -106,16 +99,19 @@ func initDeviceRPCManMainRoutes() {
 		} else if updateData.State.Desired != nil {
 			if !shadow.CheckVersion(updateData.Version) {
 				err := errors.New("version wrong")
-				return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
+				errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 500)
+				return deviceRPCMan.SendRPC(req.Channel, errRPC)
 			}
 			device.DesiredUpdate(updateData.State.Desired)
 			shadow.IncrementVersion()
 		} else {
-			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Request is empty", 500)
+			errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, "Request is empty", 500)
+			return deviceRPCMan.SendRPC(req.Channel, errRPC)
 		}
 
 		if err := plantainerCollectionManager.SaveModel(device); err != nil {
-			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
+			errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 500)
+			return deviceRPCMan.SendRPC(req.Channel, errRPC)
 		}
 
 		// . If there was some changes to Reported, that's mean that we need to check system for ex. to change cron
@@ -136,21 +132,6 @@ func initDeviceRPCManMainRoutes() {
 			&device.Shadow,
 		)
 		innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
-		//rpcData := &mccommunication.RPCMsg{
-		//	Dst: req.Msg.RPCMsg.Src,
-		//	Src: req.Msg.RPCMsg.Dst,
-		//	Method: "Plantainer.Device.Shadow.Update.Accepted",
-		//	Args: &map[string]interface{}{
-		//		"state": updateData.State,
-		//		"version": device.Shadow.Metadata.Version,
-		//	},
-		//}
-		//
-		//if bData, err := rpcData.MarshalJSON(); err != nil {
-		//	return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, err.Error(), 500)
-		//} else {
-		//	innerRPCMan.Service.Publish("User.RPC.Send", bData)
-		//}
 
 		// . Check if there is some diff (delta) between Desired and Reported states (Delta struct is used for that)
 		state.FillDelta()
@@ -159,10 +140,6 @@ func initDeviceRPCManMainRoutes() {
 		if state.Delta != nil {
 			deltaRpc := NewShadowUpdateDeltaReqRPC(device.Shadow.Id, &device.Shadow)
 			deviceRPCMan.SendRPC(req.Channel, deltaRpc)
-			//deviceRPCMan.SendReq(req.Channel, "Plantainer.Shadow.Delta", req.Msg.RPCMsg.Dst, req.Msg.RPCMsg.Src, 123, &map[string]interface{}{
-			//	"state":   state.Delta,
-			//	"version": device.Shadow.Metadata.Version,
-			//})
 		}
 
 		return nil

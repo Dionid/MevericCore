@@ -527,7 +527,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer4(in *jlexer.Lexer, out *Plant
 			continue
 		}
 		switch key {
-		case "lightModule":
+		case "light_module":
 			easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in, &out.LightModule)
 		default:
 			in.SkipRecursive()
@@ -548,7 +548,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer4(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"lightModule\":")
+		out.RawString("\"light_module\":")
 		easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out, in.LightModule)
 	}
 	out.RawByte('}')
@@ -606,7 +606,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in *jlexer.Lexer, out *Plant
 				}
 				*out.Mode = string(in.String())
 			}
-		case "lightLvlCheckActive":
+		case "light_lvl_check_active":
 			if in.IsNull() {
 				in.Skip()
 				out.LightLvlCheckActive = nil
@@ -616,7 +616,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in *jlexer.Lexer, out *Plant
 				}
 				*out.LightLvlCheckActive = bool(in.Bool())
 			}
-		case "lightLvlCheckInterval":
+		case "light_lvl_check_interval":
 			if in.IsNull() {
 				in.Skip()
 				out.LightLvlCheckInterval = nil
@@ -626,7 +626,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in *jlexer.Lexer, out *Plant
 				}
 				*out.LightLvlCheckInterval = int(in.Int())
 			}
-		case "lightLvlCheckLastIntervalCallTimestamp":
+		case "light_lvl_check_last_interval_call_timestamp":
 			if in.IsNull() {
 				in.Skip()
 				out.LightLvlCheckLastIntervalCallTimestamp = nil
@@ -636,7 +636,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in *jlexer.Lexer, out *Plant
 				}
 				*out.LightLvlCheckLastIntervalCallTimestamp = int(in.Int())
 			}
-		case "lightIntervalsArr":
+		case "light_intervals_arr":
 			if in.IsNull() {
 				in.Skip()
 				out.LightIntervalsArr = nil
@@ -667,7 +667,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in *jlexer.Lexer, out *Plant
 					in.Delim(']')
 				}
 			}
-		case "lightIntervalsRestTimeTurnedOn":
+		case "light_intervals_rest_time_turned_on":
 			if in.IsNull() {
 				in.Skip()
 				out.LightIntervalsRestTimeTurnedOn = nil
@@ -677,7 +677,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in *jlexer.Lexer, out *Plant
 				}
 				*out.LightIntervalsRestTimeTurnedOn = bool(in.Bool())
 			}
-		case "lightIntervalsCheckingInterval":
+		case "light_intervals_checking_interval":
 			if in.IsNull() {
 				in.Skip()
 				out.LightIntervalsCheckingInterval = nil
@@ -703,9 +703,9 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in *jlexer.Lexer, out *Plant
 				out.LightLvl = nil
 			} else {
 				if out.LightLvl == nil {
-					out.LightLvl = new(int)
+					out.LightLvl = new(float64)
 				}
-				*out.LightLvl = int(in.Int())
+				*out.LightLvl = float64(in.Float64())
 			}
 		default:
 			in.SkipRecursive()
@@ -738,7 +738,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"lightLvlCheckActive\":")
+		out.RawString("\"light_lvl_check_active\":")
 		if in.LightLvlCheckActive == nil {
 			out.RawString("null")
 		} else {
@@ -750,7 +750,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"lightLvlCheckInterval\":")
+		out.RawString("\"light_lvl_check_interval\":")
 		if in.LightLvlCheckInterval == nil {
 			out.RawString("null")
 		} else {
@@ -762,7 +762,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"lightLvlCheckLastIntervalCallTimestamp\":")
+		out.RawString("\"light_lvl_check_last_interval_call_timestamp\":")
 		if in.LightLvlCheckLastIntervalCallTimestamp == nil {
 			out.RawString("null")
 		} else {
@@ -774,7 +774,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"lightIntervalsArr\":")
+		out.RawString("\"light_intervals_arr\":")
 		if in.LightIntervalsArr == nil {
 			out.RawString("null")
 		} else {
@@ -797,7 +797,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"lightIntervalsRestTimeTurnedOn\":")
+		out.RawString("\"light_intervals_rest_time_turned_on\":")
 		if in.LightIntervalsRestTimeTurnedOn == nil {
 			out.RawString("null")
 		} else {
@@ -809,7 +809,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"lightIntervalsCheckingInterval\":")
+		out.RawString("\"light_intervals_checking_interval\":")
 		if in.LightIntervalsCheckingInterval == nil {
 			out.RawString("null")
 		} else {
@@ -837,7 +837,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out *jwriter.Writer, in Plan
 		if in.LightLvl == nil {
 			out.RawString("null")
 		} else {
-			out.Int(int(*in.LightLvl))
+			out.Float64(float64(*in.LightLvl))
 		}
 	}
 	out.RawByte('}')
@@ -861,15 +861,15 @@ func easyjson5bd79fa1DecodeMevericcoreMcmodulesMclightmodule(in *jlexer.Lexer, o
 			continue
 		}
 		switch key {
-		case "fromTimeHours":
+		case "from_time_hours":
 			out.FromTimeHours = int(in.Int())
-		case "fromTimeMinutes":
+		case "from_time_minutes":
 			out.FromTimeMinutes = int(in.Int())
-		case "toTimeHours":
+		case "to_time_hours":
 			out.ToTimeHours = int(in.Int())
-		case "toTimeMinutes":
+		case "to_time_minutes":
 			out.ToTimeMinutes = int(in.Int())
-		case "turnedOn":
+		case "turned_on":
 			out.TurnedOn = bool(in.Bool())
 		default:
 			in.SkipRecursive()
@@ -890,7 +890,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcmodulesMclightmodule(out *jwriter.Writer
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"fromTimeHours\":")
+		out.RawString("\"from_time_hours\":")
 		out.Int(int(in.FromTimeHours))
 	}
 	if in.FromTimeMinutes != 0 {
@@ -898,7 +898,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcmodulesMclightmodule(out *jwriter.Writer
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"fromTimeMinutes\":")
+		out.RawString("\"from_time_minutes\":")
 		out.Int(int(in.FromTimeMinutes))
 	}
 	if in.ToTimeHours != 0 {
@@ -906,7 +906,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcmodulesMclightmodule(out *jwriter.Writer
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"toTimeHours\":")
+		out.RawString("\"to_time_hours\":")
 		out.Int(int(in.ToTimeHours))
 	}
 	if in.ToTimeMinutes != 0 {
@@ -914,7 +914,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcmodulesMclightmodule(out *jwriter.Writer
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"toTimeMinutes\":")
+		out.RawString("\"to_time_minutes\":")
 		out.Int(int(in.ToTimeMinutes))
 	}
 	if in.TurnedOn {
@@ -922,7 +922,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcmodulesMclightmodule(out *jwriter.Writer
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"turnedOn\":")
+		out.RawString("\"turned_on\":")
 		out.Bool(bool(in.TurnedOn))
 	}
 	out.RawByte('}')

@@ -11,7 +11,7 @@ type DeviceRPCManagerSt struct {
 
 func (thisR *DeviceRPCManagerSt) RespondRPCErrorRes(c mccommunication.ClientToServerHandleResultChannel, msg *mccommunication.RPCMsg, errMessage string, errCode int) error {
 	data := &mccommunication.RPCMsg{
-		Method: msg.Method,
+		//Method: msg.Method,
 		Id: msg.Id,
 		Src: msg.Dst,
 		Dst: msg.Src,
