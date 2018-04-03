@@ -33,6 +33,18 @@ func NewPlantainerModel() *PlantainerModelSt {
 	return &PlantainerModelSt{}
 }
 
+func (this *PlantainerModelSt) CheckAllSystems() (bool, error) {
+	gChanged := false
+	changed, err := this.Shadow.State.Reported.LightModule.CheckAllSystems(&this.Shadow.State.Desired.LightModule)
+	if err != nil {
+		return false, err
+	}
+	if changed {
+		gChanged = true
+	}
+	return gChanged, nil
+}
+
 func (this *PlantainerModelSt) CheckAfterShadowReportedUpdate(oldShadow *PlantainerShadowSt) {
 	this.Shadow.State.Reported.LightModule.CheckAfterShadowUpdate(this.Shadow.Id,&oldShadow.State.Reported.LightModule)
 }

@@ -60,16 +60,6 @@ func initUserRPCManDeviceRoutes() {
 		// . If there are some diff (delta), than send it to Device
 		if device.Shadow.State.Delta != nil {
 			rpcData := NewShadowUpdateDeltaReqRPC(deviceId, &device.Shadow)
-			//rpcData := &mccommunication.RPCMsg{
-			//	Method: deviceId + ".Shadow.Delta",
-			//	Id: req.Msg.RPCMsg.Id,
-			//	Src: PlantainerServerId,
-			//	Dst: deviceId,
-			//	Args: &map[string]interface{}{
-			//		"state":   device.Shadow.State.Delta,
-			//		"version": device.Shadow.Metadata.Version,
-			//	},
-			//}
 			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", rpcData)
 		}
 
@@ -166,16 +156,6 @@ func initUserRPCManDeviceRoutes() {
 
 		// . If there are some diff (delta), than send it to Device
 		if state.Delta != nil {
-			//rpcData := &mccommunication.RPCMsg{
-			//	Method: deviceId + ".Shadow.Delta",
-			//	Id: req.Msg.RPCMsg.Id,
-			//	Src: PlantainerServerId,
-			//	Dst: deviceId,
-			//	Args: &map[string]interface{}{
-			//		"state":   state.Delta,
-			//		"version": device.Shadow.Metadata.Version,
-			//	},
-			//}
 			deltaRpc := NewShadowUpdateDeltaReqRPC(deviceId, &device.Shadow)
 			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", deltaRpc)
 		}

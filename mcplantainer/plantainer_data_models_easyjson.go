@@ -38,7 +38,7 @@ func easyjsonAd86b0a0DecodeMevericcoreMcplantainer(in *jlexer.Lexer, out *Planta
 			continue
 		}
 		switch key {
-		case "irrigation_module":
+		case "irrigationModule":
 			if in.IsNull() {
 				in.Skip()
 				out.IrrigationModule = nil
@@ -48,7 +48,7 @@ func easyjsonAd86b0a0DecodeMevericcoreMcplantainer(in *jlexer.Lexer, out *Planta
 				}
 				easyjsonAd86b0a0DecodeMevericcoreMcplantainer1(in, &*out.IrrigationModule)
 			}
-		case "light_module":
+		case "lightModule":
 			if in.IsNull() {
 				in.Skip()
 				out.LightModule = nil
@@ -77,7 +77,7 @@ func easyjsonAd86b0a0EncodeMevericcoreMcplantainer(out *jwriter.Writer, in Plant
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"irrigation_module\":")
+		out.RawString("\"irrigationModule\":")
 		if in.IrrigationModule == nil {
 			out.RawString("null")
 		} else {
@@ -89,7 +89,7 @@ func easyjsonAd86b0a0EncodeMevericcoreMcplantainer(out *jwriter.Writer, in Plant
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"light_module\":")
+		out.RawString("\"lightModule\":")
 		if in.LightModule == nil {
 			out.RawString("null")
 		} else {
@@ -157,9 +157,9 @@ func easyjsonAd86b0a0DecodeMevericcoreMcmodulesMclightmodule(in *jlexer.Lexer, o
 				out.LightLvl = nil
 			} else {
 				if out.LightLvl == nil {
-					out.LightLvl = new(float64)
+					out.LightLvl = new(int)
 				}
-				*out.LightLvl = float64(in.Float64())
+				*out.LightLvl = int(in.Int())
 			}
 		default:
 			in.SkipRecursive()
@@ -196,7 +196,7 @@ func easyjsonAd86b0a0EncodeMevericcoreMcmodulesMclightmodule(out *jwriter.Writer
 		if in.LightLvl == nil {
 			out.RawString("null")
 		} else {
-			out.Float64(float64(*in.LightLvl))
+			out.Int(int(*in.LightLvl))
 		}
 	}
 	out.RawByte('}')
@@ -325,11 +325,11 @@ func easyjsonAd86b0a0DecodeMevericcoreMcplantainer2(in *jlexer.Lexer, out *Plant
 			if data := in.Raw(); in.Ok() {
 				in.AddError((out.ID).UnmarshalJSON(data))
 			}
-		case "updated_at":
+		case "updatedAt":
 			if data := in.Raw(); in.Ok() {
 				in.AddError((out.UpdatedAt).UnmarshalJSON(data))
 			}
-		case "deleted_at":
+		case "deletedAt":
 			if in.IsNull() {
 				in.Skip()
 				out.DeletedAt = nil
@@ -430,7 +430,7 @@ func easyjsonAd86b0a0EncodeMevericcoreMcplantainer2(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"updated_at\":")
+		out.RawString("\"updatedAt\":")
 		out.Raw((in.UpdatedAt).MarshalJSON())
 	}
 	if in.DeletedAt != nil {
@@ -438,7 +438,7 @@ func easyjsonAd86b0a0EncodeMevericcoreMcplantainer2(out *jwriter.Writer, in Plan
 			out.RawByte(',')
 		}
 		first = false
-		out.RawString("\"deleted_at\":")
+		out.RawString("\"deletedAt\":")
 		if in.DeletedAt == nil {
 			out.RawString("null")
 		} else {

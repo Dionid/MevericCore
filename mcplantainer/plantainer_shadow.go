@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"mevericcore/mcmodules/mclightmodule"
 )
 
 //easyjson:json
@@ -179,4 +180,93 @@ type PlantainerShadowRPCMsgArgsSt struct {
 type ShadowUpdateRPCMsgSt struct {
 	mccommunication.RPCMsg
 	Args PlantainerShadowRPCMsgArgsSt
+}
+
+type LightModuleStateDataFromDeviceSt struct {
+	LightTurnedOn *bool `bson:"lightTurnedOn,omitempty" json:"lightTurnedOn,omitempty"`
+	LightLvl *float64 `bson:"lightLvl,omitempty" json:"lightLvl,omitempty"`
+}
+
+type PlantainerLightModuleFromDeviceStateSt struct {
+	mclightmodule.LightModuleStateSt `bson:",inline"`
+	LightModuleStateDataFromDeviceSt                 `bson:",inline"`
+}
+
+type PlantainerShadowStatePieceFromDeviceSt struct {
+	LightModule PlantainerLightModuleFromDeviceStateSt `bson:"lightModule"`
+}
+
+type PlantainerShadowRPCMsgFromDeviceArgsStateSt struct {
+	Reported *PlantainerShadowStatePieceFromDeviceSt `json:"reported"`
+	Desired *PlantainerShadowStatePieceFromDeviceSt `json:"desired"`
+}
+
+type PlantainerShadowRPCMsgFromDeviceArgsSt struct {
+	State     PlantainerShadowRPCMsgFromDeviceArgsStateSt
+	Version   int
+}
+
+//easyjson:json
+type JSONShadowUpdateRPCMsgFromDeviceSt struct {
+	mccommunication.RPCMsg
+	Args PlantainerShadowRPCMsgFromDeviceArgsSt
+}
+
+func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() *ShadowUpdateRPCMsgSt {
+	defer func() {
+		r := recover()
+		if r != nil {
+			print(r)
+		}
+	}()
+	res := &ShadowUpdateRPCMsgSt{
+		RPCMsg: this.RPCMsg,
+		Args: PlantainerShadowRPCMsgArgsSt{
+			Version: this.Args.Version,
+			State: PlantainerShadowRPCMsgArgsStateSt{},
+		},
+	}
+	var reportedintLightLvl int
+	var desiredintLightLvl int
+	if this.Args.State.Reported != nil {
+		reportedintLightLvl = int(*this.Args.State.Reported.LightModule.LightLvl)
+		res.Args.State.Reported = &PlantainerShadowStatePieceSt{
+			LightModule: PlantainerLightModuleStateSt{
+				LightModuleStateSt: mclightmodule.LightModuleStateSt{
+					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
+						LightTurnedOn: this.Args.State.Reported.LightModule.LightModuleStateDataFromDeviceSt.LightTurnedOn,
+						LightLvl: &reportedintLightLvl,
+					},
+					Mode: this.Args.State.Reported.LightModule.Mode,
+					LightLvlCheckActive: this.Args.State.Reported.LightModule.LightLvlCheckActive,
+					LightLvlCheckInterval: this.Args.State.Reported.LightModule.LightLvlCheckInterval,
+					LightLvlCheckLastIntervalCallTimestamp: this.Args.State.Reported.LightModule.LightLvlCheckLastIntervalCallTimestamp,
+					LightIntervalsArr: this.Args.State.Reported.LightModule.LightIntervalsArr,
+					LightIntervalsRestTimeTurnedOn: this.Args.State.Reported.LightModule.LightIntervalsRestTimeTurnedOn,
+					LightIntervalsCheckingInterval: this.Args.State.Reported.LightModule.LightIntervalsCheckingInterval,
+				},
+			},
+		}
+	}
+	if this.Args.State.Desired != nil {
+		desiredintLightLvl = int(*this.Args.State.Desired.LightModule.LightLvl)
+		res.Args.State.Desired = &PlantainerShadowStatePieceSt{
+			LightModule: PlantainerLightModuleStateSt{
+				LightModuleStateSt: mclightmodule.LightModuleStateSt{
+					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
+						LightTurnedOn: this.Args.State.Desired.LightModule.LightModuleStateDataFromDeviceSt.LightTurnedOn,
+						LightLvl: &desiredintLightLvl,
+					},
+					Mode: this.Args.State.Desired.LightModule.Mode,
+					LightLvlCheckActive: this.Args.State.Desired.LightModule.LightLvlCheckActive,
+					LightLvlCheckInterval: this.Args.State.Desired.LightModule.LightLvlCheckInterval,
+					LightLvlCheckLastIntervalCallTimestamp: this.Args.State.Desired.LightModule.LightLvlCheckLastIntervalCallTimestamp,
+					LightIntervalsArr: this.Args.State.Desired.LightModule.LightIntervalsArr,
+					LightIntervalsRestTimeTurnedOn: this.Args.State.Desired.LightModule.LightIntervalsRestTimeTurnedOn,
+					LightIntervalsCheckingInterval: this.Args.State.Desired.LightModule.LightIntervalsCheckingInterval,
+				},
+			},
+		}
+	}
+	return res
 }

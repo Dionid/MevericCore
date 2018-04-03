@@ -3,6 +3,7 @@ package mcplantainer
 import (
 	"mevericcore/mcmodules/mclightmodule"
 	"mevericcore/mclibs/mccommunication"
+	"time"
 )
 
 type PlantainerLightModuleStateSt struct {
@@ -30,6 +31,28 @@ func NewPlLightModuleStateWithDefaultsSt() *PlantainerLightModuleStateSt {
 			LightIntervalsCheckingInterval: &lightIntervalsCheckingInterval,
 		},
 	}
+}
+
+func (this *PlantainerLightModuleStateSt) CheckAllSystems(desiredState *PlantainerLightModuleStateSt) (changed bool, err error) {
+	changed = false
+	err = nil
+	if *this.Mode == mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+		now := time.Now()
+		nowH := now.Hour()
+		nowM := now.Minute()
+		for _, interval := range *this.LightIntervalsArr {
+			if interval.FromTimeHours < nowH &&
+				interval.FromTimeMinutes < nowM &&
+				interval.ToTimeHours > nowH &&
+				interval.ToTimeMinutes > nowM {
+					if *this.LightTurnedOn != interval.TurnedOn {
+						desiredState.LightTurnedOn = &interval.TurnedOn
+						changed = true
+					}
+				}
+		}
+	}
+	return
 }
 
 func (this *PlantainerLightModuleStateSt) CheckAfterShadowUpdate(deviceId string, oldState *PlantainerLightModuleStateSt) {

@@ -20,7 +20,7 @@ type LightModuleInterval struct {
 
 type LightModuleStateDataSt struct {
 	LightTurnedOn *bool `bson:"lightTurnedOn,omitempty" json:"lightTurnedOn,omitempty"`
-	LightLvl *float64 `bson:"lightLvl,omitempty" json:"lightLvl,omitempty"`
+	LightLvl *int `bson:"lightLvl,omitempty" json:"lightLvl,omitempty"`
 }
 
 type LightModuleStateSt struct {
@@ -124,110 +124,3 @@ func (this *LightModuleStateSt) ReportedUpdate(newState *LightModuleStateSt) {
 		}
 	}
 }
-
-//type LightModuleSt struct {
-//	State *LightModuleStateSt `bson:"-"`
-//	Timer *TimerSt `bson:"-"`
-//	DeviceId string `bson:"-"`
-//}
-//
-//func NewLightModule() *LightModuleSt {
-//	return &LightModuleSt{
-//		NewLightModuleStateWithDefault(),
-//		NewTimer(),
-//		"",
-//	}
-//}
-//
-//func (this *LightModuleSt) SetState(state *LightModuleStateSt) {
-//	this.State = state
-//}
-//
-//func (this *LightModuleSt) CheckState() {
-//	now := time.Now()
-//	nowHour := now.Hour()
-//	nowMin := now.Minute()
-//	for _, interval := range *this.State.LightIntervalsArr {
-//		if nowHour >= interval.FromTimeHours && nowMin >= interval.FromTimeMinutes && nowHour <= interval.ToTimeHours && nowMin < interval.ToTimeMinutes {
-//			this.State.LightTurnedOn = interval.TurnedOn
-//			// Set Desired state and send Delta
-//		}
-//	}
-//}
-//
-//func (this *LightModuleSt) SetTimer() {
-//	this.Timer.Set(*this.State.LightIntervalsCheckingInterval)
-//	<- this.Timer.Timer.C
-//	this.Timer.isRunning = false
-//	this.CheckState()
-//}
-//
-//func (this *LightModuleSt) ResetTimer() {
-//	this.Timer.Reset(*this.State.LightIntervalsCheckingInterval)
-//}
-//
-//func (this *LightModuleSt) RemoveTimer() {
-//	this.Timer.Remove()
-//}
-//
-//type TimerSt struct {
-//	isRunning bool
-//	Timer *time.Timer
-//}
-//
-//func NewTimer() *TimerSt {
-//	return &TimerSt{
-//		isRunning: false,
-//	}
-//}
-//
-//func (this *TimerSt) Set(timeout int) {
-//	this.Remove()
-//	this.Timer = time.NewTimer(time.Millisecond * time.Duration(timeout))
-//	this.isRunning = true
-//}
-//
-//func (this *TimerSt) Reset(timeout int) {
-//	if this.Timer != nil && this.isRunning {
-//		this.Timer.Reset(time.Millisecond * time.Duration(timeout))
-//		this.isRunning = true
-//	}
-//}
-//
-//func (this *TimerSt) Remove() {
-//	if this.Timer != nil && this.isRunning {
-//		this.Timer.Stop()
-//	}
-//}
-//
-//func (this *LightModuleSt) CheckOnStateUpdate(deviceId string, newState *LightModuleStateSt) {
-//	this.DeviceId = deviceId
-//
-//	if newState.LightIntervalsCheckingInterval != nil {
-//		this.State.LightIntervalsCheckingInterval = newState.LightIntervalsCheckingInterval
-//		// Reset timers
-//		if newState.Mode == nil || newState.Mode == this.State.Mode {
-//			//this.ResetTimer()
-//		}
-//	}
-//	if newState.LightIntervalsRestTimeTurnedOn != nil {
-//		this.State.LightIntervalsRestTimeTurnedOn = newState.LightIntervalsRestTimeTurnedOn
-//	}
-//	if newState.LightIntervalsCheckingInterval != nil {
-//		this.State.LightIntervalsCheckingInterval = newState.LightIntervalsCheckingInterval
-//	}
-//	if newState.LightLvlCheckActive != nil {
-//		this.State.LightLvlCheckActive = newState.LightLvlCheckActive
-//	}
-//	if newState.Mode != nil && newState.Mode != this.State.Mode {
-//		this.State.Mode = newState.Mode
-//		switch *newState.Mode {
-//		case LightModuleModes[LightModuleModeLightServerIntervalsTimerMode]:
-//			// Add timers
-//			//this.SetTimer()
-//		case LightModuleModes[LightModuleModeManual]:
-//			// Reset timers
-//			//this.ResetTimer()
-//		}
-//	}
-//}

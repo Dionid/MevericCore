@@ -22,10 +22,20 @@ func initDeviceRPCManMainRoutes() {
 		device := NewPlantainerModel()
 
 		if err := plantainerCollectionManager.FindByShadowId(req.Msg.ClientId, device); err != nil {
-			return deviceRPCMan.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "Device not found", 503)
+			errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, "Device not found", 503)
+			return deviceRPCMan.SendRPC(req.Channel, errRPC)
 		}
 
 		// ToDo: Check systems (like that intervals are working correctly)
+		if changed, err := device.CheckAllSystems(); err != nil {
+			errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 500)
+			return deviceRPCMan.SendRPC(req.Channel, errRPC)
+		} else if changed {
+			if err := plantainerCollectionManager.SaveModel(device); err != nil {
+				errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 500)
+				return deviceRPCMan.SendRPC(req.Channel, errRPC)
+			}
+		}
 
 		state := device.Shadow.State
 
@@ -53,12 +63,14 @@ func initDeviceRPCManMainRoutes() {
 			return deviceRPCMan.SendRPC(req.Channel, errRPC)
 		}
 
-		updateRpcMsg := &ShadowUpdateRPCMsgSt{}
+		updateRpcMsg1 := &JSONShadowUpdateRPCMsgFromDeviceSt{}
 
-		if err := updateRpcMsg.UnmarshalJSON(*req.Msg.Msg); err != nil {
+		if err := updateRpcMsg1.UnmarshalJSON(*req.Msg.Msg); err != nil {
 			errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 422)
 			return deviceRPCMan.SendRPC(req.Channel, errRPC)
 		}
+
+		updateRpcMsg := updateRpcMsg1.ConvertToShadowUpdateRPCMsgSt()
 
 		updateData := updateRpcMsg.Args
 		shadow := &device.Shadow
@@ -119,6 +131,17 @@ func initDeviceRPCManMainRoutes() {
 			device.CheckAfterShadowReportedUpdate(&oldShadow)
 		}
 
+		// . Checking all systems to be valid and work properly
+		if changed, err := device.CheckAllSystems(); err != nil {
+			errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 500)
+			return deviceRPCMan.SendRPC(req.Channel, errRPC)
+		} else if changed {
+			if err := plantainerCollectionManager.SaveModel(device); err != nil {
+				errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 500)
+				return deviceRPCMan.SendRPC(req.Channel, errRPC)
+			}
+		}
+
 		// . Send success back to Device
 		// COMMENTED FOR A TIME
 		//deviceRPCMan.RespondSuccessResp(req.Channel, req.Msg.RPCMsg, &map[string]interface{}{
@@ -131,6 +154,7 @@ func initDeviceRPCManMainRoutes() {
 			device.Shadow.Id,
 			&device.Shadow,
 		)
+		deviceRPCMan.SendRPC(req.Channel, successUpdate)
 		innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
 
 		// . Check if there is some diff (delta) between Desired and Reported states (Delta struct is used for that)
