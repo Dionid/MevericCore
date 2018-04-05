@@ -18,7 +18,7 @@ func initUserRPCManager() {
 
 func initUserRPCManDeviceRoutes() {
 	plantainerG := userRPCManager.Router.Group("Plantainer")
-	deviceG := plantainerG.Group("Devices")
+	deviceG := plantainerG.Group("Device")
 	deviceG.AddHandler("Create", func(req *mccommunication.RPCReqSt) error {
 
 		device := &PlantainerModelSt{

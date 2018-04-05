@@ -226,16 +226,14 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 			State: PlantainerShadowRPCMsgArgsStateSt{},
 		},
 	}
-	var reportedintLightLvl int
-	var desiredintLightLvl int
+	//var reportedintLightLvl *int
+	//var desiredintLightLvl *int
 	if this.Args.State.Reported != nil {
-		reportedintLightLvl = int(*this.Args.State.Reported.LightModule.LightLvl)
 		res.Args.State.Reported = &PlantainerShadowStatePieceSt{
 			LightModule: PlantainerLightModuleStateSt{
 				LightModuleStateSt: mclightmodule.LightModuleStateSt{
 					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
-						LightTurnedOn: this.Args.State.Reported.LightModule.LightModuleStateDataFromDeviceSt.LightTurnedOn,
-						LightLvl: &reportedintLightLvl,
+						LightTurnedOn: this.Args.State.Reported.LightModule.LightTurnedOn,
 					},
 					Mode: this.Args.State.Reported.LightModule.Mode,
 					LightLvlCheckActive: this.Args.State.Reported.LightModule.LightLvlCheckActive,
@@ -247,15 +245,17 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 				},
 			},
 		}
+		if this.Args.State.Reported.LightModule.LightLvl != nil {
+			in := int(*this.Args.State.Reported.LightModule.LightLvl)
+			res.Args.State.Reported.LightModule.LightLvl = &in
+		}
 	}
 	if this.Args.State.Desired != nil {
-		desiredintLightLvl = int(*this.Args.State.Desired.LightModule.LightLvl)
 		res.Args.State.Desired = &PlantainerShadowStatePieceSt{
 			LightModule: PlantainerLightModuleStateSt{
 				LightModuleStateSt: mclightmodule.LightModuleStateSt{
 					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
-						LightTurnedOn: this.Args.State.Desired.LightModule.LightModuleStateDataFromDeviceSt.LightTurnedOn,
-						LightLvl: &desiredintLightLvl,
+						LightTurnedOn: this.Args.State.Desired.LightModule.LightTurnedOn,
 					},
 					Mode: this.Args.State.Desired.LightModule.Mode,
 					LightLvlCheckActive: this.Args.State.Desired.LightModule.LightLvlCheckActive,
@@ -266,6 +266,10 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 					LightIntervalsCheckingInterval: this.Args.State.Desired.LightModule.LightIntervalsCheckingInterval,
 				},
 			},
+		}
+		if this.Args.State.Desired.LightModule.LightLvl != nil {
+			in := int(*this.Args.State.Desired.LightModule.LightLvl)
+			res.Args.State.Desired.LightModule.LightLvl = &in
 		}
 	}
 	return res
