@@ -11,11 +11,13 @@ import (
 //easyjson:json
 type PlantainerShadowStatePieceSt struct {
 	LightModule PlantainerLightModuleStateSt `bson:"lightModule"`
+	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule"`
 }
 
 func NewPlantainerShadowStatePiece() *PlantainerShadowStatePieceSt {
 	return &PlantainerShadowStatePieceSt{
 		*NewPlLightModuleStateWithDefaultsSt(),
+		*NewPlantainerVentilationModuleState(),
 	}
 }
 
@@ -139,8 +141,9 @@ func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 }
 
 // ToDo: Add other data (timestamps)
+//easyjson:json
 type PlantainerShadowMetadataSt struct {
-	Version int
+	Version int `json:"version,omitempty"`
 }
 
 //easyjson:json
@@ -194,6 +197,7 @@ type PlantainerLightModuleFromDeviceStateSt struct {
 
 type PlantainerShadowStatePieceFromDeviceSt struct {
 	LightModule PlantainerLightModuleFromDeviceStateSt `bson:"lightModule"`
+	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule"`
 }
 
 type PlantainerShadowRPCMsgFromDeviceArgsStateSt struct {
@@ -230,6 +234,7 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 	//var desiredintLightLvl *int
 	if this.Args.State.Reported != nil {
 		res.Args.State.Reported = &PlantainerShadowStatePieceSt{
+			VentilationModule: this.Args.State.Reported.VentilationModule,
 			LightModule: PlantainerLightModuleStateSt{
 				LightModuleStateSt: mclightmodule.LightModuleStateSt{
 					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
@@ -252,6 +257,7 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 	}
 	if this.Args.State.Desired != nil {
 		res.Args.State.Desired = &PlantainerShadowStatePieceSt{
+			VentilationModule: this.Args.State.Desired.VentilationModule,
 			LightModule: PlantainerLightModuleStateSt{
 				LightModuleStateSt: mclightmodule.LightModuleStateSt{
 					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{

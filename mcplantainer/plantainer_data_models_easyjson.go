@@ -8,6 +8,7 @@ import (
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"
 	mclightmodule "mevericcore/mcmodules/mclightmodule"
+	mcventilationmodule "mevericcore/mcmodules/mcventilationmodule"
 	time "time"
 )
 
@@ -58,6 +59,16 @@ func easyjsonAd86b0a0DecodeMevericcoreMcplantainer(in *jlexer.Lexer, out *Planta
 				}
 				easyjsonAd86b0a0DecodeMevericcoreMcmodulesMclightmodule(in, &*out.LightModule)
 			}
+		case "ventilationModule":
+			if in.IsNull() {
+				in.Skip()
+				out.VentilationModule = nil
+			} else {
+				if out.VentilationModule == nil {
+					out.VentilationModule = new(mcventilationmodule.VentilationModuleStateDataSt)
+				}
+				easyjsonAd86b0a0DecodeMevericcoreMcmodulesMcventilationmodule(in, &*out.VentilationModule)
+			}
 		default:
 			in.SkipRecursive()
 		}
@@ -96,6 +107,18 @@ func easyjsonAd86b0a0EncodeMevericcoreMcplantainer(out *jwriter.Writer, in Plant
 			easyjsonAd86b0a0EncodeMevericcoreMcmodulesMclightmodule(out, *in.LightModule)
 		}
 	}
+	if in.VentilationModule != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"ventilationModule\":")
+		if in.VentilationModule == nil {
+			out.RawString("null")
+		} else {
+			easyjsonAd86b0a0EncodeMevericcoreMcmodulesMcventilationmodule(out, *in.VentilationModule)
+		}
+	}
 	out.RawByte('}')
 }
 
@@ -121,6 +144,107 @@ func (v *PlantainerDataValuesSt) UnmarshalJSON(data []byte) error {
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *PlantainerDataValuesSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjsonAd86b0a0DecodeMevericcoreMcplantainer(l, v)
+}
+func easyjsonAd86b0a0DecodeMevericcoreMcmodulesMcventilationmodule(in *jlexer.Lexer, out *mcventilationmodule.VentilationModuleStateDataSt) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "humidity":
+			if in.IsNull() {
+				in.Skip()
+				out.Humidity = nil
+			} else {
+				if out.Humidity == nil {
+					out.Humidity = new(float64)
+				}
+				*out.Humidity = float64(in.Float64())
+			}
+		case "coolerInTurnedOn":
+			if in.IsNull() {
+				in.Skip()
+				out.CoolerInTurnedOn = nil
+			} else {
+				if out.CoolerInTurnedOn == nil {
+					out.CoolerInTurnedOn = new(bool)
+				}
+				*out.CoolerInTurnedOn = bool(in.Bool())
+			}
+		case "coolerOutTurnedOn":
+			if in.IsNull() {
+				in.Skip()
+				out.CoolerOutTurnedOn = nil
+			} else {
+				if out.CoolerOutTurnedOn == nil {
+					out.CoolerOutTurnedOn = new(bool)
+				}
+				*out.CoolerOutTurnedOn = bool(in.Bool())
+			}
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonAd86b0a0EncodeMevericcoreMcmodulesMcventilationmodule(out *jwriter.Writer, in mcventilationmodule.VentilationModuleStateDataSt) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if in.Humidity != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"humidity\":")
+		if in.Humidity == nil {
+			out.RawString("null")
+		} else {
+			out.Float64(float64(*in.Humidity))
+		}
+	}
+	if in.CoolerInTurnedOn != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"coolerInTurnedOn\":")
+		if in.CoolerInTurnedOn == nil {
+			out.RawString("null")
+		} else {
+			out.Bool(bool(*in.CoolerInTurnedOn))
+		}
+	}
+	if in.CoolerOutTurnedOn != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"coolerOutTurnedOn\":")
+		if in.CoolerOutTurnedOn == nil {
+			out.RawString("null")
+		} else {
+			out.Bool(bool(*in.CoolerOutTurnedOn))
+		}
+	}
+	out.RawByte('}')
 }
 func easyjsonAd86b0a0DecodeMevericcoreMcmodulesMclightmodule(in *jlexer.Lexer, out *mclightmodule.LightModuleStateDataSt) {
 	isTopLevel := in.IsStart()

@@ -95,6 +95,8 @@ func (this *LightModuleStateSt) DesiredUpdate(newState *LightModuleStateSt) erro
 	return nil
 }
 
+
+// ToDo: Change this to return stop bool, reset bool
 func (this *LightModuleStateSt) ReportedUpdate(newState *LightModuleStateSt) {
 	if newState.LightIntervalsCheckingInterval != nil {
 		this.LightIntervalsCheckingInterval = newState.LightIntervalsCheckingInterval

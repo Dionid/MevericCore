@@ -50,22 +50,39 @@ func (this *PlantainerModelSt) CheckAfterShadowReportedUpdate(oldShadow *Plantai
 }
 
 func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowStatePieceSt) (*PlantainerDataValuesSt, error) {
-	values := &PlantainerDataValuesSt{}
+	// ToDo: Problem is that every time I save this struct, there will be empty modules structs inside
+	// it's better to make method that will check if module prt of `updatedData` isn't empty and then create empty struct in `values`
+	values := NewPlantainerDataValuesSt()
 	addedValues := false
 
-	if updateData.LightModule.LightLvl != nil{
-		if values.LightModule == nil {
-			values.LightModule = &mclightmodule.LightModuleStateDataSt{}
-		}
-		//fmt.Printf("%+v\n", updateData.LightModule)
-		v := updateData.LightModule.LightLvl
-		if v != nil{
-			values.LightModule.LightLvl = v
-		}
-		vB := updateData.LightModule.LightTurnedOn
-		if v != nil{
-			values.LightModule.LightTurnedOn = vB
-		}
+	if values.LightModule == nil {
+		values.LightModule = &mclightmodule.LightModuleStateDataSt{}
+	}
+
+	lL := updateData.LightModule.LightLvl
+	if lL != nil{
+		values.LightModule.LightLvl = lL
+		addedValues = true
+	}
+	lT := updateData.LightModule.LightTurnedOn
+	if lT != nil{
+		values.LightModule.LightTurnedOn = lT
+		addedValues = true
+	}
+
+	vH := updateData.VentilationModule.Humidity
+	if vH != nil{
+		values.VentilationModule.Humidity = vH
+		addedValues = true
+	}
+	hCI := updateData.VentilationModule.CoolerInTurnedOn
+	if hCI != nil{
+		values.VentilationModule.CoolerInTurnedOn = hCI
+		addedValues = true
+	}
+	hCO := updateData.VentilationModule.CoolerOutTurnedOn
+	if hCO != nil{
+		values.VentilationModule.CoolerOutTurnedOn = hCO
 		addedValues = true
 	}
 
@@ -79,6 +96,7 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 
 func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStatePieceSt) error {
 	this.Shadow.State.Reported.LightModule.ReportedUpdate(&updateData.LightModule)
+	this.Shadow.State.Reported.VentilationModule.ReportedUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
 	return nil
 }
 
@@ -87,6 +105,7 @@ func (this *PlantainerModelSt) DesiredUpdate(updateData *PlantainerShadowStatePi
 		this.Shadow.State.Desired = &PlantainerShadowStatePieceSt{}
 	}
 	this.Shadow.State.Desired.LightModule.DesiredUpdate(&updateData.LightModule.LightModuleStateSt)
+	this.Shadow.State.Desired.VentilationModule.DesiredUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
 	return nil
 }
 
@@ -183,11 +202,17 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 		PlantainerShadowStateSt{
 			PlantainerShadowStatePieceSt{
 				*NewPlLightModuleStateWithDefaultsSt(),
+				*NewPlantainerVentilationModuleState(),
+			},
+			&PlantainerShadowStatePieceSt{
+				PlantainerLightModuleStateSt{},
+				PlantainerVentilationModuleStateSt{},
 			},
 			nil,
-			nil,
 		},
-		PlantainerShadowMetadataSt{},
+		PlantainerShadowMetadataSt{
+			Version: 0,
+		},
 	}
 
 	this.Type = this.GetTypeName()

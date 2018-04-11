@@ -4,6 +4,7 @@ import (
 	"mevericcore/mclibs/mccommon"
 	"gopkg.in/mgo.v2"
 	"mevericcore/mcmodules/mclightmodule"
+	"mevericcore/mcmodules/mcventilationmodule"
 )
 
 type PlantainerDataValuesIrrigationModuleSt struct {
@@ -15,12 +16,14 @@ type PlantainerDataValuesIrrigationModuleSt struct {
 type PlantainerDataValuesSt struct {
 	IrrigationModule *PlantainerDataValuesIrrigationModuleSt
 	LightModule *mclightmodule.LightModuleStateDataSt
+	VentilationModule *mcventilationmodule.VentilationModuleStateDataSt
 }
 
 func NewPlantainerDataValuesSt() *PlantainerDataValuesSt {
 	return &PlantainerDataValuesSt{
 		&PlantainerDataValuesIrrigationModuleSt{},
 		&mclightmodule.LightModuleStateDataSt{},
+		&mcventilationmodule.VentilationModuleStateDataSt{},
 	}
 }
 
