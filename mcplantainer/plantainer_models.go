@@ -8,6 +8,8 @@ import (
 	"tztatom/tztcore"
 	"gopkg.in/mgo.v2/bson"
 	"mevericcore/mcmodules/mclightmodule"
+	"mevericcore/mcmodules/mcventilationmodule"
+	"mevericcore/mcmodules/mcirrigationmodule"
 )
 
 type PlantainerCustomData struct {
@@ -39,6 +41,10 @@ func (this *PlantainerModelSt) CheckAllSystems() (bool, error) {
 	if err != nil {
 		return false, err
 	}
+	changed, err = this.Shadow.State.Reported.IrrigationModule.CheckAllSystems(&this.Shadow.State.Desired.IrrigationModule)
+	if err != nil {
+		return false, err
+	}
 	if changed {
 		gChanged = true
 	}
@@ -47,6 +53,7 @@ func (this *PlantainerModelSt) CheckAllSystems() (bool, error) {
 
 func (this *PlantainerModelSt) CheckAfterShadowReportedUpdate(oldShadow *PlantainerShadowSt) {
 	this.Shadow.State.Reported.LightModule.CheckAfterShadowUpdate(this.Shadow.Id,&oldShadow.State.Reported.LightModule)
+	this.Shadow.State.Reported.IrrigationModule.CheckAfterShadowUpdate(this.Shadow.Id, &oldShadow.State.Reported.IrrigationModule)
 }
 
 func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowStatePieceSt) (*PlantainerDataValuesSt, error) {
@@ -70,6 +77,10 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 		addedValues = true
 	}
 
+	if values.VentilationModule == nil {
+		values.VentilationModule = &mcventilationmodule.VentilationModuleStateDataSt{}
+	}
+
 	vH := updateData.VentilationModule.Humidity
 	if vH != nil{
 		values.VentilationModule.Humidity = vH
@@ -83,6 +94,22 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 	hCO := updateData.VentilationModule.CoolerOutTurnedOn
 	if hCO != nil{
 		values.VentilationModule.CoolerOutTurnedOn = hCO
+		addedValues = true
+	}
+
+	if values.IrrigationModule == nil {
+		values.IrrigationModule = &mcirrigationmodule.IrrigationModuleStateDataSt{}
+	}
+
+	iH := updateData.IrrigationModule.Humidity
+	if iH != nil{
+		values.IrrigationModule.Humidity = iH
+		addedValues = true
+	}
+
+	iTO := updateData.IrrigationModule.IrrigationTurnedOn
+	if iTO != nil{
+		values.IrrigationModule.IrrigationTurnedOn = iTO
 		addedValues = true
 	}
 
@@ -203,10 +230,12 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 			PlantainerShadowStatePieceSt{
 				PlantainerLightModuleStateSt{},
 				PlantainerVentilationModuleStateSt{},
+				PlantainerIrrigationModuleStateSt{},
 			},
 			&PlantainerShadowStatePieceSt{
 				*NewPlLightModuleStateWithDefaultsSt(),
 				*NewPlantainerVentilationModuleState(),
+				*NewPlantainerIrrigationModuleStateSt(),
 			},
 			nil,
 		},

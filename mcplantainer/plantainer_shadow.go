@@ -12,12 +12,14 @@ import (
 type PlantainerShadowStatePieceSt struct {
 	LightModule PlantainerLightModuleStateSt `bson:"lightModule"`
 	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule"`
+	IrrigationModule PlantainerIrrigationModuleStateSt `bson:"irrigationModule"`
 }
 
 func NewPlantainerShadowStatePiece() *PlantainerShadowStatePieceSt {
 	return &PlantainerShadowStatePieceSt{
 		*NewPlLightModuleStateWithDefaultsSt(),
 		*NewPlantainerVentilationModuleState(),
+		*NewPlantainerIrrigationModuleStateSt(),
 	}
 }
 

@@ -5,23 +5,24 @@ import (
 	"gopkg.in/mgo.v2"
 	"mevericcore/mcmodules/mclightmodule"
 	"mevericcore/mcmodules/mcventilationmodule"
+	"mevericcore/mcmodules/mcirrigationmodule"
 )
 
-type PlantainerDataValuesIrrigationModuleSt struct {
-	Humidity int
-	Temperature int
-}
+//type PlantainerDataValuesIrrigationModuleSt struct {
+//	Humidity int
+//	Temperature int
+//}
 
 //easyjson:json
 type PlantainerDataValuesSt struct {
-	IrrigationModule *PlantainerDataValuesIrrigationModuleSt
+	IrrigationModule *mcirrigationmodule.IrrigationModuleStateDataSt
 	LightModule *mclightmodule.LightModuleStateDataSt
 	VentilationModule *mcventilationmodule.VentilationModuleStateDataSt
 }
 
 func NewPlantainerDataValuesSt() *PlantainerDataValuesSt {
 	return &PlantainerDataValuesSt{
-		&PlantainerDataValuesIrrigationModuleSt{},
+		&mcirrigationmodule.IrrigationModuleStateDataSt{},
 		&mclightmodule.LightModuleStateDataSt{},
 		&mcventilationmodule.VentilationModuleStateDataSt{},
 	}
