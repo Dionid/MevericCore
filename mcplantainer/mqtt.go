@@ -14,6 +14,9 @@ var (
 )
 
 func subscribeToRPC() {
+	fmt.Println("")
+	fmt.Println("Subscribing to main routes")
+	fmt.Println("")
 	deviceMQTTMan.Subscribe("/rpc", func(client mqtt.Client, msg mqtt.Message) {
 		msgPayload := msg.Payload()
 		msgTopic := msg.Topic()

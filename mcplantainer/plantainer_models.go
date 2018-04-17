@@ -201,12 +201,12 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 		tztcore.RandString(13),
 		PlantainerShadowStateSt{
 			PlantainerShadowStatePieceSt{
-				*NewPlLightModuleStateWithDefaultsSt(),
-				*NewPlantainerVentilationModuleState(),
-			},
-			&PlantainerShadowStatePieceSt{
 				PlantainerLightModuleStateSt{},
 				PlantainerVentilationModuleStateSt{},
+			},
+			&PlantainerShadowStatePieceSt{
+				*NewPlLightModuleStateWithDefaultsSt(),
+				*NewPlantainerVentilationModuleState(),
 			},
 			nil,
 		},

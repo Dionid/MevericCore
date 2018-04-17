@@ -4,13 +4,15 @@ import (
 	"strconv"
 	"mevericcore/mcmodules/mclightmodule"
 	"github.com/robfig/cron"
+	"fmt"
 )
 
 func (cr *DeviceCronManagerSt) NewLightModuleSetter() CronSetterFn {
 	return func(dId string, c *cron.Cron) error {
 		defer func(){
 			if recover() != nil {
-				print("Recover in NewLightModuleSetter")
+				fmt.Println("")
+				fmt.Println("Recover in NewLightModuleSetter")
 				return
 			}
 		}()
@@ -22,7 +24,7 @@ func (cr *DeviceCronManagerSt) NewLightModuleSetter() CronSetterFn {
 		// . Add intervals cron
 		lightModule := plantainer.Shadow.State.Reported.LightModule
 
-		if *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+		if lightModule.Mode == nil || *lightModule.Mode != mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
 			return nil
 		}
 

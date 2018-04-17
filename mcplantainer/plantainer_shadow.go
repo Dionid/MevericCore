@@ -196,13 +196,13 @@ type PlantainerLightModuleFromDeviceStateSt struct {
 }
 
 type PlantainerShadowStatePieceFromDeviceSt struct {
-	LightModule PlantainerLightModuleFromDeviceStateSt `bson:"lightModule"`
-	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule"`
+	LightModule PlantainerLightModuleFromDeviceStateSt `bson:"lightModule" json:"lightModule,omitempty"`
+	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule" json:"ventilationModule,omitempty"`
 }
 
 type PlantainerShadowRPCMsgFromDeviceArgsStateSt struct {
-	Reported *PlantainerShadowStatePieceFromDeviceSt `json:"reported"`
-	Desired *PlantainerShadowStatePieceFromDeviceSt `json:"desired"`
+	Reported *PlantainerShadowStatePieceFromDeviceSt `json:"reported,omitempty"`
+	Desired *PlantainerShadowStatePieceFromDeviceSt `json:"desired,omitempty"`
 }
 
 type PlantainerShadowRPCMsgFromDeviceArgsSt struct {
