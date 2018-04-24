@@ -6,6 +6,7 @@ import (
 	"mevericcore/mclibs/mccommon"
 	"gopkg.in/mgo.v2/bson"
 	"errors"
+	"fmt"
 )
 
 var (
@@ -108,6 +109,11 @@ func initUserRPCManDeviceRoutes() {
 	})
 	shadowG := deviceG.Group("Shadow")
 	shadowG.AddHandler("Update", func(req *mccommunication.RPCReqSt) error {
+		defer func() {
+			if err := recover(); err != nil {
+				fmt.Println("recovered from ", err)
+			}
+		}()
 		device := &PlantainerModelSt{}
 		args := req.Msg.RPCMsg.Args.(map[string]interface{})
 		deviceId := args["deviceId"].(string)

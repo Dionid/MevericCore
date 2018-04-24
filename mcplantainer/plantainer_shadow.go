@@ -10,30 +10,30 @@ import (
 
 //easyjson:json
 type PlantainerShadowStatePieceSt struct {
-	LightModule PlantainerLightModuleStateSt `bson:"lightModule" json:"lightModule,omitempty"`
-	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule" json:"ventilationModule,omitempty"`
-	IrrigationModule PlantainerIrrigationModuleStateSt `bson:"irrigationModule" json:"irrigationModule,omitempty"`
+	LightModule *PlantainerLightModuleStateSt `bson:"lightModule" json:"lightModule,omitempty"`
+	VentilationModule *PlantainerVentilationModuleStateSt `bson:"ventilationModule" json:"ventilationModule,omitempty"`
+	IrrigationModule *PlantainerIrrigationModuleStateSt `bson:"irrigationModule" json:"irrigationModule,omitempty"`
 }
 
 func NewPlantainerShadowStatePiece() *PlantainerShadowStatePieceSt {
 	return &PlantainerShadowStatePieceSt{
-		*NewPlLightModuleStateWithDefaultsSt(),
-		*NewPlantainerVentilationModuleState(),
-		*NewPlantainerIrrigationModuleStateSt(),
+		NewPlLightModuleStateWithDefaultsSt(),
+		NewPlantainerVentilationModuleState(),
+		NewPlantainerIrrigationModuleStateSt(),
 	}
 }
 
 //easyjson:json
 type PlantainerShadowStateSt struct {
 	Reported PlantainerShadowStatePieceSt
-	Desired *PlantainerShadowStatePieceSt
+	Desired PlantainerShadowStatePieceSt
 	Delta *PlantainerShadowStatePieceSt `bson:"-"`
 }
 
 func NewPlantainerShadowState() *PlantainerShadowStateSt {
 	return &PlantainerShadowStateSt{
+		PlantainerShadowStatePieceSt{},
 		*NewPlantainerShadowStatePiece(),
-		nil,
 		nil,
 	}
 }
@@ -86,9 +86,6 @@ func (this *PlantainerShadowStateSt) fillDelta(reported *map[string]interface{},
 
 func (this *PlantainerShadowStateSt) FillDelta() *map[string]interface{} {
 	des := this.Desired
-	if des == nil {
-		return nil
-	}
 
 	bData, err := des.MarshalJSON()
 	desMap := map[string]interface{}{}
@@ -236,9 +233,9 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 	// ToDo: This is fucking bullshit
 	if this.Args.State.Reported != nil {
 		res.Args.State.Reported = &PlantainerShadowStatePieceSt{
-			VentilationModule: this.Args.State.Reported.VentilationModule,
-			IrrigationModule: this.Args.State.Reported.IrrigationModule,
-			LightModule: PlantainerLightModuleStateSt{
+			VentilationModule: &this.Args.State.Reported.VentilationModule,
+			IrrigationModule: &this.Args.State.Reported.IrrigationModule,
+			LightModule: &PlantainerLightModuleStateSt{
 				LightModuleStateSt: mclightmodule.LightModuleStateSt{
 					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
 						LightTurnedOn: this.Args.State.Reported.LightModule.LightTurnedOn,
@@ -260,9 +257,9 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 	}
 	if this.Args.State.Desired != nil {
 		res.Args.State.Desired = &PlantainerShadowStatePieceSt{
-			VentilationModule: this.Args.State.Desired.VentilationModule,
-			IrrigationModule: this.Args.State.Desired.IrrigationModule,
-			LightModule: PlantainerLightModuleStateSt{
+			VentilationModule: &this.Args.State.Desired.VentilationModule,
+			IrrigationModule: &this.Args.State.Desired.IrrigationModule,
+			LightModule: &PlantainerLightModuleStateSt{
 				LightModuleStateSt: mclightmodule.LightModuleStateSt{
 					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
 						LightTurnedOn: this.Args.State.Desired.LightModule.LightTurnedOn,

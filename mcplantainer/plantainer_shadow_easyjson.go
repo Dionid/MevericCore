@@ -417,15 +417,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer3(in *jlexer.Lexer, out *Plant
 		case "reported":
 			(out.Reported).UnmarshalEasyJSON(in)
 		case "desired":
-			if in.IsNull() {
-				in.Skip()
-				out.Desired = nil
-			} else {
-				if out.Desired == nil {
-					out.Desired = new(PlantainerShadowStatePieceSt)
-				}
-				(*out.Desired).UnmarshalEasyJSON(in)
-			}
+			(out.Desired).UnmarshalEasyJSON(in)
 		case "delta":
 			if in.IsNull() {
 				in.Skip()
@@ -458,17 +450,13 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer3(out *jwriter.Writer, in Plan
 		out.RawString("\"reported\":")
 		(in.Reported).MarshalEasyJSON(out)
 	}
-	if in.Desired != nil {
+	if true {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"desired\":")
-		if in.Desired == nil {
-			out.RawString("null")
-		} else {
-			(*in.Desired).MarshalEasyJSON(out)
-		}
+		(in.Desired).MarshalEasyJSON(out)
 	}
 	if in.Delta != nil {
 		if !first {
@@ -528,11 +516,35 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer4(in *jlexer.Lexer, out *Plant
 		}
 		switch key {
 		case "lightModule":
-			easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in, &out.LightModule)
+			if in.IsNull() {
+				in.Skip()
+				out.LightModule = nil
+			} else {
+				if out.LightModule == nil {
+					out.LightModule = new(PlantainerLightModuleStateSt)
+				}
+				easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in, &*out.LightModule)
+			}
 		case "ventilationModule":
-			easyjson5bd79fa1DecodeMevericcoreMcplantainer6(in, &out.VentilationModule)
+			if in.IsNull() {
+				in.Skip()
+				out.VentilationModule = nil
+			} else {
+				if out.VentilationModule == nil {
+					out.VentilationModule = new(PlantainerVentilationModuleStateSt)
+				}
+				easyjson5bd79fa1DecodeMevericcoreMcplantainer6(in, &*out.VentilationModule)
+			}
 		case "irrigationModule":
-			easyjson5bd79fa1DecodeMevericcoreMcplantainer7(in, &out.IrrigationModule)
+			if in.IsNull() {
+				in.Skip()
+				out.IrrigationModule = nil
+			} else {
+				if out.IrrigationModule == nil {
+					out.IrrigationModule = new(PlantainerIrrigationModuleStateSt)
+				}
+				easyjson5bd79fa1DecodeMevericcoreMcplantainer7(in, &*out.IrrigationModule)
+			}
 		default:
 			in.SkipRecursive()
 		}
@@ -547,29 +559,41 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer4(out *jwriter.Writer, in Plan
 	out.RawByte('{')
 	first := true
 	_ = first
-	if true {
+	if in.LightModule != nil {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"lightModule\":")
-		easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out, in.LightModule)
+		if in.LightModule == nil {
+			out.RawString("null")
+		} else {
+			easyjson5bd79fa1EncodeMevericcoreMcplantainer5(out, *in.LightModule)
+		}
 	}
-	if true {
+	if in.VentilationModule != nil {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"ventilationModule\":")
-		easyjson5bd79fa1EncodeMevericcoreMcplantainer6(out, in.VentilationModule)
+		if in.VentilationModule == nil {
+			out.RawString("null")
+		} else {
+			easyjson5bd79fa1EncodeMevericcoreMcplantainer6(out, *in.VentilationModule)
+		}
 	}
-	if true {
+	if in.IrrigationModule != nil {
 		if !first {
 			out.RawByte(',')
 		}
 		first = false
 		out.RawString("\"irrigationModule\":")
-		easyjson5bd79fa1EncodeMevericcoreMcplantainer7(out, in.IrrigationModule)
+		if in.IrrigationModule == nil {
+			out.RawString("null")
+		} else {
+			easyjson5bd79fa1EncodeMevericcoreMcplantainer7(out, *in.IrrigationModule)
+		}
 	}
 	out.RawByte('}')
 }

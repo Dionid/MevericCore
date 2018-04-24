@@ -2,31 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="881e5201-14e1-4691-ab10-7c4b95d047ed" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/mcplantainer/cron_manager_irrigationmodule.go" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" afterPath="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" />
-      <change beforePath="$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go" afterPath="$PROJECT_DIR$/mclibs/mcdevicemqttmanager/controllers.go" />
-      <change beforePath="$PROJECT_DIR$/mclibs/mcdevicerpcrouter/mcdevicerpcrouter.go" afterPath="$PROJECT_DIR$/mclibs/mcdevicerpcrouter/mcdevicerpcrouter.go" />
       <change beforePath="$PROJECT_DIR$/mclibs/mcmqttrouter" afterPath="$PROJECT_DIR$/mclibs/mcmqttrouter" />
-      <change beforePath="$PROJECT_DIR$/mclibs/mcrpcrouter/mcrpcrouter.go" afterPath="$PROJECT_DIR$/mclibs/mcrpcrouter/mcrpcrouter.go" />
-      <change beforePath="$PROJECT_DIR$/mclibs/mcuserrpcrouter/mcuserrpcrouter.go" afterPath="$PROJECT_DIR$/mclibs/mcuserrpcrouter/mcuserrpcrouter.go" />
-      <change beforePath="$PROJECT_DIR$/mcmodules/mcirrigationmodule/mcirrigationmodule.go" afterPath="$PROJECT_DIR$/mcmodules/mcirrigationmodule/mcirrigationmodule.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/cron_manager_lightmodule.go" afterPath="$PROJECT_DIR$/mcplantainer/cron_manager_lightmodule.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/mqtt.go" afterPath="$PROJECT_DIR$/mcplantainer/mqtt.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_data_models_easyjson.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_data_models_easyjson.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_models.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_models.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_modules_irrigation.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_modules_irrigation.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_shadow.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_shadow.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/plantainer_shadow_easyjson.go" afterPath="$PROJECT_DIR$/mcplantainer/plantainer_shadow_easyjson.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/rpc_manager_cron.go" afterPath="$PROJECT_DIR$/mcplantainer/rpc_manager_cron.go" />
-      <change beforePath="$PROJECT_DIR$/mcplantainer/rpc_manager_device.go" afterPath="$PROJECT_DIR$/mcplantainer/rpc_manager_device.go" />
       <change beforePath="$PROJECT_DIR$/mcplantainer/rpc_manager_user.go" afterPath="$PROJECT_DIR$/mcplantainer/rpc_manager_user.go" />
-      <change beforePath="$PROJECT_DIR$/old/mcdashboard_old/ws.go" afterPath="$PROJECT_DIR$/old/mcdashboard_old/ws.go" />
-      <change beforePath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/router.go" afterPath="$PROJECT_DIR$/old/mcdevicerpcmanager_old/router.go" />
-      <change beforePath="$PROJECT_DIR$/old/mcplantainer_old/common/device_collection.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/common/device_collection.go" />
-      <change beforePath="$PROJECT_DIR$/old/mcuserrpcmanager_old/controller_http.go" afterPath="$PROJECT_DIR$/old/mcuserrpcmanager_old/controller_http.go" />
-      <change beforePath="$PROJECT_DIR$/old/mcuserrpcmanager_old/router.go" afterPath="$PROJECT_DIR$/old/mcuserrpcmanager_old/router.go" />
+      <change beforePath="$PROJECT_DIR$/old/mcplantainer_old/device/main.go" afterPath="$PROJECT_DIR$/old/mcplantainer_old/device/main.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,32 +25,20 @@
       <file leaf-file-name="rpc_manager_user.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="224">
-              <caret line="64" column="19" lean-forward="false" selection-start-line="64" selection-start-column="19" selection-end-line="64" selection-end-column="19" />
+            <state relative-caret-position="181">
+              <caret line="145" column="0" lean-forward="false" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
               <folding>
-                <element signature="e#22#174#0" expanded="true" />
+                <element signature="e#22#181#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plantainer_models.go" pinned="false" current-in-tab="false">
+      <file leaf-file-name="plantainer_models.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_models.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="27" column="20" lean-forward="true" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plantainer_shadow.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_shadow.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="12" column="92" lean-forward="false" selection-start-line="12" selection-start-column="92" selection-end-line="12" selection-end-column="92" />
-              <caret line="13" column="116" lean-forward="false" selection-start-line="13" selection-start-column="116" selection-end-line="13" selection-end-column="116" />
-              <caret line="14" column="112" lean-forward="false" selection-start-line="14" selection-start-column="112" selection-end-line="14" selection-end-column="112" />
+            <state relative-caret-position="378">
+              <caret line="138" column="118" lean-forward="false" selection-start-line="138" selection-start-column="118" selection-end-line="138" selection-end-column="118" />
               <folding />
             </state>
           </provider>
@@ -85,7 +55,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>closed</find>
       <find>closed con</find>
       <find>Closed</find>
       <find>https://gw.alipayobjects.com</find>
@@ -115,6 +84,7 @@
       <find>UserRPCRouterSt.Handle</find>
       <find>old</find>
       <find>DeviceRPCRouterSt.Handle</find>
+      <find>mccommon</find>
     </findStrings>
     <replaceStrings>
       <replace>package mcdashboard</replace>
@@ -137,7 +107,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/mclibs/mcrpcmanager/mccronrpcmanager.go" />
         <option value="$PROJECT_DIR$/mclibs/mcrpcrouter/mccronrpcrouter.go" />
         <option value="$PROJECT_DIR$/mclibs/mcrpcmanager/mcrpcmanager.go" />
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_data_collections.go" />
@@ -168,7 +137,6 @@
         <option value="$PROJECT_DIR$/mclibs/mcmqttrouter/models.go" />
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_data_models.go" />
         <option value="$PROJECT_DIR$/mcplantainer/mqtt.go" />
-        <option value="$PROJECT_DIR$/mcplantainer/rpc_manager_user.go" />
         <option value="$PROJECT_DIR$/old/mcplantainer_old/common/device_collection.go" />
         <option value="$PROJECT_DIR$/mcplantainer/cron_manager_lightmodule.go" />
         <option value="$PROJECT_DIR$/mcplantainer/cron_manager_irrigationmodule.go" />
@@ -184,10 +152,12 @@
         <option value="$PROJECT_DIR$/mcdashboard/ws_http_controller.go" />
         <option value="$PROJECT_DIR$/mclibs/mcuserrpcrouter/mcuserrpcrouter.go" />
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go" />
-        <option value="$PROJECT_DIR$/mcplantainer/plantainer_models.go" />
         <option value="$PROJECT_DIR$/mcmodules/mcirrigationmodule/mcirrigationmodule.go" />
         <option value="$PROJECT_DIR$/mcplantainer/rpc_manager_device.go" />
         <option value="$PROJECT_DIR$/mcplantainer/plantainer_shadow.go" />
+        <option value="$PROJECT_DIR$/old/mcplantainer_old/device/main.go" />
+        <option value="$PROJECT_DIR$/mcplantainer/rpc_manager_user.go" />
+        <option value="$PROJECT_DIR$/mcplantainer/plantainer_models.go" />
       </list>
     </option>
   </component>
@@ -289,12 +259,6 @@
               <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
               <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
               <item name="mcplantainer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="mevericcore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="mevericcore" type="462c0819:PsiDirectoryNode" />
-              <item name="mcplantainer" type="462c0819:PsiDirectoryNode" />
-              <item name="plantainer_shadow.go" type="620a8d5e:NestingTreeNode" />
             </path>
           </expand>
           <select />
@@ -978,27 +942,27 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
-          <line>146</line>
+          <line>152</line>
           <option name="timeStamp" value="759" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
-          <line>126</line>
+          <line>132</line>
           <option name="timeStamp" value="761" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
-          <line>120</line>
+          <line>126</line>
           <option name="timeStamp" value="762" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
-          <line>118</line>
+          <line>124</line>
           <option name="timeStamp" value="763" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
-          <line>115</line>
+          <line>121</line>
           <option name="timeStamp" value="764" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -1008,7 +972,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
-          <line>142</line>
+          <line>148</line>
           <option name="timeStamp" value="840" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -1023,7 +987,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/plantainer_shadow.go</url>
-          <line>225</line>
+          <line>222</line>
           <option name="timeStamp" value="913" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -1058,22 +1022,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/plantainer_shadow.go</url>
-          <line>135</line>
+          <line>132</line>
           <option name="timeStamp" value="964" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/plantainer_shadow.go</url>
-          <line>129</line>
+          <line>126</line>
           <option name="timeStamp" value="965" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/plantainer_shadow.go</url>
-          <line>113</line>
+          <line>110</line>
           <option name="timeStamp" value="967" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/mcplantainer/plantainer_shadow.go</url>
-          <line>109</line>
+          <line>106</line>
           <option name="timeStamp" value="968" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
@@ -1097,34 +1061,60 @@
           <properties />
           <option name="timeStamp" value="1053" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
+          <line>145</line>
+          <properties />
+          <option name="timeStamp" value="1079" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
+          <line>146</line>
+          <properties />
+          <option name="timeStamp" value="1080" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
+          <line>156</line>
+          <properties />
+          <option name="timeStamp" value="1081" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go</url>
+          <line>161</line>
+          <properties />
+          <option name="timeStamp" value="1082" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcmodules/mclightmodule/mclightmodule.go</url>
+          <line>72</line>
+          <properties />
+          <option name="timeStamp" value="1086" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcmodules/mclightmodule/mclightmodule.go</url>
+          <line>73</line>
+          <properties />
+          <option name="timeStamp" value="1087" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcmodules/mclightmodule/mclightmodule.go</url>
+          <line>75</line>
+          <properties />
+          <option name="timeStamp" value="1088" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/mcmodules/mclightmodule/mclightmodule.go</url>
+          <line>76</line>
+          <properties />
+          <option name="timeStamp" value="1089" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1071" />
+      <option name="time" value="1090" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mclibs/mccommon/device_models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="11" column="33" lean-forward="true" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mclibs/mccommon/shadow_models.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcdashboard/user_rpc_manager.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="69" column="0" lean-forward="false" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mclibs/mccommunication/mccommunitaioncommon.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
@@ -1164,18 +1154,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="347">
           <caret line="28" column="110" lean-forward="true" selection-start-line="28" selection-start-column="78" selection-end-line="28" selection-end-column="110" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_shadow_easyjson.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="618" column="42" lean-forward="false" selection-start-line="618" selection-start-column="42" selection-end-line="618" selection-end-column="42" />
-          <caret line="625" column="42" lean-forward="false" selection-start-line="625" selection-start-column="42" selection-end-line="625" selection-end-column="42" />
-          <caret line="630" column="43" lean-forward="false" selection-start-line="630" selection-start-column="43" selection-end-line="630" selection-end-column="43" />
-          <caret line="637" column="43" lean-forward="false" selection-start-line="637" selection-start-column="43" selection-end-line="637" selection-end-column="43" />
-          <caret line="397" column="109" lean-forward="false" selection-start-line="397" selection-start-column="109" selection-end-line="397" selection-end-column="109" />
-          <caret line="504" column="110" lean-forward="false" selection-start-line="504" selection-start-column="110" selection-end-line="504" selection-end-column="110" />
         </state>
       </provider>
     </entry>
@@ -1226,14 +1204,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="68" column="27" lean-forward="false" selection-start-line="68" selection-start-column="27" selection-end-line="68" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcmodules/mclightmodule/mclightmodule.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="34" column="1" lean-forward="true" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1444,22 +1414,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="69" column="12" lean-forward="true" selection-start-line="69" selection-start-column="12" selection-end-line="69" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mcmodules/mcirrigationmodule/mcirrigationmodule.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="92" column="5" lean-forward="false" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_device.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -1478,30 +1432,88 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go">
+    <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_shadow_easyjson.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="64" column="19" lean-forward="false" selection-start-line="64" selection-start-column="19" selection-end-line="64" selection-end-column="19" />
+        <state relative-caret-position="-110">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
-            <element signature="e#22#174#0" expanded="true" />
+            <element signature="e#129#216#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_models.go">
+    <entry file="file://$PROJECT_DIR$/mcmodules/mcirrigationmodule/mcirrigationmodule.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="27" column="20" lean-forward="true" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+        <state relative-caret-position="-303">
+          <caret line="33" column="37" lean-forward="false" selection-start-line="33" selection-start-column="37" selection-end-line="33" selection-end-column="37" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_modules_light.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/mcplantainer_old/device/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="70" column="0" lean-forward="true" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding>
+            <element signature="e#16#324#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/mcplantainer_old/device/device_init.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="17" column="19" lean-forward="false" selection-start-line="17" selection-start-column="19" selection-end-line="17" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/old/mcdevicerpcmanager_old/models_manager.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="30" column="32" lean-forward="false" selection-start-line="30" selection-start-column="32" selection-end-line="30" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcmodules/mclightmodule/mclightmodule.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="71" column="32" lean-forward="false" selection-start-line="71" selection-start-column="32" selection-end-line="71" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/rpc_manager_user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="181">
+          <caret line="145" column="0" lean-forward="false" selection-start-line="145" selection-start-column="0" selection-end-line="145" selection-end-column="0" />
+          <folding>
+            <element signature="e#22#181#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_shadow.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="12" column="92" lean-forward="false" selection-start-line="12" selection-start-column="92" selection-end-line="12" selection-end-column="92" />
-          <caret line="13" column="116" lean-forward="false" selection-start-line="13" selection-start-column="116" selection-end-line="13" selection-end-column="116" />
-          <caret line="14" column="112" lean-forward="false" selection-start-line="14" selection-start-column="112" selection-end-line="14" selection-end-column="112" />
+        <state relative-caret-position="108">
+          <caret line="12" column="4" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mcplantainer/plantainer_models.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="138" column="118" lean-forward="false" selection-start-line="138" selection-start-column="118" selection-end-line="138" selection-end-column="118" />
           <folding />
         </state>
       </provider>

@@ -8,7 +8,6 @@ import (
 	"gopkg.in/mgo.v2"
 	"mevericcore/old/mcdevicerpcmanager_old"
 	"mevericcore/old/mcplantainer_old/common"
-	"mevericcore/mclibs/mccommon"
 	"mevericcore/mclibs/mcinnerrpc"
 	"mevericcore/mclibs/mccommunication"
 )

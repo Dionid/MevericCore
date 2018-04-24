@@ -37,11 +37,11 @@ func NewPlantainerModel() *PlantainerModelSt {
 
 func (this *PlantainerModelSt) CheckAllSystems() (bool, error) {
 	gChanged := false
-	changed, err := this.Shadow.State.Reported.LightModule.CheckAllSystems(&this.Shadow.State.Desired.LightModule)
+	changed, err := this.Shadow.State.Reported.LightModule.CheckAllSystems(this.Shadow.State.Desired.LightModule)
 	if err != nil {
 		return false, err
 	}
-	changed, err = this.Shadow.State.Reported.IrrigationModule.CheckAllSystems(&this.Shadow.State.Desired.IrrigationModule)
+	changed, err = this.Shadow.State.Reported.IrrigationModule.CheckAllSystems(this.Shadow.State.Desired.IrrigationModule)
 	if err != nil {
 		return false, err
 	}
@@ -52,8 +52,8 @@ func (this *PlantainerModelSt) CheckAllSystems() (bool, error) {
 }
 
 func (this *PlantainerModelSt) CheckAfterShadowReportedUpdate(oldShadow *PlantainerShadowSt) {
-	this.Shadow.State.Reported.LightModule.CheckAfterShadowUpdate(this.Shadow.Id,&oldShadow.State.Reported.LightModule)
-	this.Shadow.State.Reported.IrrigationModule.CheckAfterShadowUpdate(this.Shadow.Id, &oldShadow.State.Reported.IrrigationModule)
+	this.Shadow.State.Reported.LightModule.CheckAfterShadowUpdate(this.Shadow.Id,oldShadow.State.Reported.LightModule)
+	this.Shadow.State.Reported.IrrigationModule.CheckAfterShadowUpdate(this.Shadow.Id, oldShadow.State.Reported.IrrigationModule)
 }
 
 func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowStatePieceSt) (*PlantainerDataValuesSt, error) {
@@ -122,16 +122,22 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 }
 
 func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStatePieceSt) error {
-	this.Shadow.State.Reported.LightModule.ReportedUpdate(&updateData.LightModule)
+	this.Shadow.State.Reported.LightModule.ReportedUpdate(updateData.LightModule)
 	this.Shadow.State.Reported.VentilationModule.ReportedUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
 	this.Shadow.State.Reported.IrrigationModule.ReportedUpdate(&updateData.IrrigationModule.IrrigationModuleStateSt)
 	return nil
 }
 
 func (this *PlantainerModelSt) DesiredUpdate(updateData *PlantainerShadowStatePieceSt) error {
-	this.Shadow.State.Desired.LightModule.DesiredUpdate(&updateData.LightModule.LightModuleStateSt)
-	this.Shadow.State.Desired.VentilationModule.DesiredUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
-	this.Shadow.State.Desired.IrrigationModule.DesiredUpdate(&updateData.IrrigationModule.IrrigationModuleStateSt)
+	if updateData.LightModule != nil {
+		this.Shadow.State.Desired.LightModule.DesiredUpdate(&updateData.LightModule.LightModuleStateSt)
+	}
+	if updateData.VentilationModule != nil {
+		this.Shadow.State.Desired.VentilationModule.DesiredUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
+	}
+	if updateData.IrrigationModule != nil {
+		this.Shadow.State.Desired.IrrigationModule.DesiredUpdate(&updateData.IrrigationModule.IrrigationModuleStateSt)
+	}
 	return nil
 }
 
@@ -227,14 +233,14 @@ func (this *PlantainerModelSt) BeforeInsert(collection *mgo.Collection) error {
 		tztcore.RandString(13),
 		PlantainerShadowStateSt{
 			PlantainerShadowStatePieceSt{
-				PlantainerLightModuleStateSt{},
-				PlantainerVentilationModuleStateSt{},
-				PlantainerIrrigationModuleStateSt{},
+				&PlantainerLightModuleStateSt{},
+				&PlantainerVentilationModuleStateSt{},
+				&PlantainerIrrigationModuleStateSt{},
 			},
-			&PlantainerShadowStatePieceSt{
-				*NewPlLightModuleStateWithDefaultsSt(),
-				*NewPlantainerVentilationModuleState(),
-				*NewPlantainerIrrigationModuleStateSt(),
+			PlantainerShadowStatePieceSt{
+				NewPlLightModuleStateWithDefaultsSt(),
+				NewPlantainerVentilationModuleState(),
+				NewPlantainerIrrigationModuleStateSt(),
 			},
 			nil,
 		},
