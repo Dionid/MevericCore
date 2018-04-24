@@ -4,6 +4,7 @@ import (
 	"mevericcore/mclibs/mcdevicerpcmanager"
 	"mevericcore/mclibs/mccommunication"
 	"errors"
+	"fmt"
 )
 
 var (
@@ -55,6 +56,12 @@ func initDeviceRPCManMainRoutes() {
 		return nil
 	})
 	shadowG.AddHandler("Update", func(req *mccommunication.RPCReqSt) error {
+		defer func() {
+			r := recover()
+			if r != nil {
+				fmt.Println("From Device RPC Device.Update recovered: ", r)
+			}
+		}()
 		// . Get Device model and data
 		device := NewPlantainerModel()
 

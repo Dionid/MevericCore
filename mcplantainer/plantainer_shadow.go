@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
-	"mevericcore/mcmodules/mclightmodule"
 )
 
 //easyjson:json
@@ -13,6 +12,7 @@ type PlantainerShadowStatePieceSt struct {
 	LightModule *PlantainerLightModuleStateSt `bson:"lightModule" json:"lightModule,omitempty"`
 	VentilationModule *PlantainerVentilationModuleStateSt `bson:"ventilationModule" json:"ventilationModule,omitempty"`
 	IrrigationModule *PlantainerIrrigationModuleStateSt `bson:"irrigationModule" json:"irrigationModule,omitempty"`
+	// !Add new module functions here!
 }
 
 func NewPlantainerShadowStatePiece() *PlantainerShadowStatePieceSt {
@@ -190,14 +190,13 @@ type LightModuleStateDataFromDeviceSt struct {
 }
 
 type PlantainerLightModuleFromDeviceStateSt struct {
-	mclightmodule.LightModuleStateSt `bson:",inline"`
+	PlantainerLightModuleStateSt `bson:",inline"`
 	LightModuleStateDataFromDeviceSt                 `bson:",inline"`
 }
 
 type PlantainerShadowStatePieceFromDeviceSt struct {
-	LightModule PlantainerLightModuleFromDeviceStateSt `bson:"lightModule" json:"lightModule,omitempty"`
-	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule" json:"ventilationModule,omitempty"`
-	IrrigationModule PlantainerIrrigationModuleStateSt`bson:"irrigationModule" json:"irrigationModule,omitempty"`
+	PlantainerShadowStatePieceSt `bson:"inline"`
+	LightModule *PlantainerLightModuleFromDeviceStateSt `bson:"lightModule" json:"lightModule,omitempty"`
 }
 
 type PlantainerShadowRPCMsgFromDeviceArgsStateSt struct {
@@ -220,9 +219,10 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 	defer func() {
 		r := recover()
 		if r != nil {
-			print(r)
+			fmt.Println("ConvertToShadowUpdateRPCMsgSt recovered: ", r)
 		}
 	}()
+
 	res := &ShadowUpdateRPCMsgSt{
 		RPCMsg: this.RPCMsg,
 		Args: PlantainerShadowRPCMsgArgsSt{
@@ -233,50 +233,30 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 	// ToDo: This is fucking bullshit
 	if this.Args.State.Reported != nil {
 		res.Args.State.Reported = &PlantainerShadowStatePieceSt{
-			VentilationModule: &this.Args.State.Reported.VentilationModule,
-			IrrigationModule: &this.Args.State.Reported.IrrigationModule,
-			LightModule: &PlantainerLightModuleStateSt{
-				LightModuleStateSt: mclightmodule.LightModuleStateSt{
-					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
-						LightTurnedOn: this.Args.State.Reported.LightModule.LightTurnedOn,
-					},
-					Mode: this.Args.State.Reported.LightModule.Mode,
-					LightLvlCheckActive: this.Args.State.Reported.LightModule.LightLvlCheckActive,
-					LightLvlCheckInterval: this.Args.State.Reported.LightModule.LightLvlCheckInterval,
-					LightLvlCheckLastIntervalCallTimestamp: this.Args.State.Reported.LightModule.LightLvlCheckLastIntervalCallTimestamp,
-					LightIntervalsArr: this.Args.State.Reported.LightModule.LightIntervalsArr,
-					LightIntervalsRestTimeTurnedOn: this.Args.State.Reported.LightModule.LightIntervalsRestTimeTurnedOn,
-					LightIntervalsCheckingInterval: this.Args.State.Reported.LightModule.LightIntervalsCheckingInterval,
-				},
-			},
+			VentilationModule: this.Args.State.Reported.VentilationModule,
+			IrrigationModule: this.Args.State.Reported.IrrigationModule,
+			// !Add new module functions here!
 		}
-		if this.Args.State.Reported.LightModule.LightLvl != nil {
-			in := int(*this.Args.State.Reported.LightModule.LightLvl)
-			res.Args.State.Reported.LightModule.LightLvl = &in
+		if this.Args.State.Reported.LightModule != nil {
+			res.Args.State.Reported.LightModule = &this.Args.State.Reported.LightModule.PlantainerLightModuleStateSt
+			if this.Args.State.Reported.LightModule.LightLvl != nil {
+				in := int(*this.Args.State.Reported.LightModule.LightLvl)
+				res.Args.State.Reported.LightModule.LightLvl = &in
+			}
 		}
 	}
 	if this.Args.State.Desired != nil {
 		res.Args.State.Desired = &PlantainerShadowStatePieceSt{
-			VentilationModule: &this.Args.State.Desired.VentilationModule,
-			IrrigationModule: &this.Args.State.Desired.IrrigationModule,
-			LightModule: &PlantainerLightModuleStateSt{
-				LightModuleStateSt: mclightmodule.LightModuleStateSt{
-					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
-						LightTurnedOn: this.Args.State.Desired.LightModule.LightTurnedOn,
-					},
-					Mode: this.Args.State.Desired.LightModule.Mode,
-					LightLvlCheckActive: this.Args.State.Desired.LightModule.LightLvlCheckActive,
-					LightLvlCheckInterval: this.Args.State.Desired.LightModule.LightLvlCheckInterval,
-					LightLvlCheckLastIntervalCallTimestamp: this.Args.State.Desired.LightModule.LightLvlCheckLastIntervalCallTimestamp,
-					LightIntervalsArr: this.Args.State.Desired.LightModule.LightIntervalsArr,
-					LightIntervalsRestTimeTurnedOn: this.Args.State.Desired.LightModule.LightIntervalsRestTimeTurnedOn,
-					LightIntervalsCheckingInterval: this.Args.State.Desired.LightModule.LightIntervalsCheckingInterval,
-				},
-			},
+			VentilationModule: this.Args.State.Desired.VentilationModule,
+			IrrigationModule: this.Args.State.Desired.IrrigationModule,
+			// !Add new module functions here!
 		}
-		if this.Args.State.Desired.LightModule.LightLvl != nil {
-			in := int(*this.Args.State.Desired.LightModule.LightLvl)
-			res.Args.State.Desired.LightModule.LightLvl = &in
+		if this.Args.State.Desired.LightModule != nil {
+			res.Args.State.Desired.LightModule = &this.Args.State.Desired.LightModule.PlantainerLightModuleStateSt
+			if this.Args.State.Desired.LightModule.LightLvl != nil {
+				in := int(*this.Args.State.Desired.LightModule.LightLvl)
+				res.Args.State.Desired.LightModule.LightLvl = &in
+			}
 		}
 	}
 	return res

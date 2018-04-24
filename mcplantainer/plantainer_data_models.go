@@ -8,11 +8,6 @@ import (
 	"mevericcore/mcmodules/mcirrigationmodule"
 )
 
-//type PlantainerDataValuesIrrigationModuleSt struct {
-//	Humidity int
-//	Temperature int
-//}
-
 //easyjson:json
 type PlantainerDataValuesSt struct {
 	IrrigationModule *mcirrigationmodule.IrrigationModuleStateDataSt

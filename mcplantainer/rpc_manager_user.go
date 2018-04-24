@@ -21,7 +21,6 @@ func initUserRPCManDeviceRoutes() {
 	plantainerG := userRPCManager.Router.Group("Plantainer")
 	deviceG := plantainerG.Group("Device")
 	deviceG.AddHandler("Create", func(req *mccommunication.RPCReqSt) error {
-
 		device := &PlantainerModelSt{
 			DeviceBaseModel: mccommon.DeviceBaseModel{
 				OwnersIds: []bson.ObjectId{bson.ObjectIdHex(req.Msg.ClientId)},
@@ -114,6 +113,7 @@ func initUserRPCManDeviceRoutes() {
 				fmt.Println("recovered from ", err)
 			}
 		}()
+
 		device := &PlantainerModelSt{}
 		args := req.Msg.RPCMsg.Args.(map[string]interface{})
 		deviceId := args["deviceId"].(string)
@@ -136,7 +136,6 @@ func initUserRPCManDeviceRoutes() {
 		updateData := updateRpcMsg.Args
 		shadow := &device.Shadow
 		state := &device.Shadow.State
-		//oldShadow := device.Shadow
 
 		if updateData.State.Desired != nil {
 			if !shadow.CheckVersion(updateData.Version) {

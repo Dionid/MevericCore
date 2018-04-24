@@ -62,55 +62,59 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 	values := NewPlantainerDataValuesSt()
 	addedValues := false
 
-	if values.LightModule == nil {
-		values.LightModule = &mclightmodule.LightModuleStateDataSt{}
+	if updateData.LightModule != nil {
+		if values.LightModule == nil {
+			values.LightModule = &mclightmodule.LightModuleStateDataSt{}
+		}
+		lL := updateData.LightModule.LightLvl
+		if lL != nil{
+			values.LightModule.LightLvl = lL
+			addedValues = true
+		}
+		lT := updateData.LightModule.LightTurnedOn
+		if lT != nil{
+			values.LightModule.LightTurnedOn = lT
+			addedValues = true
+		}
 	}
 
-	lL := updateData.LightModule.LightLvl
-	if lL != nil{
-		values.LightModule.LightLvl = lL
-		addedValues = true
-	}
-	lT := updateData.LightModule.LightTurnedOn
-	if lT != nil{
-		values.LightModule.LightTurnedOn = lT
-		addedValues = true
-	}
-
-	if values.VentilationModule == nil {
-		values.VentilationModule = &mcventilationmodule.VentilationModuleStateDataSt{}
-	}
-
-	vH := updateData.VentilationModule.Humidity
-	if vH != nil{
-		values.VentilationModule.Humidity = vH
-		addedValues = true
-	}
-	hCI := updateData.VentilationModule.CoolerInTurnedOn
-	if hCI != nil{
-		values.VentilationModule.CoolerInTurnedOn = hCI
-		addedValues = true
-	}
-	hCO := updateData.VentilationModule.CoolerOutTurnedOn
-	if hCO != nil{
-		values.VentilationModule.CoolerOutTurnedOn = hCO
-		addedValues = true
+	if updateData.VentilationModule != nil {
+		if values.VentilationModule == nil {
+			values.VentilationModule = &mcventilationmodule.VentilationModuleStateDataSt{}
+		}
+		vH := updateData.VentilationModule.Humidity
+		if vH != nil{
+			values.VentilationModule.Humidity = vH
+			addedValues = true
+		}
+		hCI := updateData.VentilationModule.CoolerInTurnedOn
+		if hCI != nil{
+			values.VentilationModule.CoolerInTurnedOn = hCI
+			addedValues = true
+		}
+		hCO := updateData.VentilationModule.CoolerOutTurnedOn
+		if hCO != nil{
+			values.VentilationModule.CoolerOutTurnedOn = hCO
+			addedValues = true
+		}
 	}
 
-	if values.IrrigationModule == nil {
-		values.IrrigationModule = &mcirrigationmodule.IrrigationModuleStateDataSt{}
-	}
+	if updateData.IrrigationModule != nil {
+		if values.IrrigationModule == nil {
+			values.IrrigationModule = &mcirrigationmodule.IrrigationModuleStateDataSt{}
+		}
 
-	iH := updateData.IrrigationModule.Humidity
-	if iH != nil{
-		values.IrrigationModule.Humidity = iH
-		addedValues = true
-	}
+		iH := updateData.IrrigationModule.Humidity
+		if iH != nil{
+			values.IrrigationModule.Humidity = iH
+			addedValues = true
+		}
 
-	iTO := updateData.IrrigationModule.IrrigationTurnedOn
-	if iTO != nil{
-		values.IrrigationModule.IrrigationTurnedOn = iTO
-		addedValues = true
+		iTO := updateData.IrrigationModule.IrrigationTurnedOn
+		if iTO != nil{
+			values.IrrigationModule.IrrigationTurnedOn = iTO
+			addedValues = true
+		}
 	}
 
 	if addedValues {
@@ -122,9 +126,16 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 }
 
 func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStatePieceSt) error {
-	this.Shadow.State.Reported.LightModule.ReportedUpdate(updateData.LightModule)
-	this.Shadow.State.Reported.VentilationModule.ReportedUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
-	this.Shadow.State.Reported.IrrigationModule.ReportedUpdate(&updateData.IrrigationModule.IrrigationModuleStateSt)
+	if updateData.LightModule != nil {
+		this.Shadow.State.Reported.LightModule.ReportedUpdate(updateData.LightModule)
+	}
+	if updateData.VentilationModule != nil {
+		this.Shadow.State.Reported.VentilationModule.ReportedUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
+	}
+	if updateData.IrrigationModule != nil {
+		this.Shadow.State.Reported.IrrigationModule.ReportedUpdate(&updateData.IrrigationModule.IrrigationModuleStateSt)
+	}
+	// !Add new module functions here!
 	return nil
 }
 
@@ -138,6 +149,7 @@ func (this *PlantainerModelSt) DesiredUpdate(updateData *PlantainerShadowStatePi
 	if updateData.IrrigationModule != nil {
 		this.Shadow.State.Desired.IrrigationModule.DesiredUpdate(&updateData.IrrigationModule.IrrigationModuleStateSt)
 	}
+	// !Add new module functions here!
 	return nil
 }
 
@@ -151,59 +163,6 @@ func (this *PlantainerModelSt) GetSrc() string {
 
 func (this *PlantainerModelSt) GetTypeName() string {
 	return "plantainer"
-}
-
-func (this *PlantainerModelSt) CreateReported() *map[string]interface{} {
-	return &map[string]interface{}{
-		"lightModule": map[string]interface{}{
-			"mode": "manual",
-			"lightTurnedOn": false,
-			"lightLvl": 0,
-			"lightLvlCheckActive": false,
-			"lightLvlCheckInterval": 5100,
-			"lightLvlCheckLastIntervalCallTimestamp": 0,
-			"lightIntervalsArr": []interface{}{},
-			"lightIntervalsRestTimeTurnedOn": false,
-			"lightIntervalsCheckingInterval": 20000,
-		},
-		"irrigationModule": map[string]interface{}{
-			"mode": "manual",
-			"irrigationTurnedOn": false,
-			"humidity": 0,
-			"temperature": 0,
-
-			// humidityCheck
-			"humidityCheckActive": false,
-			"humidityCheckInterval": 5000,
-			"humidityCheckLastIntervalCallTimestamp": 0,
-			"humidityCheckMinLvl": 20,
-			"humidityCheckAverageLvl": 25,
-			"humidityCheckMaxLvl": 50,
-
-			// irrigationTimer
-			"irrigationTimerInProgress": false,
-			"irrigationTimerEveryXSeconds": 11000,
-			"irrigationTimerIrrigateYSeconds": 2000,
-			"irrigationTimerLastCallStartTimestamp": 0,
-			"irrigationTimerLastCallEndTimestamp": 0,
-		},
-		"airCompressorModule": map[string]interface{}{
-			"turnedOn": false,
-		},
-		"ventilationModule": map[string]interface{}{
-			"interval": 20000,
-			"coolerInTurnedOn": false,
-			"coolerOutTurnedOn": false,
-			"humidityMaxLvl": 50,
-			"humidityAverageLvl": 35,
-			"mode": "manual",
-		},
-		"meteoStationModule": map[string]interface{}{
-			"interval": 6100,
-			"humidity": 0,
-			"temperature": 0,
-		},
-	}
 }
 
 func (this *PlantainerModelSt) Update(data *map[string]interface{}) error {
