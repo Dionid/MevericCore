@@ -79,7 +79,7 @@ func (this *UserRPCRouterSt) Handle(c mccommon.ClientToServerHandleResultChannel
 	defer func() {
 		close(c)
 		if recover() != nil {
-			fmt.Println("Recovered")
+			fmt.Println("UserRPCRouterSt.Handle recovered")
 			return
 		}
 	}()

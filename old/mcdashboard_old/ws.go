@@ -55,7 +55,7 @@ func (this *UserController) WSHandler(c echo.Context) error {
 	ws.SetCloseHandler(func(code int, text string) error {
 		defer func() {
 			if recover() != nil {
-				fmt.Println("Recovered")
+				fmt.Println("ws.SetCloseHandler in UserController.WSHandler recovered")
 				return
 			}
 			fmt.Println("Closed")

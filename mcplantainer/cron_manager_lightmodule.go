@@ -28,43 +28,6 @@ func (cr *DeviceCronManagerSt) NewLightModuleSetter() CronSetterFn {
 			return nil
 		}
 
-		//checkTime := strconv.Itoa((*lightModule.LightIntervalsCheckingInterval) / 1000)
-		//
-		//c.AddFunc("0/" + checkTime + " * * * * *", func(){
-		//	plantainer := &PlantainerModelSt{}
-		//	if err := plantainerCollectionManager.FindByShadowId(dId, plantainer); err != nil {
-		//		return
-		//	}
-		//
-		//	if changed, err := plantainer.CheckAllSystems(); err != nil {
-		//		errRPC := NewShadowUpdateRejectedReqRPC(plantainer.Shadow.Id, err.Error(), 500)
-		//		innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", errRPC)
-		//		innerRPCMan.PublishRPC("User.RPC.Send", errRPC)
-		//		return
-		//	} else if changed {
-		//		if err := plantainerCollectionManager.SaveModel(plantainer); err != nil {
-		//			errRPC := NewShadowUpdateRejectedReqRPC(plantainer.Shadow.Id, err.Error(), 500)
-		//			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", errRPC)
-		//			innerRPCMan.PublishRPC("User.RPC.Send", errRPC)
-		//			return
-		//		}
-		//		successUpdate := NewShadowUpdateAcceptedReqRPC(
-		//			dId,
-		//			&plantainer.Shadow,
-		//		)
-		//
-		//		innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", successUpdate)
-		//		innerRPCMan.PublishRPC("User.RPC.Send", successUpdate)
-		//
-		//		plantainer.Shadow.State.FillDelta()
-		//
-		//		if plantainer.Shadow.State.Delta != nil {
-		//			deltaRpc := NewShadowUpdateDeltaReqRPC(dId, &plantainer.Shadow)
-		//			innerRPCMan.PublishRPC("Plantainer.Device.RPC.Send", deltaRpc)
-		//		}
-		//	}
-		//})
-
 		for _, interval := range *lightModule.LightIntervalsArr {
 			fromCrString := "0 " + strconv.Itoa(interval.FromTimeMinutes) + " " + strconv.Itoa(interval.FromTimeHours) + " * * *"
 			c.AddFunc(fromCrString, func() {

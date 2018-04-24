@@ -55,6 +55,13 @@ func initUserRPCManDeviceRoutes() {
 			return userRPCManager.RespondRPCErrorRes(req.Channel, req.Msg.RPCMsg, "You can use only your own devices", 503)
 		}
 
+		if changed, _ := device.CheckAllSystems(); changed {
+			if err := plantainerCollectionManager.SaveModel(device); err != nil {
+				errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 500)
+				return deviceRPCMan.SendRPC(req.Channel, errRPC)
+			}
+		}
+
 		device.Shadow.State.FillDelta()
 
 		// . If there are some diff (delta), than send it to Device

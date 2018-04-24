@@ -76,7 +76,7 @@ func (this *DeviceRPCRouterSt) ChangeAnyHandler(resource string, handler Handler
 func (this *DeviceRPCRouterSt) Handle(resource string, c mccommon.ClientToServerHandleResultChannel, msg *mccommon.ClientToServerReqSt, rpcData *mccommon.RPCMsg) error {
 	defer func() {
 		if recover() != nil {
-			fmt.Println("Recovered")
+			fmt.Println("DeviceRPCRouterSt.Handle recovered")
 			return
 		}
 	}()

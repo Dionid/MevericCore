@@ -63,6 +63,7 @@ func initDeviceRPCManMainRoutes() {
 			return deviceRPCMan.SendRPC(req.Channel, errRPC)
 		}
 
+		// ToDo: Separate DeviceShadowSt and DeviceShadowMsgSt
 		updateRpcMsg1 := &JSONShadowUpdateRPCMsgFromDeviceSt{}
 
 		if err := updateRpcMsg1.UnmarshalJSON(*req.Msg.Msg); err != nil {
@@ -75,6 +76,7 @@ func initDeviceRPCManMainRoutes() {
 		updateData := updateRpcMsg.Args
 		shadow := &device.Shadow
 		state := &device.Shadow.State
+		// ToDo: this can make really big problems, need to make deep clone
 		oldShadow := device.Shadow
 
 		// . Save if there is some incoming Data to store (like LightLvl or Humidity)

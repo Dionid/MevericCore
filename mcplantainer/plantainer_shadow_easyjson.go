@@ -531,6 +531,8 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer4(in *jlexer.Lexer, out *Plant
 			easyjson5bd79fa1DecodeMevericcoreMcplantainer5(in, &out.LightModule)
 		case "ventilationModule":
 			easyjson5bd79fa1DecodeMevericcoreMcplantainer6(in, &out.VentilationModule)
+		case "irrigationModule":
+			easyjson5bd79fa1DecodeMevericcoreMcplantainer7(in, &out.IrrigationModule)
 		default:
 			in.SkipRecursive()
 		}
@@ -561,6 +563,14 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer4(out *jwriter.Writer, in Plan
 		out.RawString("\"ventilationModule\":")
 		easyjson5bd79fa1EncodeMevericcoreMcplantainer6(out, in.VentilationModule)
 	}
+	if true {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"irrigationModule\":")
+		easyjson5bd79fa1EncodeMevericcoreMcplantainer7(out, in.IrrigationModule)
+	}
 	out.RawByte('}')
 }
 
@@ -586,6 +596,349 @@ func (v *PlantainerShadowStatePieceSt) UnmarshalJSON(data []byte) error {
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *PlantainerShadowStatePieceSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson5bd79fa1DecodeMevericcoreMcplantainer4(l, v)
+}
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer7(in *jlexer.Lexer, out *PlantainerIrrigationModuleStateSt) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		if isTopLevel {
+			in.Consumed()
+		}
+		in.Skip()
+		return
+	}
+	in.Delim('{')
+	for !in.IsDelim('}') {
+		key := in.UnsafeString()
+		in.WantColon()
+		if in.IsNull() {
+			in.Skip()
+			in.WantComma()
+			continue
+		}
+		switch key {
+		case "mode":
+			if in.IsNull() {
+				in.Skip()
+				out.Mode = nil
+			} else {
+				if out.Mode == nil {
+					out.Mode = new(string)
+				}
+				*out.Mode = string(in.String())
+			}
+		case "humidityCheckActive":
+			if in.IsNull() {
+				in.Skip()
+				out.HumidityCheckActive = nil
+			} else {
+				if out.HumidityCheckActive == nil {
+					out.HumidityCheckActive = new(bool)
+				}
+				*out.HumidityCheckActive = bool(in.Bool())
+			}
+		case "humidityCheckInterval":
+			if in.IsNull() {
+				in.Skip()
+				out.HumidityCheckInterval = nil
+			} else {
+				if out.HumidityCheckInterval == nil {
+					out.HumidityCheckInterval = new(int)
+				}
+				*out.HumidityCheckInterval = int(in.Int())
+			}
+		case "humidityCheckLastIntervalCallTimestamp":
+			if in.IsNull() {
+				in.Skip()
+				out.HumidityCheckLastIntervalCallTimestamp = nil
+			} else {
+				if out.HumidityCheckLastIntervalCallTimestamp == nil {
+					out.HumidityCheckLastIntervalCallTimestamp = new(int)
+				}
+				*out.HumidityCheckLastIntervalCallTimestamp = int(in.Int())
+			}
+		case "humidityCheckMinLvl":
+			if in.IsNull() {
+				in.Skip()
+				out.HumidityCheckMinLvl = nil
+			} else {
+				if out.HumidityCheckMinLvl == nil {
+					out.HumidityCheckMinLvl = new(int)
+				}
+				*out.HumidityCheckMinLvl = int(in.Int())
+			}
+		case "humidityCheckAverageLvl":
+			if in.IsNull() {
+				in.Skip()
+				out.HumidityCheckAverageLvl = nil
+			} else {
+				if out.HumidityCheckAverageLvl == nil {
+					out.HumidityCheckAverageLvl = new(int)
+				}
+				*out.HumidityCheckAverageLvl = int(in.Int())
+			}
+		case "humidityCheckMaxLvl":
+			if in.IsNull() {
+				in.Skip()
+				out.HumidityCheckMaxLvl = nil
+			} else {
+				if out.HumidityCheckMaxLvl == nil {
+					out.HumidityCheckMaxLvl = new(int)
+				}
+				*out.HumidityCheckMaxLvl = int(in.Int())
+			}
+		case "irrigationTimerInProgress":
+			if in.IsNull() {
+				in.Skip()
+				out.IrrigationTimerInProgress = nil
+			} else {
+				if out.IrrigationTimerInProgress == nil {
+					out.IrrigationTimerInProgress = new(bool)
+				}
+				*out.IrrigationTimerInProgress = bool(in.Bool())
+			}
+		case "irrigationTimerEveryXSeconds":
+			if in.IsNull() {
+				in.Skip()
+				out.IrrigationTimerEveryXSeconds = nil
+			} else {
+				if out.IrrigationTimerEveryXSeconds == nil {
+					out.IrrigationTimerEveryXSeconds = new(int)
+				}
+				*out.IrrigationTimerEveryXSeconds = int(in.Int())
+			}
+		case "irrigationTimerIrrigateYSeconds":
+			if in.IsNull() {
+				in.Skip()
+				out.IrrigationTimerIrrigateYSeconds = nil
+			} else {
+				if out.IrrigationTimerIrrigateYSeconds == nil {
+					out.IrrigationTimerIrrigateYSeconds = new(int)
+				}
+				*out.IrrigationTimerIrrigateYSeconds = int(in.Int())
+			}
+		case "irrigationTimerLastCallStartTimestamp":
+			if in.IsNull() {
+				in.Skip()
+				out.IrrigationTimerLastCallStartTimestamp = nil
+			} else {
+				if out.IrrigationTimerLastCallStartTimestamp == nil {
+					out.IrrigationTimerLastCallStartTimestamp = new(int)
+				}
+				*out.IrrigationTimerLastCallStartTimestamp = int(in.Int())
+			}
+		case "irrigationTimerLastCallEndTimestamp":
+			if in.IsNull() {
+				in.Skip()
+				out.IrrigationTimerLastCallEndTimestamp = nil
+			} else {
+				if out.IrrigationTimerLastCallEndTimestamp == nil {
+					out.IrrigationTimerLastCallEndTimestamp = new(int)
+				}
+				*out.IrrigationTimerLastCallEndTimestamp = int(in.Int())
+			}
+		case "irrigationTurnedOn":
+			if in.IsNull() {
+				in.Skip()
+				out.IrrigationTurnedOn = nil
+			} else {
+				if out.IrrigationTurnedOn == nil {
+					out.IrrigationTurnedOn = new(bool)
+				}
+				*out.IrrigationTurnedOn = bool(in.Bool())
+			}
+		case "humidity":
+			if in.IsNull() {
+				in.Skip()
+				out.Humidity = nil
+			} else {
+				if out.Humidity == nil {
+					out.Humidity = new(float64)
+				}
+				*out.Humidity = float64(in.Float64())
+			}
+		default:
+			in.SkipRecursive()
+		}
+		in.WantComma()
+	}
+	in.Delim('}')
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer7(out *jwriter.Writer, in PlantainerIrrigationModuleStateSt) {
+	out.RawByte('{')
+	first := true
+	_ = first
+	if in.Mode != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"mode\":")
+		if in.Mode == nil {
+			out.RawString("null")
+		} else {
+			out.String(string(*in.Mode))
+		}
+	}
+	if in.HumidityCheckActive != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"humidityCheckActive\":")
+		if in.HumidityCheckActive == nil {
+			out.RawString("null")
+		} else {
+			out.Bool(bool(*in.HumidityCheckActive))
+		}
+	}
+	if in.HumidityCheckInterval != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"humidityCheckInterval\":")
+		if in.HumidityCheckInterval == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.HumidityCheckInterval))
+		}
+	}
+	if in.HumidityCheckLastIntervalCallTimestamp != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"humidityCheckLastIntervalCallTimestamp\":")
+		if in.HumidityCheckLastIntervalCallTimestamp == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.HumidityCheckLastIntervalCallTimestamp))
+		}
+	}
+	if in.HumidityCheckMinLvl != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"humidityCheckMinLvl\":")
+		if in.HumidityCheckMinLvl == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.HumidityCheckMinLvl))
+		}
+	}
+	if in.HumidityCheckAverageLvl != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"humidityCheckAverageLvl\":")
+		if in.HumidityCheckAverageLvl == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.HumidityCheckAverageLvl))
+		}
+	}
+	if in.HumidityCheckMaxLvl != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"humidityCheckMaxLvl\":")
+		if in.HumidityCheckMaxLvl == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.HumidityCheckMaxLvl))
+		}
+	}
+	if in.IrrigationTimerInProgress != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"irrigationTimerInProgress\":")
+		if in.IrrigationTimerInProgress == nil {
+			out.RawString("null")
+		} else {
+			out.Bool(bool(*in.IrrigationTimerInProgress))
+		}
+	}
+	if in.IrrigationTimerEveryXSeconds != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"irrigationTimerEveryXSeconds\":")
+		if in.IrrigationTimerEveryXSeconds == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.IrrigationTimerEveryXSeconds))
+		}
+	}
+	if in.IrrigationTimerIrrigateYSeconds != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"irrigationTimerIrrigateYSeconds\":")
+		if in.IrrigationTimerIrrigateYSeconds == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.IrrigationTimerIrrigateYSeconds))
+		}
+	}
+	if in.IrrigationTimerLastCallStartTimestamp != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"irrigationTimerLastCallStartTimestamp\":")
+		if in.IrrigationTimerLastCallStartTimestamp == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.IrrigationTimerLastCallStartTimestamp))
+		}
+	}
+	if in.IrrigationTimerLastCallEndTimestamp != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"irrigationTimerLastCallEndTimestamp\":")
+		if in.IrrigationTimerLastCallEndTimestamp == nil {
+			out.RawString("null")
+		} else {
+			out.Int(int(*in.IrrigationTimerLastCallEndTimestamp))
+		}
+	}
+	if in.IrrigationTurnedOn != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"irrigationTurnedOn\":")
+		if in.IrrigationTurnedOn == nil {
+			out.RawString("null")
+		} else {
+			out.Bool(bool(*in.IrrigationTurnedOn))
+		}
+	}
+	if in.Humidity != nil {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"humidity\":")
+		if in.Humidity == nil {
+			out.RawString("null")
+		} else {
+			out.Float64(float64(*in.Humidity))
+		}
+	}
+	out.RawByte('}')
 }
 func easyjson5bd79fa1DecodeMevericcoreMcplantainer6(in *jlexer.Lexer, out *PlantainerVentilationModuleStateSt) {
 	isTopLevel := in.IsStart()
@@ -1126,7 +1479,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcmodulesMclightmodule(out *jwriter.Writer
 	}
 	out.RawByte('}')
 }
-func easyjson5bd79fa1DecodeMevericcoreMcplantainer7(in *jlexer.Lexer, out *PlantainerShadowSt) {
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer8(in *jlexer.Lexer, out *PlantainerShadowSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -1161,7 +1514,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer7(in *jlexer.Lexer, out *Plant
 		in.Consumed()
 	}
 }
-func easyjson5bd79fa1EncodeMevericcoreMcplantainer7(out *jwriter.Writer, in PlantainerShadowSt) {
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer8(out *jwriter.Writer, in PlantainerShadowSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -1195,27 +1548,27 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer7(out *jwriter.Writer, in Plan
 // MarshalJSON supports json.Marshaler interface
 func (v PlantainerShadowSt) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson5bd79fa1EncodeMevericcoreMcplantainer7(&w, v)
+	easyjson5bd79fa1EncodeMevericcoreMcplantainer8(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v PlantainerShadowSt) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson5bd79fa1EncodeMevericcoreMcplantainer7(w, v)
+	easyjson5bd79fa1EncodeMevericcoreMcplantainer8(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *PlantainerShadowSt) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson5bd79fa1DecodeMevericcoreMcplantainer7(&r, v)
+	easyjson5bd79fa1DecodeMevericcoreMcplantainer8(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *PlantainerShadowSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson5bd79fa1DecodeMevericcoreMcplantainer7(l, v)
+	easyjson5bd79fa1DecodeMevericcoreMcplantainer8(l, v)
 }
-func easyjson5bd79fa1DecodeMevericcoreMcplantainer8(in *jlexer.Lexer, out *PlantainerShadowMetadataSt) {
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer9(in *jlexer.Lexer, out *PlantainerShadowMetadataSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -1246,7 +1599,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer8(in *jlexer.Lexer, out *Plant
 		in.Consumed()
 	}
 }
-func easyjson5bd79fa1EncodeMevericcoreMcplantainer8(out *jwriter.Writer, in PlantainerShadowMetadataSt) {
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer9(out *jwriter.Writer, in PlantainerShadowMetadataSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -1264,27 +1617,27 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer8(out *jwriter.Writer, in Plan
 // MarshalJSON supports json.Marshaler interface
 func (v PlantainerShadowMetadataSt) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson5bd79fa1EncodeMevericcoreMcplantainer8(&w, v)
+	easyjson5bd79fa1EncodeMevericcoreMcplantainer9(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v PlantainerShadowMetadataSt) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson5bd79fa1EncodeMevericcoreMcplantainer8(w, v)
+	easyjson5bd79fa1EncodeMevericcoreMcplantainer9(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *PlantainerShadowMetadataSt) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson5bd79fa1DecodeMevericcoreMcplantainer8(&r, v)
+	easyjson5bd79fa1DecodeMevericcoreMcplantainer9(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *PlantainerShadowMetadataSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson5bd79fa1DecodeMevericcoreMcplantainer8(l, v)
+	easyjson5bd79fa1DecodeMevericcoreMcplantainer9(l, v)
 }
-func easyjson5bd79fa1DecodeMevericcoreMcplantainer9(in *jlexer.Lexer, out *JSONShadowUpdateRPCMsgFromDeviceSt) {
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer10(in *jlexer.Lexer, out *JSONShadowUpdateRPCMsgFromDeviceSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -1304,7 +1657,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer9(in *jlexer.Lexer, out *JSONS
 		}
 		switch key {
 		case "args":
-			easyjson5bd79fa1DecodeMevericcoreMcplantainer10(in, &out.Args)
+			easyjson5bd79fa1DecodeMevericcoreMcplantainer11(in, &out.Args)
 		case "src":
 			out.Src = string(in.String())
 		case "dst":
@@ -1391,7 +1744,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer9(in *jlexer.Lexer, out *JSONS
 		in.Consumed()
 	}
 }
-func easyjson5bd79fa1EncodeMevericcoreMcplantainer9(out *jwriter.Writer, in JSONShadowUpdateRPCMsgFromDeviceSt) {
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer10(out *jwriter.Writer, in JSONShadowUpdateRPCMsgFromDeviceSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -1401,7 +1754,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer9(out *jwriter.Writer, in JSON
 		}
 		first = false
 		out.RawString("\"args\":")
-		easyjson5bd79fa1EncodeMevericcoreMcplantainer10(out, in.Args)
+		easyjson5bd79fa1EncodeMevericcoreMcplantainer11(out, in.Args)
 	}
 	if in.Src != "" {
 		if !first {
@@ -1507,27 +1860,27 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer9(out *jwriter.Writer, in JSON
 // MarshalJSON supports json.Marshaler interface
 func (v JSONShadowUpdateRPCMsgFromDeviceSt) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjson5bd79fa1EncodeMevericcoreMcplantainer9(&w, v)
+	easyjson5bd79fa1EncodeMevericcoreMcplantainer10(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
 func (v JSONShadowUpdateRPCMsgFromDeviceSt) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjson5bd79fa1EncodeMevericcoreMcplantainer9(w, v)
+	easyjson5bd79fa1EncodeMevericcoreMcplantainer10(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
 func (v *JSONShadowUpdateRPCMsgFromDeviceSt) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjson5bd79fa1DecodeMevericcoreMcplantainer9(&r, v)
+	easyjson5bd79fa1DecodeMevericcoreMcplantainer10(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *JSONShadowUpdateRPCMsgFromDeviceSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjson5bd79fa1DecodeMevericcoreMcplantainer9(l, v)
+	easyjson5bd79fa1DecodeMevericcoreMcplantainer10(l, v)
 }
-func easyjson5bd79fa1DecodeMevericcoreMcplantainer10(in *jlexer.Lexer, out *PlantainerShadowRPCMsgFromDeviceArgsSt) {
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer11(in *jlexer.Lexer, out *PlantainerShadowRPCMsgFromDeviceArgsSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -1547,7 +1900,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer10(in *jlexer.Lexer, out *Plan
 		}
 		switch key {
 		case "state":
-			easyjson5bd79fa1DecodeMevericcoreMcplantainer11(in, &out.State)
+			easyjson5bd79fa1DecodeMevericcoreMcplantainer12(in, &out.State)
 		case "version":
 			out.Version = int(in.Int())
 		default:
@@ -1560,7 +1913,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer10(in *jlexer.Lexer, out *Plan
 		in.Consumed()
 	}
 }
-func easyjson5bd79fa1EncodeMevericcoreMcplantainer10(out *jwriter.Writer, in PlantainerShadowRPCMsgFromDeviceArgsSt) {
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer11(out *jwriter.Writer, in PlantainerShadowRPCMsgFromDeviceArgsSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -1570,7 +1923,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer10(out *jwriter.Writer, in Pla
 		}
 		first = false
 		out.RawString("\"state\":")
-		easyjson5bd79fa1EncodeMevericcoreMcplantainer11(out, in.State)
+		easyjson5bd79fa1EncodeMevericcoreMcplantainer12(out, in.State)
 	}
 	if in.Version != 0 {
 		if !first {
@@ -1582,7 +1935,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer10(out *jwriter.Writer, in Pla
 	}
 	out.RawByte('}')
 }
-func easyjson5bd79fa1DecodeMevericcoreMcplantainer11(in *jlexer.Lexer, out *PlantainerShadowRPCMsgFromDeviceArgsStateSt) {
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer12(in *jlexer.Lexer, out *PlantainerShadowRPCMsgFromDeviceArgsStateSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -1609,7 +1962,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer11(in *jlexer.Lexer, out *Plan
 				if out.Reported == nil {
 					out.Reported = new(PlantainerShadowStatePieceFromDeviceSt)
 				}
-				easyjson5bd79fa1DecodeMevericcoreMcplantainer12(in, &*out.Reported)
+				easyjson5bd79fa1DecodeMevericcoreMcplantainer13(in, &*out.Reported)
 			}
 		case "desired":
 			if in.IsNull() {
@@ -1619,7 +1972,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer11(in *jlexer.Lexer, out *Plan
 				if out.Desired == nil {
 					out.Desired = new(PlantainerShadowStatePieceFromDeviceSt)
 				}
-				easyjson5bd79fa1DecodeMevericcoreMcplantainer12(in, &*out.Desired)
+				easyjson5bd79fa1DecodeMevericcoreMcplantainer13(in, &*out.Desired)
 			}
 		default:
 			in.SkipRecursive()
@@ -1631,7 +1984,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer11(in *jlexer.Lexer, out *Plan
 		in.Consumed()
 	}
 }
-func easyjson5bd79fa1EncodeMevericcoreMcplantainer11(out *jwriter.Writer, in PlantainerShadowRPCMsgFromDeviceArgsStateSt) {
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer12(out *jwriter.Writer, in PlantainerShadowRPCMsgFromDeviceArgsStateSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -1644,7 +1997,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer11(out *jwriter.Writer, in Pla
 		if in.Reported == nil {
 			out.RawString("null")
 		} else {
-			easyjson5bd79fa1EncodeMevericcoreMcplantainer12(out, *in.Reported)
+			easyjson5bd79fa1EncodeMevericcoreMcplantainer13(out, *in.Reported)
 		}
 	}
 	if in.Desired != nil {
@@ -1656,12 +2009,12 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer11(out *jwriter.Writer, in Pla
 		if in.Desired == nil {
 			out.RawString("null")
 		} else {
-			easyjson5bd79fa1EncodeMevericcoreMcplantainer12(out, *in.Desired)
+			easyjson5bd79fa1EncodeMevericcoreMcplantainer13(out, *in.Desired)
 		}
 	}
 	out.RawByte('}')
 }
-func easyjson5bd79fa1DecodeMevericcoreMcplantainer12(in *jlexer.Lexer, out *PlantainerShadowStatePieceFromDeviceSt) {
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer13(in *jlexer.Lexer, out *PlantainerShadowStatePieceFromDeviceSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -1681,9 +2034,11 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer12(in *jlexer.Lexer, out *Plan
 		}
 		switch key {
 		case "lightModule":
-			easyjson5bd79fa1DecodeMevericcoreMcplantainer13(in, &out.LightModule)
+			easyjson5bd79fa1DecodeMevericcoreMcplantainer14(in, &out.LightModule)
 		case "ventilationModule":
 			easyjson5bd79fa1DecodeMevericcoreMcplantainer6(in, &out.VentilationModule)
+		case "irrigationModule":
+			easyjson5bd79fa1DecodeMevericcoreMcplantainer7(in, &out.IrrigationModule)
 		default:
 			in.SkipRecursive()
 		}
@@ -1694,7 +2049,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer12(in *jlexer.Lexer, out *Plan
 		in.Consumed()
 	}
 }
-func easyjson5bd79fa1EncodeMevericcoreMcplantainer12(out *jwriter.Writer, in PlantainerShadowStatePieceFromDeviceSt) {
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer13(out *jwriter.Writer, in PlantainerShadowStatePieceFromDeviceSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -1704,7 +2059,7 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer12(out *jwriter.Writer, in Pla
 		}
 		first = false
 		out.RawString("\"lightModule\":")
-		easyjson5bd79fa1EncodeMevericcoreMcplantainer13(out, in.LightModule)
+		easyjson5bd79fa1EncodeMevericcoreMcplantainer14(out, in.LightModule)
 	}
 	if true {
 		if !first {
@@ -1714,9 +2069,17 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer12(out *jwriter.Writer, in Pla
 		out.RawString("\"ventilationModule\":")
 		easyjson5bd79fa1EncodeMevericcoreMcplantainer6(out, in.VentilationModule)
 	}
+	if true {
+		if !first {
+			out.RawByte(',')
+		}
+		first = false
+		out.RawString("\"irrigationModule\":")
+		easyjson5bd79fa1EncodeMevericcoreMcplantainer7(out, in.IrrigationModule)
+	}
 	out.RawByte('}')
 }
-func easyjson5bd79fa1DecodeMevericcoreMcplantainer13(in *jlexer.Lexer, out *PlantainerLightModuleFromDeviceStateSt) {
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer14(in *jlexer.Lexer, out *PlantainerLightModuleFromDeviceStateSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -1856,7 +2219,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer13(in *jlexer.Lexer, out *Plan
 		in.Consumed()
 	}
 }
-func easyjson5bd79fa1EncodeMevericcoreMcplantainer13(out *jwriter.Writer, in PlantainerLightModuleFromDeviceStateSt) {
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer14(out *jwriter.Writer, in PlantainerLightModuleFromDeviceStateSt) {
 	out.RawByte('{')
 	first := true
 	_ = first

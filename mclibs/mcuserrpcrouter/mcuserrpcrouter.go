@@ -88,7 +88,7 @@ func (this *UserRPCRouterSt) Handle(c mccommunication.ClientToServerHandleResult
 	defer func() {
 		close(c)
 		if recover() != nil {
-			fmt.Println("Recovered")
+			fmt.Println("UserRPCRouterSt.Handle recovered")
 			return
 		}
 	}()

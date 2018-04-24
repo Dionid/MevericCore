@@ -36,7 +36,7 @@ func NewPlLightModuleStateWithDefaultsSt() *PlantainerLightModuleStateSt {
 func (this *PlantainerLightModuleStateSt) CheckAllSystems(desiredState *PlantainerLightModuleStateSt) (changed bool, err error) {
 	changed = false
 	err = nil
-	if *this.Mode == mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
+	if this.Mode != nil && *this.Mode == mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode] {
 		now := time.Now()
 		nowH := now.Hour()
 		nowM := now.Minute()

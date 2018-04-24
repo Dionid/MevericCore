@@ -10,9 +10,9 @@ import (
 
 //easyjson:json
 type PlantainerShadowStatePieceSt struct {
-	LightModule PlantainerLightModuleStateSt `bson:"lightModule"`
-	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule"`
-	IrrigationModule PlantainerIrrigationModuleStateSt `bson:"irrigationModule"`
+	LightModule PlantainerLightModuleStateSt `bson:"lightModule" json:"lightModule,omitempty"`
+	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule" json:"ventilationModule,omitempty"`
+	IrrigationModule PlantainerIrrigationModuleStateSt `bson:"irrigationModule" json:"irrigationModule,omitempty"`
 }
 
 func NewPlantainerShadowStatePiece() *PlantainerShadowStatePieceSt {
@@ -200,6 +200,7 @@ type PlantainerLightModuleFromDeviceStateSt struct {
 type PlantainerShadowStatePieceFromDeviceSt struct {
 	LightModule PlantainerLightModuleFromDeviceStateSt `bson:"lightModule" json:"lightModule,omitempty"`
 	VentilationModule PlantainerVentilationModuleStateSt `bson:"ventilationModule" json:"ventilationModule,omitempty"`
+	IrrigationModule PlantainerIrrigationModuleStateSt`bson:"irrigationModule" json:"irrigationModule,omitempty"`
 }
 
 type PlantainerShadowRPCMsgFromDeviceArgsStateSt struct {
@@ -232,11 +233,11 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 			State: PlantainerShadowRPCMsgArgsStateSt{},
 		},
 	}
-	//var reportedintLightLvl *int
-	//var desiredintLightLvl *int
+	// ToDo: This is fucking bullshit
 	if this.Args.State.Reported != nil {
 		res.Args.State.Reported = &PlantainerShadowStatePieceSt{
 			VentilationModule: this.Args.State.Reported.VentilationModule,
+			IrrigationModule: this.Args.State.Reported.IrrigationModule,
 			LightModule: PlantainerLightModuleStateSt{
 				LightModuleStateSt: mclightmodule.LightModuleStateSt{
 					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{
@@ -260,6 +261,7 @@ func (this *JSONShadowUpdateRPCMsgFromDeviceSt) ConvertToShadowUpdateRPCMsgSt() 
 	if this.Args.State.Desired != nil {
 		res.Args.State.Desired = &PlantainerShadowStatePieceSt{
 			VentilationModule: this.Args.State.Desired.VentilationModule,
+			IrrigationModule: this.Args.State.Desired.IrrigationModule,
 			LightModule: PlantainerLightModuleStateSt{
 				LightModuleStateSt: mclightmodule.LightModuleStateSt{
 					LightModuleStateDataSt: mclightmodule.LightModuleStateDataSt{

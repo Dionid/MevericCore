@@ -2,9 +2,6 @@ package mcplantainer
 
 import (
 	"mevericcore/mcmodules/mcirrigationmodule"
-	"mevericcore/mcmodules/mclightmodule"
-	"time"
-	"mevericcore/mclibs/mccommunication"
 )
 
 type PlantainerIrrigationModuleStateSt struct {
@@ -41,58 +38,75 @@ func NewPlantainerIrrigationModuleStateSt() *PlantainerIrrigationModuleStateSt {
 	}
 }
 
+// This function must check if it's time to turn on irrigation system
 func (this *PlantainerIrrigationModuleStateSt) CheckAllSystems(desiredState *PlantainerIrrigationModuleStateSt) (changed bool, err error) {
-	changed = false
-	err = nil
-	now := time.Now()
-	//ToDo: From int to Timestamp and compare with now
-	if (*this.IrrigationTimerLastCallEndTimestamp + *this.IrrigationTimerEveryXSeconds) < now {
-		if !*this.IrrigationTurnedOn {
-			t := true
-			desiredState.IrrigationTurnedOn = &t
-			changed = true
-		}
-	}
+	//changed = false
+	//err = nil
+	//if this.IrrigationTimerLastCallEndTimestamp != nil {
+	//	now := time.Now()
+	//	nowMHinS := now.Hour() * 3600000 + now.Minute() * 60000
+	//	xS := *this.IrrigationTimerEveryXSeconds
+	//	tm := time.Unix(int64(*this.IrrigationTimerLastCallEndTimestamp), 0)
+	//	tmH := tm.Hour()
+	//	tmM := tm.Minute()
+	//	tmMHinS := tmM * 60000 + tmH * 3600000
+	//	//Here we've got checking that's enough day time has been passed from last activation
+	//	//If it's so we can turn IrrigationTurnedOn
+	//	if (tmMHinS + xS) < nowMHinS {
+	//		if !*this.IrrigationTurnedOn {
+	//			t := true
+	//			desiredState.IrrigationTurnedOn = &t
+	//			//ToDo: deside if it's nassessary to add
+	//			changed = true
+	//		}
+	//	}
+	//} else {
+	//	if !*this.IrrigationTurnedOn {
+	//		t := true
+	//		desiredState.IrrigationTurnedOn = &t
+	//		changed = true
+	//	}
+	//}
 	return
 }
 
 func (this *PlantainerIrrigationModuleStateSt) CheckAfterShadowUpdate(deviceId string, oldState *PlantainerIrrigationModuleStateSt) {
-	needToResetTimers := false
-	needToStopTimers := false
-
-	if *oldState.Mode != *this.Mode {
-		switch *this.Mode {
-		case mclightmodule.LightModuleModes[mclightmodule.LightModuleModeLightServerIntervalsTimerMode]:
-			// Reset timers
-			needToResetTimers = true
-		case mclightmodule.LightModuleModes[mclightmodule.LightModuleModeManual]:
-			// Stop timers
-			needToStopTimers = true
-		}
-	} else {
-		if oldState.IrrigationTimerEveryXSeconds != this.IrrigationTimerEveryXSeconds ||
-			oldState.IrrigationTimerIrrigateYSeconds != this.IrrigationTimerIrrigateYSeconds {
-			if *this.Mode == mcirrigationmodule.IrrigationModuleModeServerIrrigationTimerMode {
-				// Reset Timer
-				needToResetTimers = true
-			}
-		}
-	}
-	// ToDO: Move this away from here (models must be thin)
-	if needToResetTimers || needToStopTimers {
-		method := "Plantainer.Cron.Reset"
-		if needToStopTimers {
-			method = "Plantainer.Cron.Stop"
-		}
-		rpcMsg := &mccommunication.RPCMsg{
-			Src: deviceId,
-			Dst: PlantainerServerId,
-			Method: method,
-			Args: map[string]interface{}{
-				"deviceId": deviceId,
-				"modules": []string{"irrigationModule"},
-			},
-		}
-		innerRPCMan.PublishRPC("Plantainer.Cron.RPC", rpcMsg)
-	}
+	//needToResetTimers := false
+	//needToStopTimers := false
+	//
+	//if *oldState.Mode != *this.Mode {
+	//	switch *this.Mode {
+	//	case mcirrigation.LightModuleModes[mcirrigation.LightModuleModeLightServerIntervalsTimerMode]:
+	//		// Reset timers
+	//		needToResetTimers = true
+	//	case mcirrigation.LightModuleModes[mcirrigation.LightModuleModeManual]:
+	//		// Stop timers
+	//		needToStopTimers = true
+	//	}
+	//} else {
+	//	if oldState.IrrigationTimerEveryXSeconds != this.IrrigationTimerEveryXSeconds ||
+	//		oldState.IrrigationTimerIrrigateYSeconds != this.IrrigationTimerIrrigateYSeconds {
+	//		if *this.Mode == mcirrigationmodule.IrrigationModuleModeServerIrrigationTimerMode {
+	//			// Reset Timer
+	//			needToResetTimers = true
+	//		}
+	//	}
+	//}
+	//// ToDO: Move this away from here (models must be thin)
+	//if needToResetTimers || needToStopTimers {
+	//	method := "Plantainer.Cron.Reset"
+	//	if needToStopTimers {
+	//		method = "Plantainer.Cron.Stop"
+	//	}
+	//	rpcMsg := &mccommunication.RPCMsg{
+	//		Src: deviceId,
+	//		Dst: PlantainerServerId,
+	//		Method: method,
+	//		Args: map[string]interface{}{
+	//			"deviceId": deviceId,
+	//			"modules": []string{"irrigationModule"},
+	//		},
+	//	}
+	//	innerRPCMan.PublishRPC("Plantainer.Cron.RPC", rpcMsg)
+	//}
 }

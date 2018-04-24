@@ -26,7 +26,7 @@ func (this *DeviceMQTTManagerSt) HandleReq(c mccommunication.ClientToServerHandl
 	defer func() {
 		close(c)
 		if recover() != nil {
-			fmt.Println("Recovered")
+			fmt.Println("DeviceMQTTManagerSt.HandleReq recovered")
 			return
 		}
 	}()
@@ -108,7 +108,7 @@ func (this *DeviceMQTTManagerSt) DeviceToServerRPCSub() {
 func (this *DeviceMQTTManagerSt) Publish(topic string, msg []byte) error {
 	defer func() {
 		if recover() != nil {
-			fmt.Println("Recovered")
+			fmt.Println("DeviceMQTTManagerSt.Publish recovered")
 			return
 		}
 	}()
@@ -125,7 +125,7 @@ func (this *DeviceMQTTManagerSt) Publish(topic string, msg []byte) error {
 func (this *DeviceMQTTManagerSt) PublishJSON(topic string, jsonData mccommunication.JSONData) error {
 	defer func() {
 		if recover() != nil {
-			fmt.Println("Recovered")
+			fmt.Println("DeviceMQTTManagerSt.PublishJSON recovered")
 			return
 		}
 	}()

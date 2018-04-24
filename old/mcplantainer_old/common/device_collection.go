@@ -18,7 +18,9 @@ type PlantainerDataCollectionManagerSt struct {
 func CreateNewPlantainerCollectionManager(colMan mccommon.DataCollectionManagerInt) *PlantainerCollectionManagerSt {
 	return &PlantainerCollectionManagerSt{
 		mccommon.DevicesWithShadowCollectionManagerSt{
-			DataCollectionManager: colMan,
+			DevicesCollectionManagerSt: mccommon.DevicesCollectionManagerSt{
+				DataCollectionManager: colMan,
+			},
 		},
 		false,
 	}

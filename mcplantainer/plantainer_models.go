@@ -124,15 +124,14 @@ func (this *PlantainerModelSt) ExtractAndSaveData(updateData *PlantainerShadowSt
 func (this *PlantainerModelSt) ReportedUpdate(updateData *PlantainerShadowStatePieceSt) error {
 	this.Shadow.State.Reported.LightModule.ReportedUpdate(&updateData.LightModule)
 	this.Shadow.State.Reported.VentilationModule.ReportedUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
+	this.Shadow.State.Reported.IrrigationModule.ReportedUpdate(&updateData.IrrigationModule.IrrigationModuleStateSt)
 	return nil
 }
 
 func (this *PlantainerModelSt) DesiredUpdate(updateData *PlantainerShadowStatePieceSt) error {
-	if this.Shadow.State.Desired == nil {
-		this.Shadow.State.Desired = &PlantainerShadowStatePieceSt{}
-	}
 	this.Shadow.State.Desired.LightModule.DesiredUpdate(&updateData.LightModule.LightModuleStateSt)
 	this.Shadow.State.Desired.VentilationModule.DesiredUpdate(&updateData.VentilationModule.VentilationModuleStateSt)
+	this.Shadow.State.Desired.IrrigationModule.DesiredUpdate(&updateData.IrrigationModule.IrrigationModuleStateSt)
 	return nil
 }
 

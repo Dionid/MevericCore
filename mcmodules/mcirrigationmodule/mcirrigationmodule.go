@@ -1,12 +1,13 @@
 package mcirrigationmodule
 
 var IrrigationModuleModeManual = "manual"
+var IrrigationModuleModeDeviceIrrigationTimerMode = "deviceIrrigationTimerMode"
 var IrrigationModuleModeServerIrrigationTimerMode = "serverIrrigationTimerMode"
 var IrrigationModuleModeHumidityMode = "humidityMode"
 
 type IrrigationModuleStateDataSt struct {
 	IrrigationTurnedOn *bool `bson:"irrigationTurnedOn,omitempty"`
-	Humidity *int `bson:"humidity,omitempty"`
+	Humidity *float64 `bson:"humidity,omitempty"`
 }
 
 type IrrigationModuleStateSt struct {
@@ -66,11 +67,29 @@ func (this *IrrigationModuleStateSt) ReportedUpdate(newState *IrrigationModuleSt
 	if newState.Mode != nil {
 		this.Mode = newState.Mode
 	}
+	if newState.HumidityCheckActive != nil {
+		this.HumidityCheckActive = newState.HumidityCheckActive
+	}
+	if newState.HumidityCheckInterval != nil {
+		this.HumidityCheckInterval = newState.HumidityCheckInterval
+	}
+	if newState.HumidityCheckMinLvl != nil {
+		this.HumidityCheckMinLvl = newState.HumidityCheckMinLvl
+	}
+	if newState.HumidityCheckAverageLvl != nil {
+		this.HumidityCheckAverageLvl = newState.HumidityCheckAverageLvl
+	}
+	if newState.HumidityCheckMaxLvl != nil {
+		this.HumidityCheckMaxLvl = newState.HumidityCheckMaxLvl
+	}
 	if newState.IrrigationTurnedOn != nil {
 		this.IrrigationTurnedOn = newState.IrrigationTurnedOn
 	}
-	if newState.Humidity != nil {
-		this.Humidity = newState.Humidity
+	if newState.IrrigationTimerEveryXSeconds != nil {
+		this.IrrigationTimerEveryXSeconds = newState.IrrigationTimerEveryXSeconds
+	}
+	if newState.IrrigationTimerIrrigateYSeconds != nil {
+		this.IrrigationTimerIrrigateYSeconds = newState.IrrigationTimerIrrigateYSeconds
 	}
 	if newState.HumidityCheckLastIntervalCallTimestamp != nil {
 		this.HumidityCheckLastIntervalCallTimestamp = newState.HumidityCheckLastIntervalCallTimestamp
@@ -93,4 +112,5 @@ func (this *IrrigationModuleStateSt) ReportedUpdate(newState *IrrigationModuleSt
 			return true, false
 		}
 	}
+	return false, false
 }
