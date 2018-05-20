@@ -30,7 +30,3 @@ func NewPlantainerVentilationModuleState() *PlantainerVentilationModuleStateSt {
 		},
 	}
 }
-
-//func (this *PlantainerVentilationModuleStateSt) CheckAllSystems(desiredState *PlantainerLightModuleStateSt) (changed bool, err error) {
-//	return
-//}

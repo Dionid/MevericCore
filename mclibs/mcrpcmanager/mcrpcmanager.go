@@ -1,6 +1,5 @@
 package mcrpcmanager
 
-
 import (
 	"mevericcore/mclibs/mccommunication"
 	"mevericcore/mclibs/mcrpcrouter"

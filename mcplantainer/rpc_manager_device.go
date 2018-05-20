@@ -71,7 +71,7 @@ func initDeviceRPCManMainRoutes() {
 		}
 
 		// ToDo: Separate DeviceShadowSt and DeviceShadowMsgSt
-		updateRpcMsg1 := &JSONShadowUpdateRPCMsgFromDeviceSt{}
+		updateRpcMsg1 := &ShadowUpdateRPCMsgFromDeviceSt{}
 
 		if err := updateRpcMsg1.UnmarshalJSON(*req.Msg.Msg); err != nil {
 			errRPC := NewShadowUpdateRejectedReqRPC(device.Shadow.Id, err.Error(), 422)

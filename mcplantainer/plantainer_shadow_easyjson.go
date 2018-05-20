@@ -1661,7 +1661,7 @@ func (v *PlantainerShadowMetadataSt) UnmarshalJSON(data []byte) error {
 func (v *PlantainerShadowMetadataSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson5bd79fa1DecodeMevericcoreMcplantainer9(l, v)
 }
-func easyjson5bd79fa1DecodeMevericcoreMcplantainer10(in *jlexer.Lexer, out *JSONShadowUpdateRPCMsgFromDeviceSt) {
+func easyjson5bd79fa1DecodeMevericcoreMcplantainer10(in *jlexer.Lexer, out *ShadowUpdateRPCMsgFromDeviceSt) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -1768,7 +1768,7 @@ func easyjson5bd79fa1DecodeMevericcoreMcplantainer10(in *jlexer.Lexer, out *JSON
 		in.Consumed()
 	}
 }
-func easyjson5bd79fa1EncodeMevericcoreMcplantainer10(out *jwriter.Writer, in JSONShadowUpdateRPCMsgFromDeviceSt) {
+func easyjson5bd79fa1EncodeMevericcoreMcplantainer10(out *jwriter.Writer, in ShadowUpdateRPCMsgFromDeviceSt) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -1882,26 +1882,26 @@ func easyjson5bd79fa1EncodeMevericcoreMcplantainer10(out *jwriter.Writer, in JSO
 }
 
 // MarshalJSON supports json.Marshaler interface
-func (v JSONShadowUpdateRPCMsgFromDeviceSt) MarshalJSON() ([]byte, error) {
+func (v ShadowUpdateRPCMsgFromDeviceSt) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
 	easyjson5bd79fa1EncodeMevericcoreMcplantainer10(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
-func (v JSONShadowUpdateRPCMsgFromDeviceSt) MarshalEasyJSON(w *jwriter.Writer) {
+func (v ShadowUpdateRPCMsgFromDeviceSt) MarshalEasyJSON(w *jwriter.Writer) {
 	easyjson5bd79fa1EncodeMevericcoreMcplantainer10(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
-func (v *JSONShadowUpdateRPCMsgFromDeviceSt) UnmarshalJSON(data []byte) error {
+func (v *ShadowUpdateRPCMsgFromDeviceSt) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
 	easyjson5bd79fa1DecodeMevericcoreMcplantainer10(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *JSONShadowUpdateRPCMsgFromDeviceSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
+func (v *ShadowUpdateRPCMsgFromDeviceSt) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson5bd79fa1DecodeMevericcoreMcplantainer10(l, v)
 }
 func easyjson5bd79fa1DecodeMevericcoreMcplantainer11(in *jlexer.Lexer, out *PlantainerShadowRPCMsgFromDeviceArgsSt) {

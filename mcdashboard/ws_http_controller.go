@@ -177,8 +177,7 @@ func (this *WSHttpControllerSt) WSHandler(c echo.Context) error {
 				} else {
 					userWS.SendMsg(bData)
 				}
-			}
-			if resultSt.Res != nil {
+			} else if resultSt.Res != nil {
 				if bData, err := resultSt.Res.MarshalJSON(); err != nil {
 					data := &mccommunication.RPCMsg{
 						Method: msg.Method,

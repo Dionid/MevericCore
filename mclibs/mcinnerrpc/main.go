@@ -69,13 +69,3 @@ func (this *InnerRPCManSt) PublishClientToServerRPCReq(subj string, data *mccomm
 func (this *InnerRPCManSt) Init() {
 	this.Service = NewInnerRPCService()
 }
-
-//func (this *InnerRPCManSt) SendRPCMsgToUser(msg *mccommon.RPCMsg) error {
-//	if bData, err := msg.MarshalJSON(); err != nil {
-//		return err
-//	} else {
-//		this.Service.Publish("User.RPC.Send", bData)
-//	}
-//
-//	return nil
-//}

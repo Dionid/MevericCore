@@ -74,7 +74,7 @@ func subscribeToRPC() {
 
 func initMQTT() {
 	//opts := mcmqttrouter.CreateConnOpts("tcp://195.201.91.242:1883", "randomString123qweasd", true)
-	opts := mcmqttrouter.CreateConnOpts("tcp://iot.eclipse.org:1883", "randomString123qweasd", true)
+	opts := mcmqttrouter.CreateConnOpts("tcp://iot.eclipse.org:1883", "randomString123qweasd", false, true, 30, 30)
 	//opts := mcmqttrouter.CreateConnOpts("tcp://localhost:1883", "randomString123qweasd", true)
 
 	opts.OnConnectionLost = func(c mqtt.Client, err error) {
