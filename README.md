@@ -1,5 +1,9 @@
 
-### What is inside
+# Meveric IoT
+
+Set of Golang applications that give you control other your IoT devices.
+
+## What is inside
 
 1. MongoDB
 1. NATS
@@ -12,15 +16,15 @@
 1. RPC router
 1. `Device shadow` similar to [AWS IoT architecture](https://docs.aws.amazon.com/en_us/iot/latest/developerguide/iot-device-shadows.html)
 
-### How to Start
+## How to Start
 
-#### Requirements
+### Requirements
 
 1. MongoDB
 2. NATS server
 3. Golang
 
-#### Sequence
+### Sequence
 
 1. Start `$ mongod`
 1. Restore sample DB `$  mongorestore -d tztatom ./DB/tztatom/`
