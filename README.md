@@ -24,8 +24,10 @@ Set of Golang applications that give you control other your IoT devices.
 
 ## How to Start
 
+1. Clone repo `git clone git@github.com:Dionid/MevericCore.git`
+1. Update submodules `git submodule update --init --recursive`
 1. Start `$ mongod`
 1. Restore sample DB `$  mongorestore -d tztatom ./DB/tztatom/`
-2. Start `$ gnatsd`
-3. Start main Dashboard API `$ go run mcdashboard/main/main.go`
-4. Start Plantainer API (as example of Device) `$ go run mcplantainer/main/main.go`
+1. Start `$ gnatsd`
+1. Start main Dashboard API `$ go run mcdashboard/main/main.go`
+1. Start Plantainer API (as example of Device) `$ go run mcplantainer/main/main.go`
