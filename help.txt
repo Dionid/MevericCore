@@ -1,2 +1,8 @@
 easyjson -omit_empty -snake_case models.go
 easyjson -omit_empty -lower_camel_case models.go
+
+
+To start:
+
+go run mcdashboard/main/main.go
+go run mcplantainer/main/main.go
