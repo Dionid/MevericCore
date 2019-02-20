@@ -1,0 +1,3 @@
+[submodule "mcmqttrouter"]
+	path = mclibs/mcmqttrouter
+	url = https://github.com/Dionid/GolangMQTTRouter
